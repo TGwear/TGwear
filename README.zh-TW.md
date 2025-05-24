@@ -1,5 +1,5 @@
-<a href="https://github.com/gohj99/TGwear">
-<img src="https://socialify.git.ci/gohj99/TGwear/image?description=1&descriptionEditable=%E9%81%A9%E7%94%A8%E6%96%BC%E5%AE%89%E5%8D%93%E6%89%8B%E9%8C%B6%E7%9A%84%E7%AC%AC%E4%B8%89%E6%96%B9telegram%E5%AE%A2%E6%88%B6%E7%AB%AF&font=KoHo&forks=1&issues=1&logo=https://github.com/gohj99/TGwear/blob/master/TGwear.png?raw=true?raw=true&name=1&owner=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Auto" alt="TGwear" />
+<a href="https://github.com/TGwear/TGwear">
+<img src="https://socialify.git.ci/TGwear/TGwear/image?description=1&descriptionEditable=%E9%81%A9%E7%94%A8%E6%96%BC%E5%AE%89%E5%8D%93%E6%89%8B%E9%8C%B6%E7%9A%84%E7%AC%AC%E4%B8%89%E6%96%B9telegram%E5%AE%A2%E6%88%B6%E7%AB%AF&font=KoHo&forks=1&issues=1&logo=https://github.com/TGwear/TGwear/blob/master/TGwear.png?raw=true?raw=true&name=1&owner=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Auto" alt="TGwear" />
 </a>
 
 <div align="center">
@@ -10,14 +10,14 @@
   <br/>
 
 <div>
-    <a href="https://github.com/gohj99/TGwear/blob/master/LICENSE">
+    <a href="https://github.com/TGwear/TGwear/blob/master/LICENSE">
       <img
-        src="https://img.shields.io/github/license/gohj99/TGwear?style=flat-square"
+        src="https://img.shields.io/github/license/TGwear/TGwear?style=flat-square"
       />
     </a >
-    <a href="https://github.com/gohj99/TGwear/releases">
+    <a href="https://github.com/TGwear/TGwear/releases">
       <img
-        src="https://img.shields.io/github/downloads/gohj99/TGwear/total?style=flat-square"
+        src="https://img.shields.io/github/downloads/TGwear/TGwear/total?style=flat-square"
       />  
     </a >
     <a href="https://apt.izzysoft.de/fdroid/index/apk/TGwear">
@@ -27,7 +27,7 @@
     </a >
 	<a href="https://github.com/MShawon/github-clone-count-badge">
       <img
-        src="https://img.shields.io/badge/dynamic/json?color=success&label=Views&query=count&url=https://gist.githubusercontent.com/gohj99/684cffa329b5078706dce53f396d67bb/raw/traffic.json&logo=github&style=flat-square"
+        src="https://img.shields.io/badge/dynamic/json?color=success&label=Views&query=count&url=https://gist.githubusercontent.com/TGwear/684cffa329b5078706dce53f396d67bb/raw/traffic.json&logo=github&style=flat-square"
       />  
     </a >
   </div>
@@ -40,7 +40,7 @@ TGwear 將停止更新，請使用 [TGwear](https://github.com/tgwear/tgwear) �
 
 ## 下載
 
-下載: [TGwear](https://github.com/gohj99/TGwear/releases)  
+下載: [TGwear](https://github.com/TGwear/TGwear/releases)  
 ADB Shell:
 
 1. 從releases下載TGwear
@@ -77,17 +77,17 @@ adb install TGwear.apk
 
 ## 回饋
 
-建議使用[issue](https://github.com/gohj99/TGwear/issues)來回饋。
+建議使用[issue](https://github.com/TGwear/TGwear/issues)來回饋。
 當然，以下回饋方式也是可行的：
 
 - [Telegram](https://t.me/teleAndroidwatch)
 
 ## Star History
 
-<a href="https://star-history.com/#gohj99/TGwear&Date">
+<a href="https://star-history.com/#TGwear/TGwear&Date">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=gohj99/TGwear&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=gohj99/TGwear&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=gohj99/TGwear&type=Date" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=TGwear/TGwear&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=TGwear/TGwear&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=TGwear/TGwear&type=Date" />
  </picture>
 </a>
