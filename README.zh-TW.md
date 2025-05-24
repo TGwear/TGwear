@@ -34,9 +34,6 @@
 </div>
 
 ![Screenshot](Screenshot.png)
-## 公告
-
-TGwear 將停止更新，請使用 [TGwear](https://github.com/tgwear/tgwear) 以獲得更好的支持
 
 ## 下載
 
@@ -52,6 +49,7 @@ adb install TGwear.apk
 
 ## 功能
 
+- 支援話題聊天
 - FCM訊息通知，快速檢視、標記已讀與回复
 - 多帳號支持
 - 介面自訂

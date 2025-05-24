@@ -161,7 +161,7 @@ class MainActivity : ComponentActivity() {
                 checkAndUpdateConfiguration(this)
             }
 
-            if (!settingsSharedPref.getBoolean("Remind4_read", false)) {
+            if (!settingsSharedPref.getBoolean("Remind3_read", false)) {
                 startActivity(
                     Intent(
                         this,

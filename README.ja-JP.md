@@ -35,10 +35,6 @@
 
 ![Screenshot](Screenshot.png)
 
-## 発表
-
-TGwearは更新を停止します。より良いサポートのために [TGwear](https://github.com/tgwear/tgwear) をご利用ください。
-
 ## ダウンロード
 
 ダウンロード: [TGwear](https://github.com/TGwear/TGwear/releases)  
@@ -53,6 +49,7 @@ adb install TGwear.apk
 
 ## 関数
 
+- サポートトピックチャット
 - FCM メッセージ通知、クイックビュー、既読マーク、返信
 - 複数アカウント対応
 - インターフェースのカスタマイズ

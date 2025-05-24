@@ -28,14 +28,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,7 +45,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
 import com.gohj99.tgwear.model.ReleaseInfo
-import com.gohj99.tgwear.ui.CustomButton
 import com.gohj99.tgwear.ui.main.ErrorScreen
 import com.gohj99.tgwear.ui.main.SplashLoadingScreen
 import com.gohj99.tgwear.ui.theme.TGwearTheme
@@ -88,13 +85,13 @@ class CheckUpdateActivity : ComponentActivity() {
             try {
                 val client = OkHttpClient()
                 val request = Request.Builder()
-                    .url("https://api.github.com/repos/gohj99/TGwear/releases/latest")
+                    .url("https://api.github.com/repos/TGwear/TGwear/releases/latest")
                     .build()
 
                 client.newCall(request).enqueue(object : Callback {
                     override fun onFailure(call: Call, e: IOException) {
                         Log.e(
-                            "com.gohj99.TGwear.CheckUpdateActivity",
+                            "com.TGwear.TGwear.CheckUpdateActivity",
                             "Request failed: ${e.message}"
                         )
                     }
@@ -189,7 +186,7 @@ class CheckUpdateActivity : ComponentActivity() {
                     }
                 })
             } catch (e: Exception) {
-                Log.e("com.gohj99.TGwear.CheckUpdateActivity", "Error: ${e.message}")
+                Log.e("com.TGwear.TGwear.CheckUpdateActivity", "Error: ${e.message}")
                 launch(Dispatchers.Main) {
                     setContent {
                         TGwearTheme {
@@ -345,6 +342,7 @@ fun SplashUpdateView(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        /*
         // 下载按钮或进度条
         if (!isDownloadComplete) {
             var isShowDownloadButton by rememberSaveable { mutableStateOf(true) }
@@ -374,6 +372,7 @@ fun SplashUpdateView(
                 text = stringResource(id = R.string.install)
             )
         }
+         */
 
         Spacer(modifier = Modifier.height(64.dp))
     }
