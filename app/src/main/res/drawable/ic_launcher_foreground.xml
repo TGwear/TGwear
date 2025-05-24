@@ -1,0 +1,33 @@
+<!--
+  ~ Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="138.76"
+    android:viewportHeight="105.8">
+  <group android:scaleX="0.45"
+      android:scaleY="0.3431104"
+      android:translateX="38.159"
+      android:translateY="34.74946">
+    <path
+        android:pathData="M0,73.59a69.38,32.21 0,1 0,138.76 0a69.38,32.21 0,1 0,-138.76 0z"
+        android:strokeAlpha="0.5"
+        android:fillColor="#fff"
+        android:fillAlpha="0.5"/>
+    <path
+        android:pathData="M50.66,52.49l-23.58,-7.77c-3.59,-1.18 -3.73,-6.21 -0.22,-7.6L120.46,0.22c2.29,-0.9 4.67,1.08 4.21,3.49l-15.42,79.8c-0.85,4.42 -6.09,6.38 -9.63,3.59l-35.78,-28.07 43.09,-39.94c1.34,-1.24 -0.3,-3.33 -1.82,-2.33l-54.44,35.73h0Z"
+        android:fillColor="#fff"/>
+    <path
+        android:pathData="M50.66,52.49l9.53,30.63c0.16,0.51 0.9,0.44 0.96,-0.09l2.69,-23.99 43.24,-40.09c1.32,-1.22 -0.3,-3.29 -1.8,-2.3l-54.61,35.84h0Z"
+        android:fillColor="#cfe9f0"/>
+    <path
+        android:pathData="M63.83,59.04l14,10.98 -14.99,13.63c-0.69,0.63 -1.79,0.07 -1.69,-0.86 0,0 2.68,-23.75 2.68,-23.75Z"
+        android:fillColor="#b4cee7"/>
+  </group>
+</vector>

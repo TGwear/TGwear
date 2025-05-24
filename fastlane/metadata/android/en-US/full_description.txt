@@ -1,0 +1,19 @@
+<b>Functions:</b><br>
+<ul>
+<li>Support topic chat</li>
+<li>Multi-account support</li>
+<li>FCM message notification, quick viewing, marking as read and replying</li>
+<li>Multi-account support</li>
+<li>Interface customization</li>
+<li>All message grouping support</li>
+<li>Unread/read indicator</li>
+<li>Connection status indicator</li>
+<li>Viewing or downloading text, images, and videos</li>
+<li>Play Voice Message</li>
+<li>Saving images or videos</li>
+<li>Reply and forward messages</li>
+<li>Saving images or videos</li>
+<li>Text messaging</li>
+<li>Message deletion</li>
+<li>Support for rotating the digital crown</li>
+</ul>

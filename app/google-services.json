@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "610254606175",
+    "project_id": "tgwear-gohj99",
+    "storage_bucket": "tgwear-gohj99.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:610254606175:android:85ea467e612d8a6bccb0ea",
+        "android_client_info": {
+          "package_name": "com.gohj99.tgwear"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqBYGV2UbRJ5RKYUYAN8F3k1vkyMIBkxE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2024-2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.wearable.permission.URI_REDIRECT_TO_REMOTE" />
+    <uses-permission android:name="android.permission.CLIPBOARD_MANAGER" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <uses-feature
+        android:name="android.hardware.type.watch"
+        android:required="true" />
+
+    <application
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.TGwear"
+        tools:ignore="WearStandaloneAppFlag"
+        tools:targetApi="31">
+        <activity
+            android:name=".AddProxyActivity"
+            android:exported="true"
+            android:label="@string/add_proxy_activity"
+            android:theme="@style/Theme.TGwear" />
+        <activity
+            android:name=".SetProxyActivity"
+            android:exported="true"
+            android:label="@string/set_proxy_activity"
+            android:theme="@style/Theme.TGwear" />
+        <activity
+            android:name=".DonateActivity"
+            android:exported="true"
+            android:label="@string/donate_activity"
+            android:theme="@style/Theme.TGwear" />
+        <activity
+            android:name=".RemindActivity"
+            android:exported="true"
+            android:label="@string/remind_activity"
+            android:theme="@style/Theme.TGwear" />
+        <activity
+            android:name=".ChatInfoActivity"
+            android:exported="true"
+            android:label="@string/chat_info_activity_main"
+            android:theme="@style/Theme.TGwear" />
+        <activity
+            android:name=".GoToAnnouncementActivity"
+            android:exported="true"
+            android:label="@string/announcement_title"
+            android:theme="@style/Theme.TGwear" />
+        <activity
+            android:name=".AnnouncementActivity"
+            android:exported="false"
+            android:label="@string/announcement_title"
+            android:theme="@style/Theme.TGwear" />
+        <activity
+            android:name=".GoToCheckUpdateActivity"
+            android:exported="true"
+            android:label="@string/Beta_title"
+            android:theme="@style/Theme.TGwear" />
+        <activity
+            android:name=".IsBetaActivity"
+            android:exported="false"
+            android:label="@string/Beta_title"
+            android:theme="@style/Theme.TGwear" />
+        <activity
+            android:name=".NetworkSettingActivity"
+            android:exported="false"
+            android:label="@string/Network_setting"
+            android:theme="@style/Theme.TGwear" />
+        <activity
+            android:name=".InstallApkActivity"
+            android:exported="false"
+            android:label="@string/Install_Apk"
+            android:theme="@style/Theme.TGwear" />
+        <activity
+            android:name=".ConfirmLogoutActivity"
+            android:exported="false"
+            android:label="@string/Confirm_Logout"
+            android:theme="@style/Theme.TGwear" />
+        <activity
+            android:name=".CheckUpdateActivity"
+            android:exported="false"
+            android:label="@string/Check_Update"
+            android:theme="@style/Theme.TGwear" />
+        <activity
+            android:name=".SwitchAccountActivity"
+            android:exported="false"
+            android:label="@string/Switch_Account"
+            android:theme="@style/Theme.TGwear" />
+        <activity
+            android:name=".AllowDataCollectionActivity"
+            android:exported="false"
+            android:label="@string/allow_data_Collection"
+            android:theme="@style/Theme.TGwear" />
+        <activity
+            android:name=".ViewActivity"
+            android:exported="false"
+            android:label="@string/view_activity"
+            android:theme="@style/Theme.TGwear" />
+        <activity
+            android:name=".AboutActivity"
+            android:exported="true"
+            android:label="@string/about_activity_setting"
+            android:theme="@style/Theme.TGwear" />
+        <activity
+            android:name=".ChatActivity"
+            android:exported="false"
+            android:label="@string/chat_activity_main"
+            android:theme="@style/Theme.TGwear" />
+        <activity
+            android:name=".SettingActivity"
+            android:exported="false"
+            android:label="@string/title_activity_setting"
+            android:theme="@style/Theme.TGwear" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false"
+            android:label="@string/title_activity_login"
+            android:theme="@style/Theme.TGwear" />
+        <activity
+            android:name=".WelcomeActivity"
+            android:exported="false"
+            android:label="@string/title_activity_welcome"
+            android:theme="@style/Theme.TGwear" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.TGwear">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".utils.notification.NotificationActionReceiver"
+            android:exported="false" />
+
+        <receiver
+            android:name=".utils.notification.NotificationDismissReceiver"
+            android:exported="false" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <service
+            android:name=".utils.notification.TdFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <meta-data android:name="firebase_analytics_collection_enabled" android:value="false" />
+
+    </application>
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="http" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="content" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:mimeType="video/*" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:mimeType="image/*" />
+        </intent>
+    </queries>
+
+</manifest>
