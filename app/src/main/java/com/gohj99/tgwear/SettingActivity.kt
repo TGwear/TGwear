@@ -30,7 +30,8 @@ import com.gohj99.tgwear.ui.theme.TGwearTheme
 import com.gohj99.tgwear.utils.notification.drawableToBitmap
 import com.gohj99.tgwear.utils.notification.sendChatMessageNotification
 import com.gohj99.tgwear.utils.telegram.setFCMToken
-import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.Firebase
+import com.google.firebase.crashlytics.crashlytics
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.google.gson.JsonObject
@@ -341,9 +342,7 @@ class SettingActivity : ComponentActivity() {
                                 putBoolean("Data_Collection", dataCollection)
                                 commit()
                             }
-                            FirebaseAnalytics.getInstance(this).apply {
-                                setAnalyticsCollectionEnabled(dataCollection)
-                            }
+                            Firebase.crashlytics.setCrashlyticsCollectionEnabled(dataCollection)
                         }
                     ),
                     SettingItem.Click(

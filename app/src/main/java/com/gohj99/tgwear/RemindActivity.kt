@@ -53,7 +53,7 @@ class RemindActivity : ComponentActivity() {
             TGwearTheme {
                 SplashRemindScreen { donate ->
                     with(settingsSharedPref.edit()) {
-                        putBoolean("Remind3_read", true)
+                        putBoolean("Remind5_read", true)
                         commit()
                         finish()
                     }
@@ -105,7 +105,7 @@ fun SplashRemindScreen(done: (Boolean) -> Unit) {
         ) {
             // 主要说明部分
             LinkText(
-                text = stringResource(id = R.string.Remind3),
+                text = stringResource(id = R.string.Remind5),
                 style = MaterialTheme.typography.titleMedium,
                 color = Color.White,
                 modifier = Modifier.padding(16.dp),
@@ -118,7 +118,7 @@ fun SplashRemindScreen(done: (Boolean) -> Unit) {
         Spacer(modifier = Modifier.height(16.dp))
 
         // 捐赠按钮
-        Box(
+        /*Box(
             modifier = Modifier
                 .padding(bottom = 4.dp, start = 16.dp, end = 16.dp)
                 .fillMaxSize(),
@@ -134,7 +134,7 @@ fun SplashRemindScreen(done: (Boolean) -> Unit) {
             ) {
                 Text(text = stringResource(id = R.string.Donate))
             }
-        }
+        }*/
 
         // 继续按钮
         Box(

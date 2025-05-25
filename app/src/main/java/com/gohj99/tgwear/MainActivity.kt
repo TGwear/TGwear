@@ -47,7 +47,8 @@ import com.gohj99.tgwear.utils.telegram.getContacts
 import com.gohj99.tgwear.utils.telegram.getCurrentUser
 import com.gohj99.tgwear.utils.telegram.loadChats
 import com.gohj99.tgwear.utils.telegram.setFCMToken
-import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.Firebase
+import com.google.firebase.crashlytics.crashlytics
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.google.gson.JsonObject
@@ -117,11 +118,8 @@ class MainActivity : ComponentActivity() {
             finish()
         } else {
             // 获取是否同意获取数据
-            // 获取是否同意获取数据
             if (settingsSharedPref.getBoolean("Data_Collection", false)) {
-                FirebaseAnalytics.getInstance(this).apply {
-                    setAnalyticsCollectionEnabled(true)
-                }
+                Firebase.crashlytics.setCrashlyticsCollectionEnabled(true)
             }
 
             initializeApp()
@@ -161,7 +159,7 @@ class MainActivity : ComponentActivity() {
                 checkAndUpdateConfiguration(this)
             }
 
-            if (!settingsSharedPref.getBoolean("Remind3_read", false)) {
+            if (!settingsSharedPref.getBoolean("Remind5_read", false)) {
                 startActivity(
                     Intent(
                         this,

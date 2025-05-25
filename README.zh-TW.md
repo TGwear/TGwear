@@ -78,7 +78,7 @@ adb install TGwear.apk
 建議使用[issue](https://github.com/TGwear/TGwear/issues)來回饋。
 當然，以下回饋方式也是可行的：
 
-- [Telegram](https://t.me/teleAndroidwatch)
+- [Telegram](https://t.me/teleTGwear)
 
 ## Star History
 

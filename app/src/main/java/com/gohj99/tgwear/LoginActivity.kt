@@ -63,6 +63,9 @@ class LoginActivity : ComponentActivity() {
     private var loginWay = mutableStateOf("PhoneNumber")
     private var showSendCode by mutableStateOf(true)
     private var showLoading by mutableStateOf(true)
+    private var phoneNumber = mutableStateOf("")
+    private var verifyCode = mutableStateOf("")
+    private var password = mutableStateOf("")
 
     override fun onDestroy() {
         super.onDestroy()
@@ -107,7 +110,8 @@ class LoginActivity : ComponentActivity() {
                                 }
                             },
                             passwordHint = passwordHint,
-                            doneStr = doneStr
+                            doneStr = doneStr,
+                            password = password,
                         )
                     } else {
                         if (loginWay.value == "PhoneNumber") {
@@ -147,6 +151,8 @@ class LoginActivity : ComponentActivity() {
                                         )
                                     }
                                 },
+                                phoneNumber = phoneNumber,
+                                verifyCode = verifyCode
                             )
                         } else if (loginWay.value == "QrCode") {
                             SplashLoginQRScreen(qrCodeLink = qrCodeLink)

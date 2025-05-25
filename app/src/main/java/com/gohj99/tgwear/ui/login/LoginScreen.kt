@@ -64,10 +64,10 @@ fun SplashLoginScreen(
     onLoginWithQR: () -> Unit,
     onSendVerifyCode: (String) -> Unit,
     onDone: (String) -> Unit,
+    phoneNumber: MutableState<String>,
+    verifyCode: MutableState<String>
 ) {
     val scrollState = rememberScrollState()
-    var phoneNumber by remember { mutableStateOf("") }
-    var verifyCode by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
         scrollState.scrollTo(60)
@@ -108,9 +108,9 @@ fun SplashLoginScreen(
 
         // 手机号输入框
         InputRoundBar(
-            query = phoneNumber,
+            query = phoneNumber.value,
             onQueryChange = {
-                phoneNumber = it
+                phoneNumber.value = it
             },
             placeholder = "${stringResource(id = R.string.Phone_Number)} (+)"
         )
@@ -119,9 +119,9 @@ fun SplashLoginScreen(
 
         // 验证码输入框
         InputRoundBar(
-            query = verifyCode,
+            query = verifyCode.value,
             onQueryChange = {
-                verifyCode = it
+                verifyCode.value = it
             },
             placeholder = stringResource(id = R.string.Verify_Code)
         )
@@ -131,7 +131,7 @@ fun SplashLoginScreen(
         // 发送验证码按钮
         CustomButton(
             onClick = {
-                onSendVerifyCode(phoneNumber)
+                onSendVerifyCode(phoneNumber.value)
             },
             text = stringResource(id = R.string.Send_Verify_Code),
             textColor = if (showSendCode) Color.White else Color.Gray,
@@ -143,7 +143,7 @@ fun SplashLoginScreen(
 
         IconButton(
             onClick = {
-                onDone(verifyCode)
+                onDone(verifyCode.value)
             },
             modifier = Modifier
                 .size(45.dp)
@@ -163,7 +163,7 @@ fun SplashLoginScreen(
 @Composable
 fun SplashLoginScreenPreview() {
     TGwearTheme {
-        SplashLoginScreen(true, {}, {}, {})
+        SplashLoginScreen(true, {}, {}, {}, remember { mutableStateOf("") }, remember { mutableStateOf("") })
     }
 }
 
@@ -253,11 +253,11 @@ fun SplashLoginQRScreen(qrCodeLink: String?) {
 fun SplashPasswordScreen(
     onDoneClick: (String) -> Unit,
     passwordHint: String = "",
-    doneStr: MutableState<String>
+    doneStr: MutableState<String>,
+    password: MutableState<String>
 ) {
     val loading = stringResource(id = R.string.loading)
     val passwordError = stringResource(id = R.string.Password_Error)
-    var password by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -278,10 +278,10 @@ fun SplashPasswordScreen(
 
         // 密码输入框
         InputRoundBar(
-            query = password,
+            query = password.value,
             isPassword = true,
             onQueryChange = {
-                password = it
+                password.value = it
             },
             placeholder = passwordHint
         )
@@ -290,11 +290,11 @@ fun SplashPasswordScreen(
 
         CustomButton(
             onClick = {
-                if (password != "") {
+                if (password.value != "") {
                     doneStr.value = loading
-                    onDoneClick(password)
+                    onDoneClick(password.value)
                 } else doneStr.value = passwordError
-                password = ""
+                password.value = ""
             },
             text = doneStr.value
         )
@@ -317,7 +317,8 @@ fun SplashPasswordScreenPreview() {
             onDoneClick = { password ->
                 println(password)
             },
-            doneStr = remember { mutableStateOf("") }
+            doneStr = remember { mutableStateOf("") },
+            password = remember { mutableStateOf("") }
         )
     }
 }

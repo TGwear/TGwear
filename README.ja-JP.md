@@ -78,7 +78,7 @@ adb install TGwear.apk
 フィードバックを提供するには、[issue](https://github.com/TGwear/TGwear/issues) を使用することをお勧めします。
 もちろん、次のようなフィードバック方法も可能です。
 
-- [テレグラム](https://t.me/teleAndroidwatch)
+- [テレグラム](https://t.me/teleTGwear)
 
 ## Star History
 

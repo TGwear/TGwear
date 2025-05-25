@@ -9,7 +9,13 @@
 package com.gohj99.tgwear
 
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
+import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -44,6 +50,30 @@ class GoToCheckUpdateActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val installer = packageManager.getInstallerPackageName(packageName)
+        if (installer == "com.android.vending") {
+            val url = "https://play.google.com/store/apps/details?id=com.gohj99.tgwear"
+            try {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                val packageManager: PackageManager = packageManager
+                val activities: List<ResolveInfo> = packageManager.queryIntentActivities(intent, 0)
+
+                if (activities.isNotEmpty()) {
+                    startActivity(intent)
+                } else {
+                    // 处理没有可用浏览器的情况
+                    Toast.makeText(this, this.getString(R.string.failling), Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Handler(Looper.getMainLooper()).post {
+                    Toast.makeText(this, this.getString(R.string.failling), Toast.LENGTH_SHORT).show()
+                }
+            }
+            finish()
+            return
+        }
 
         val settingsSharedPref = getSharedPreferences("app_settings", MODE_PRIVATE)
         if (settingsSharedPref.getBoolean("Skip_GoToCheckUpdateActivity", false)) {
