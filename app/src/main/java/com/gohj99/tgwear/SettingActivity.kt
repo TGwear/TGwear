@@ -718,6 +718,16 @@ class SettingActivity : BaseActivity() {
                             }
                             restartSelf()
                         }
+                    ),
+                    SettingItem.Click(
+                        itemName = "Italiano",
+                        onClick = {
+                            with(settingsSharedPref.edit()) {
+                                putString("app_lang", "it")
+                                apply()
+                            }
+                            restartSelf()
+                        }
                     )
                 )
             }

@@ -218,9 +218,9 @@
     <string name="data_collection_description">我们使用Firebase Crashlytics匿名收集崩溃报告，跟踪最常用的功能，并收集使用模式数据以使TGwear更加用户友好。您可以在设置中的任何时间禁用此功能。</string>  
     <string name="Donation_version">捐赠版</string>  
     <string name="Free_Version">免费版</string>  
-    <string name="notice_about_4">该软件是开源的</string>  
+    <string name="notice_about_4">本软件在GitHub上开源</string>
     <string name="notice_about_5">如果发现它有用，请考虑在Google Play上购买或通过捐赠页面上的说明捐款</string>  
-    <string name="notice_about_6">这是捐赠版本</string>  
-    <string name="notice_about_7">我们感谢您的支持</string>  
+    <string name="notice_about_6">你已向我们捐赠</string>
+    <string name="notice_about_7">感谢您的支持</string>
     <string name="Language">语言</string>
 </resources>
