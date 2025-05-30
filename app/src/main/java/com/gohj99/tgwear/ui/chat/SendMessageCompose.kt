@@ -277,7 +277,7 @@ fun SendMessageCompose(
         }
     } else {
         // 消息主题选择
-        if (planEditMessage.value != null) {
+        if (planReplyMessage.value == null) {
             if (chatTopics.keys.isNotEmpty()) {
                 TextDropdown(
                     options = chatTopics,
