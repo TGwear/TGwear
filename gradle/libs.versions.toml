@@ -1,24 +1,23 @@
 [versions]
 agp = "8.10.0"
 annotation = "1.9.1"
-firebaseBom = "33.12.0"
-kotlin = "2.0.21"
+firebaseBom = "33.14.0"
+kotlin = "2.1.21"
 coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.8.7"
-lifecycleViewmodelKtx = "2.4.0"
+lifecycleRuntimeKtx = "2.9.0"
+lifecycleViewmodelKtx = "2.9.0"
 activityCompose = "1.10.1"
-composeBom = "2025.04.00"
+composeBom = "2025.05.01"
 coil-compose = "2.7.0"
-lottie = "6.6.0"
+lottie = "6.6.6"
 zxing-core = "3.5.3"
-composeFoundation = "1.4.0"
-gson-versions = "2.10.1"
-acra = "5.12.0"
-media3Exoplayer = "1.6.1"
-media3Ui = "1.6.1"
+composeFoundation = "1.4.1"
+gson-versions = "2.13.1"
+media3Exoplayer = "1.7.1"
+media3Ui = "1.7.1"
 markwon = "4.6.2"
 
 [libraries]
@@ -49,8 +48,6 @@ lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "
 zxing-core = { group = "com.google.zxing", name = "core", version.ref = "zxing-core" }
 androidx-compose-foundation = { group = "androidx.wear.compose", name = "compose-foundation", version.ref = "composeFoundation" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson-versions" }
-acra-http = { group = "ch.acra", name = "acra-http", version.ref = "acra" }
-acra-toast = { group = "ch.acra", name = "acra-toast", version.ref = "acra" }
 androidx-media3-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "media3Exoplayer" }
 androidx-media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "media3Ui" }
 markwon-core = { group = "io.noties.markwon", name = "core", version.ref = "markwon" }

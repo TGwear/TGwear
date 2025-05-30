@@ -12,7 +12,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
@@ -47,7 +46,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import java.io.File
 
-class ConfirmLogoutActivity : ComponentActivity() {
+class ConfirmLogoutActivity : BaseActivity() {
     private var tgApi: TgApi? = null
     private var deletaAll = false
 

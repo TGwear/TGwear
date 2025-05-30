@@ -24,8 +24,8 @@ android {
         minSdk = 26
         //noinspection OldTargetApi
         targetSdk = 34
-        versionCode = 38
-        versionName = "3.0.2"
+        versionCode = 39
+        versionName = "3.0.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -126,8 +126,6 @@ dependencies {
     implementation(libs.androidx.media3.ui)
     testImplementation(libs.junit)
     implementation(libs.zxing.core)
-    implementation(libs.acra.http)
-    implementation(libs.acra.toast)
     implementation(project(":libtd"))
     implementation(libs.lottie)
     implementation(libs.lottie.compose)

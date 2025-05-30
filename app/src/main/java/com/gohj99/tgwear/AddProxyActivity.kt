@@ -12,7 +12,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
@@ -64,7 +63,7 @@ fun parseProxyUrl(url: String): Map<String, String> {
     return result
 }
 
-class AddProxyActivity : ComponentActivity() {
+class AddProxyActivity : BaseActivity() {
     private var tgApi: TgApi? = null
     private var proxyUrl: String? = null
 

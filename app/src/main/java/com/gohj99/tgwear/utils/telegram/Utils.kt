@@ -83,6 +83,11 @@ fun TgApi.handleAllMessages(
             if (content.sticker.emoji.isEmpty()) append(context.getString(R.string.Unknown_Message))
             else append(content.sticker.emoji)
         }
+        is TdApi.MessageChatAddMembers -> buildAnnotatedString {
+            withStyle(style = SpanStyle(color = Color(context.getColor(R.color.blue)))) {
+                append(context.getString(R.string.joined_the_group))
+            }
+        }
         else -> buildAnnotatedString { append(context.getString(R.string.Unknown_Message)) }
     }
 }

@@ -10,7 +10,6 @@ package com.gohj99.tgwear
 
 import android.content.Context
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.gohj99.tgwear.ui.SplashAboutScreen
@@ -18,7 +17,7 @@ import com.gohj99.tgwear.ui.theme.TGwearTheme
 import java.io.IOException
 import java.util.Properties
 
-class AboutActivity : ComponentActivity() {
+class AboutActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

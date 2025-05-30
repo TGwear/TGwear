@@ -9,7 +9,6 @@
 package com.gohj99.tgwear.ui.chat
 
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -40,7 +39,8 @@ fun UserNameCompose(
     selectMessage: MutableState<TdApi.Message>,
     isLongPressed: MutableState<Boolean>,
     senderNameMap: MutableState<MutableMap<Long, String?>>,
-    goToChat: (Chat) -> Unit
+    goToChat: (Chat) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     if (!isCurrentUser) {
         var senderName by rememberSaveable { mutableStateOf("") }
@@ -55,8 +55,7 @@ fun UserNameCompose(
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier
-                        .fillMaxWidth()
+                    modifier = modifier
                         .pointerInput(Unit) {
                             detectTapGestures(onTap = {
                                 if (senderUser.userId != chatId) {
@@ -94,9 +93,8 @@ fun UserNameCompose(
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier
+                    modifier = modifier
                         .padding(start = 10.dp, end = 5.dp)
-                        .fillMaxWidth()
                         .pointerInput(Unit) {
                             detectTapGestures(
                                 onLongPress = {

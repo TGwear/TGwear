@@ -55,6 +55,7 @@ import com.gohj99.tgwear.utils.urlHandle
 fun SplashAboutScreen(appVersion: String, buildDate: String) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
+    val installer = context.packageManager.getInstallerPackageName(context.packageName)
 
     Column(
         modifier = Modifier
@@ -119,7 +120,16 @@ fun SplashAboutScreen(appVersion: String, buildDate: String) {
             textAlign = TextAlign.Center
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Text(
+            text = if (installer == "com.android.vending") stringResource(R.string.Donation_version) else stringResource(R.string.Free_Version),
+            color = Color.Gray,
+            fontSize = 14.sp,
+            modifier = Modifier
+                .fillMaxWidth(),
+            textAlign = TextAlign.Center
+        )
+
+        Spacer(modifier = Modifier.height(5.dp))
 
         Column(
             modifier = Modifier
@@ -149,11 +159,10 @@ fun SplashAboutScreen(appVersion: String, buildDate: String) {
 
                     Spacer(modifier = Modifier.height(5.dp))
 
-
                     LinkText(
-                        text = stringResource(R.string.notice_about_1) + "\n" +
-                                stringResource(R.string.notice_about_2)+ "\n" +
-                                stringResource(R.string.notice_about_3)+ "\n" +
+                        text = stringResource(R.string.notice_about_4) + "\n" +
+                                stringResource(if (installer == "com.android.vending") R.string.notice_about_6 else R.string.notice_about_5) + "\n" +
+                                stringResource(if (installer == "com.android.vending") R.string.notice_about_7 else R.string.notice_about_3)+ "\n" +
                                 "telegram: https://t.me/teleTGwear\nGitHub: https://github.com/TGwear/TGwear",
                         color = Color.White,
                         style = MaterialTheme.typography.titleMedium,

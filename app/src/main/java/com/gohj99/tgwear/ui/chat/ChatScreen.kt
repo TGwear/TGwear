@@ -113,7 +113,7 @@ fun SplashChatScreen(
     // 获取context
     val context = LocalContext.current
 
-    var isFloatingVisible by remember { mutableStateOf(true) }
+    //var isFloatingVisible by remember { mutableStateOf(true) }
     var isLongPressed = remember { mutableStateOf(false) }
     val selectMessage = remember {
         mutableStateOf(TdApi.Message())
@@ -143,6 +143,7 @@ fun SplashChatScreen(
     //println(chatsListManager.chatsList.value)
     //val chatPermissions: TdApi.ChatPermissions? = chatObject.permissions
 
+    /*
     LaunchedEffect(listState) {
         var previousIndex = listState.firstVisibleItemIndex
         var previousScrollOffset = listState.firstVisibleItemScrollOffset
@@ -161,7 +162,7 @@ fun SplashChatScreen(
                 previousIndex = index
                 previousScrollOffset = scrollOffset
             }
-    }
+    }*/
 
     // 更新将回复消息的发送者
     LaunchedEffect(planReplyMessage.value) {

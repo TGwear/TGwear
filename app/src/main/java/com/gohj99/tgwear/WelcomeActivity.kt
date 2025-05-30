@@ -11,13 +11,12 @@ package com.gohj99.tgwear
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.gohj99.tgwear.ui.SplashWelcomeScreen
 import com.gohj99.tgwear.ui.theme.TGwearTheme
 
-class WelcomeActivity : ComponentActivity() {
+class WelcomeActivity : BaseActivity() {
     private lateinit var sharedPref: SharedPreferences
 
     private val preferenceChangeListener =

@@ -17,7 +17,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -38,7 +37,7 @@ import com.google.gson.JsonObject
 import java.io.File
 
 
-class SettingActivity : ComponentActivity() {
+class SettingActivity : BaseActivity() {
     private var settingsList = mutableStateOf(listOf<SettingItem>())
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
@@ -83,35 +82,48 @@ class SettingActivity : ComponentActivity() {
             chatId = "/" + jsonObject.keySet().first()
         }
 
+        val installer = packageManager.getInstallerPackageName(packageName)
+
+        // 重启软件
+        fun restartSelf() {
+            Handler(Looper.getMainLooper()).postDelayed({
+                val intent = packageManager.getLaunchIntentForPackage(packageName)
+                intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
+                android.os.Process.killProcess(android.os.Process.myPid())
+            }, 1000)
+        }
+
         when (page) {
             0 -> {
                 settingsList.value = listOf(
                     // 捐赠
-                    /*
+                    if (installer != "com.android.vending") {
+                        SettingItem.Click(
+                            itemName = getString(R.string.Donate),
+                            onClick = {
+                                startActivity(
+                                    Intent(
+                                        this,
+                                        DonateActivity::class.java
+                                    )
+                                )
+                            }
+                        )
+                    } else SettingItem.None(),
+
+                    // 语言设置
                     SettingItem.Click(
-                        itemName = getString(R.string.Donate),
+                        itemName = getString(R.string.Language),
                         onClick = {
                             startActivity(
                                 Intent(
                                     this,
-                                    DonateActivity::class.java
-                                )
+                                    SettingActivity::class.java
+                                ).putExtra("page", 5)
                             )
                         }
-                    ),*/
-                    // 网络设置
-                    /*
-                    SettingItem.Click(
-                        itemName = getString(R.string.Network_setting),
-                        onClick = {
-                            startActivity(
-                                Intent(
-                                    this,
-                                    NetworkSettingActivity::class.java
-                                )
-                            )
-                        }
-                    ),*/
+                    ),
                     // 通知设置
                     SettingItem.Click(
                         itemName = getString(R.string.Notification),
@@ -359,13 +371,7 @@ class SettingActivity : ComponentActivity() {
                     SettingItem.Click(
                         itemName = getString(R.string.Restart),
                         onClick = {
-                            // 重启软件
-                            Handler(Looper.getMainLooper()).postDelayed({
-                                val intent = packageManager.getLaunchIntentForPackage(packageName)
-                                intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                                startActivity(intent)
-                                android.os.Process.killProcess(android.os.Process.myPid())
-                            }, 1000)
+                            restartSelf()
                         }
                     ),
                     SettingItem.Click(
@@ -475,20 +481,14 @@ class SettingActivity : ComponentActivity() {
                             // Toast提醒
                             Toast.makeText(this, getString(R.string.Successful), Toast.LENGTH_SHORT)
                                 .show()
-                            // 重启软件
-                            Handler(Looper.getMainLooper()).postDelayed({
-                                val intent = packageManager.getLaunchIntentForPackage(packageName)
-                                intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                                startActivity(intent)
-                                android.os.Process.killProcess(android.os.Process.myPid())
-                            }, 1000)
+                            restartSelf()
                         }
                     )
                 )
             }
 
             3 -> {
-                title = "${getString(R.string.Notification)} (${getString(R.string.Beta)})"
+                title = getString(R.string.Notification)
                 settingsList.value = listOf(
                     SettingItem.Switch(
                         itemName = getString(R.string.Notification),
@@ -631,6 +631,92 @@ class SettingActivity : ComponentActivity() {
                                 "test5",
                                 Toast.LENGTH_SHORT
                             ).show()
+                        }
+                    )
+                )
+            }
+
+            5 -> {
+                title = getString(R.string.Language)
+                settingsList.value = listOf(
+                    SettingItem.Click(
+                        itemName = "English",
+                        onClick = {
+                            with(settingsSharedPref.edit()) {
+                                putString("app_lang", "en")
+                                apply()
+                            }
+                            restartSelf()
+                        }
+                    ),
+                    SettingItem.Click(
+                        itemName = "中文-简体",
+                        onClick = {
+                            with(settingsSharedPref.edit()) {
+                                putString("app_lang", "zh-CN")
+                                apply()
+                            }
+                            restartSelf()
+                        }
+                    ),
+                    SettingItem.Click(
+                        itemName = "中文-繁體",
+                        onClick = {
+                            with(settingsSharedPref.edit()) {
+                                putString("app_lang", "zh-TW")
+                                apply()
+                            }
+                            restartSelf()
+                        }
+                    ),
+                    SettingItem.Click(
+                        itemName = "Deutsch",
+                        onClick = {
+                            with(settingsSharedPref.edit()) {
+                                putString("app_lang", "de")
+                                apply()
+                            }
+                            restartSelf()
+                        }
+                    ),
+                    SettingItem.Click(
+                        itemName = "Esperanto",
+                        onClick = {
+                            with(settingsSharedPref.edit()) {
+                                putString("app_lang", "eo")
+                                apply()
+                            }
+                            restartSelf()
+                        }
+                    ),
+                    SettingItem.Click(
+                        itemName = "Français",
+                        onClick = {
+                            with(settingsSharedPref.edit()) {
+                                putString("app_lang", "fr")
+                                apply()
+                            }
+                            restartSelf()
+                        }
+                    ),
+                    SettingItem.Click(
+                        itemName = "日本語",
+                        onClick = {
+                            with(settingsSharedPref.edit()) {
+                                putString("app_lang", "ja")
+                                apply()
+                            }
+                            restartSelf()
+                        }
+                    ),
+                    SettingItem.Click(
+                        itemName = "Русский",
+                        onClick = {
+                            with(settingsSharedPref.edit()) {
+                                putString("app_lang", "ru")
+                                apply()
+                            }
+                            restartSelf()
                         }
                     )
                 )

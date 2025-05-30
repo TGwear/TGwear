@@ -88,6 +88,8 @@ fun SettingLazyColumn(
                         item.color
                     )
                 }
+
+                else -> {}
             }
         }
         item {

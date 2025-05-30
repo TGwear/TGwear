@@ -70,7 +70,6 @@
     <string name="Clear_videos">Klare Videos</string>  
     <string name="error_activity_view">Fehlerseite</string>  
     <string name="allow_data_Collection">Datenerfassung zulassen</string>  
-    <string name="data_collection_description">Wir verwenden das Open-Source-Erfassungstool ACRA, um Absturzberichte anonym zu sammeln, die am häufigsten verwendeten Funktionen zu verfolgen und Nutzungsmusterdaten zu sammeln, um TGwear benutzerfreundlicher zu machen. Sie können diese Funktion jederzeit in den Einstellungen deaktivieren.</string>  
     <string name="data_collection_title">Anonyme Statistiken\nAbsturzberichte</string>  
     <string name="disagree">NEIN</string>  
     <string name="agree">JA</string>  
@@ -108,7 +107,6 @@
     <string name="Search">Suchen</string>  
     <string name="Network_setting">Netzwerkeinstellung</string>  
     <string name="Unknown_chat">Unbekannter Chat</string>  
-    <string name="acra_toast_text">Die Software hat einen Fehler festgestellt und dieser wurde gemeldet. Bitte starten Sie die Software neu.</string>  
     <string name="author">Autor</string>  
     <string name="Famous_Quotes">Berühmte Zitate</string>  
     <string name="notice">Beachten</string>  
@@ -184,7 +182,6 @@
     <string name="Bot">Bot</string>  
     <string name="Bio">War</string>  
     <string name="Deleted_message">Nachricht wurde gelöscht</string>  
-    <string name="Remind1">Hallo! \nwelcome in die TGwear -App! Wir empfehlen, unserer offiziellen Telegrammgruppe zur Unterstützung beizutreten. Sie können anschließen, indem Sie auf den Link unten klicken: \nhttps: //t.me/teleTGwear \n \nhere \ s eine schnelle Anleitung, die Ihnen bei der Verwendung der App: \n \nlong-press auf den Meldungsgrenze hilft. \nlong-press und ziehen Sie Text, um auszuwählen und zu kopieren. \nin Der Bildbieter, Langzeitpresse auf einem Bild, um es in Ihrer Galerie zu speichern. \nlong-drücken Sie ein Element auf der Proxies-Seite, um eine Proxies zu entfernen. \n \nTGwear ist Open Source und Free. Wenn Sie unsere Entwicklung unterstützen möchten, erwägen Sie bitte die Spende, indem Sie auf die Schaltfläche unten klicken. Ich hoffe, Sie verwenden gerne TGwear!</string>  
     <string name="Write_message">Nachricht schreiben…</string>  
     <string name="Forward">Nach vorne</string>  
     <string name="Archived_Chats">Archivierte Chats</string>  
@@ -205,7 +202,6 @@
     <string name="Apply_notification_permissions">Beantragen Sie Benachrichtigungsberechtigungen</string>  
     <string name="global_scale_factor">Globaler Skalierungsfaktor</string>  
     <string name="ui_test">UI -Test</string>  
-    <string name="Remind2">Hallo! \nwelcome in die TGwear -App! \n \nwe empfehlen, dass Sie die Anweisungen vollständig lesen, um unnötige Hilfe zu vermeiden. Sie können mit dem folgenden Link klicken: \nhttps: //t.me/teleTGwear \n \nhere ist eine schnelle Anleitung, die Ihnen hilft, die App zu verwenden: \n \nWhe verwendet. Verwenden Sie sie zum ersten Mal. Bitte passen Sie manuell an die beste Anzeige auf. Seite und klicken Sie auf den Titel, um die Chat -Nachricht für weitere Details einzugeben. \nlong drücken und ziehen Sie Text auf einige Seiten, um auszuwählen und zu kopieren. \nin Der Image Viewer drücken Sie lange ein Bild, um es in Ihrer Galerie zu speichern. \nlong drücken Sie ein Element auf der Agent -Seite, um das Agent zu entfernen. Wenn Sie unsere Entwicklung unterstützen möchten, klicken Sie bitte auf die Schaltfläche unten, um zu spenden. Ich hoffe, Sie verwenden gerne TGwear!</string>  
     <string name="mark_as_read">Markieren Sie wie gelesen</string>  
     <string name="view_activity">Aktivität anzeigen</string>  
     <string name="Login">Login</string>  
@@ -213,11 +209,18 @@
     <string name="Verify_Code">Code überprüfen</string>  
     <string name="Send_Verify_Code">Code senden</string>  
     <string name="Login_With_QR">Melden Sie sich mit QR an</string>  
-    <string name="Remind3">Hallo! \nwelcome in die TGwear -App! \n \nwe empfehlen, dass Sie die Anweisungen vollständig lesen, um unnötige Probleme zu vermeiden. Sie können mit dem Link unten klicken: \nhttps: //t.me/teleTGwear \n \nhere eine schnelle Anleitung, die Ihnen beim Einstieg hilft: \n \ Non First -Verwendung. Passen Sie bitte die Anzeige Skalierung in den UI -Einstellungen an, um die Ui -Einstellungen zu erhalten. Meldungstendseite; Tippen Sie auf den Header, um weitere Details zu einer Chat -Nachricht anzuzeigen. \ Nicht einige Bildschirme, Langzeitpresse und ziehen Sie Text, um sie auszuwählen und zu kopieren. \nin Der Bildbieter, langen Sie ein Bild, um es in Ihrer Galerie zu speichern. Wenn Sie unsere Entwicklung unterstützen möchten, klicken Sie bitte auf die Schaltfläche unten, um eine Spende zu führen.</string>  
     <string name="Connecting_Telegram_Sever">Verbindung zum Telegrammserver herstellen …</string>  
     <string name="test_notification">Testbenachrichtigung</string>  
     <string name="FCM_state">FCM -Zustand</string>  
     <string name="Topic">Thema</string>  
-    <string name="Remind4">TGwear wird nicht mehr aktualisiert. Bitte verwenden Sie TGwear \nhttps: //github.com/tgwear/tgwear \n \nhello! \nwelcome in die TGwear -App! \n \nwe empfehlen, dass Sie die Anweisungen vollständig lesen, um unnötige Probleme zu vermeiden. Sie können mit dem Link unten klicken: \nhttps: //t.me/teleTGwear \n \nhere eine schnelle Anleitung, die Ihnen beim Einstieg hilft: \n \ Non First -Verwendung. Passen Sie bitte die Anzeige Skalierung in den UI -Einstellungen an, um die Ui -Einstellungen zu erhalten. Meldungstendseite; Tippen Sie auf den Header, um weitere Details zu einer Chat -Nachricht anzuzeigen. \ Nicht einige Bildschirme, Langzeitpresse und ziehen Sie Text, um sie auszuwählen und zu kopieren. \nin Der Bildbieter, langen Sie ein Bild, um es in Ihrer Galerie zu speichern. Wenn Sie unsere Entwicklung unterstützen möchten, klicken Sie bitte auf die Schaltfläche unten, um eine Spende zu führen.</string>  
-    <string name="Remind5">Hallo! \nWillkommen bei der TGwear-App! \n\nWir empfehlen Ihnen, die Anweisungen vollständig zu lesen, um unnötige Probleme zu vermeiden.\n\nTreten Sie zunächst unserer offiziellen Telegram-Gruppe zur Unterstützung bei. Sie können beitreten, indem Sie auf den folgenden Link klicken:\nhttps://t.me/teleTGwear\n\nHier ist eine kurze Anleitung für den Einstieg:\n\nPassen Sie beim ersten Start die Anzeige-Skalierung manuell in den UI-Einstellungen an, um die beste Darstellung zu gewährleisten.\nHalten Sie den Nachrichtenrahmen oder den Namen des Absenders gedrückt, um weitere Optionen anzuzeigen.\nWischen Sie im Chat-Bildschirm nach links, um zur Nachrichten-Eingabeseite zu gelangen; tippen Sie auf die Kopfzeile, um weitere Informationen zur Unterhaltung zu sehen.\nAuf bestimmten Bildschirmen können Sie Text durch langes Drücken und Ziehen markieren und kopieren.\nHalten Sie im Bildbetrachter ein Bild gedrückt, um es in Ihrer Galerie zu speichern.\n\nHalten Sie auf der Proxy-Seite einen Eintrag gedrückt, um diesen Proxy zu löschen.\nIm Antwort- oder Weiterleitungsmodus tippen Sie oben auf den Titel „Antworten“ oder „Weiterleiten“, um den Modus zu verlassen.\n\nTGwear ist Open Source. Sie können den Quellcode auf GitHub anfordern.</string>
+    <string name="Remind5">Hallo! \nWillkommen bei der TGwear-App! \n\nWir empfehlen Ihnen, die Anweisungen vollständig zu lesen, um unnötige Probleme zu vermeiden.\n\nTreten Sie zunächst unserer offiziellen Telegram-Gruppe zur Unterstützung bei. Sie können beitreten, indem Sie auf den folgenden Link klicken:\nhttps://t.me/teleTGwear\n\nHier ist eine kurze Anleitung für den Einstieg:\n\nPassen Sie beim ersten Start die Anzeige-Skalierung manuell in den UI-Einstellungen an, um die beste Darstellung zu gewährleisten.\nHalten Sie den Nachrichtenrahmen oder den Namen des Absenders gedrückt, um weitere Optionen anzuzeigen.\nWischen Sie im Chat-Bildschirm nach links, um zur Nachrichten-Eingabeseite zu gelangen; tippen Sie auf die Kopfzeile, um weitere Informationen zur Unterhaltung zu sehen.\nAuf bestimmten Bildschirmen können Sie Text durch langes Drücken und Ziehen markieren und kopieren.\nHalten Sie im Bildbetrachter ein Bild gedrückt, um es in Ihrer Galerie zu speichern.\n\nHalten Sie auf der Proxy-Seite einen Eintrag gedrückt, um diesen Proxy zu löschen.\nIm Antwort- oder Weiterleitungsmodus tippen Sie oben auf den Titel „Antworten“ oder „Weiterleiten“, um den Modus zu verlassen.\n\nTGwear ist Open Source. Sie können den Quellcode auf GitHub anfordern.</string>  
+    <string name="joined_the_group">schloss sich der Gruppe an</string>  
+    <string name="data_collection_description">Wir verwenden Firebase Crashlytics, um anonym Crash-Berichte zu sammeln, die am häufigsten verwendeten Funktionen zu verfolgen und Verwendungsmusterdaten zu sammeln, um TGwear benutzerfreundlicher zu gestalten. Sie können diese Funktion jederzeit in den Einstellungen deaktivieren.</string>  
+    <string name="Donation_version">Spendenversion</string>  
+    <string name="Free_Version">Kostenlose Version</string>  
+    <string name="notice_about_4">Diese Software ist Open Source.</string>  
+    <string name="notice_about_5">Wenn Sie es nützlich finden, erwägen Sie, es bei Google Play zu kaufen oder über die Anweisungen auf der Spendenseite zu spenden.</string>  
+    <string name="notice_about_6">Dies ist die Spendenversion.</string>  
+    <string name="notice_about_7">Wir schätzen Ihre Unterstützung aufrichtig.</string>  
+    <string name="Language">Sprache</string>
 </resources>
