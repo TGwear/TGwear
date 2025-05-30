@@ -9,15 +9,12 @@
 package com.gohj99.tgwear
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
@@ -52,15 +49,10 @@ import com.google.firebase.crashlytics.crashlytics
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.drinkless.tdlib.TdApi
-import org.json.JSONObject
 import java.io.File
-import java.net.HttpURLConnection
-import java.net.URL
-import java.util.UUID
 
 
 object TgApiManager {
@@ -73,11 +65,12 @@ object ChatsListManager {
     var chatsList: MutableState<List<Chat>> = mutableStateOf(listOf())
 }
 
-class MainActivity : ComponentActivity() {
+class MainActivity : BaseActivity() {
     private var isLoggedIn: Boolean = false
     private var exceptionState by mutableStateOf<Exception?>(null)
     private var chatsList = mutableStateOf(listOf<Chat>())
     private var chatsFoldersList = mutableStateOf(listOf<TdApi.ChatFolder>())
+    private var mainChatListPosition = mutableStateOf(0)
     private var settingList = mutableStateOf(listOf<SettingItem>())
     private var topTitle = mutableStateOf("")
     private var onPaused = mutableStateOf(false)
@@ -155,10 +148,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-            CoroutineScope(Dispatchers.IO).launch {
-                checkAndUpdateConfiguration(this)
-            }
-
             if (!settingsSharedPref.getBoolean("Remind5_read", false)) {
                 startActivity(
                     Intent(
@@ -203,6 +192,7 @@ class MainActivity : ComponentActivity() {
                         chatsList = tempChatsList,
                         topTitle = topTitle,
                         chatsFoldersList = chatsFoldersList,
+                        mainChatListPosition = mainChatListPosition,
                         onPaused = onPaused
                     )
 
@@ -230,6 +220,7 @@ class MainActivity : ComponentActivity() {
                     tempTgApi.close()
                 }
 
+                val installer = packageManager.getInstallerPackageName(packageName)
                 val jsonObject: JsonObject = gson.fromJson(userList, JsonObject::class.java)
                 val accounts = mutableListOf<SettingItem>()
                 var a = 0
@@ -283,18 +274,20 @@ class MainActivity : ComponentActivity() {
                         }
                     ),
                     // 捐赠
-                    /*
-                    SettingItem.Click(
-                        itemName = getString(R.string.Donate),
-                        onClick = {
-                            startActivity(
-                                Intent(
-                                    this@MainActivity,
-                                    DonateActivity::class.java
+                    if (installer != "com.android.vending") {
+                        SettingItem.Click(
+                            itemName = getString(R.string.Donate),
+                            onClick = {
+                                startActivity(
+                                    Intent(
+                                        this@MainActivity,
+                                        DonateActivity::class.java
+                                    )
                                 )
-                            )
-                        }
-                    ),*/
+                            }
+                        )
+                    } else SettingItem.None(),
+
                     // 设置代理
                     SettingItem.Click(
                         itemName = getString(R.string.Proxy),
@@ -350,6 +343,7 @@ class MainActivity : ComponentActivity() {
                     userId = jsonObject.keySet().firstOrNull().toString(),
                     topTitle = topTitle,
                     chatsFoldersList = chatsFoldersList,
+                    mainChatListPosition = mainChatListPosition,
                     onPaused = onPaused
                 )
                 ChatsListManager.chatsList = chatsList
@@ -404,6 +398,7 @@ class MainActivity : ComponentActivity() {
                                 contacts = contacts,
                                 topTitle = topTitle,
                                 chatsFoldersList = chatsFoldersList,
+                                mainChatListPosition = mainChatListPosition,
                                 currentUserId = currentUserId
                             )
                         }
@@ -506,45 +501,6 @@ class MainActivity : ComponentActivity() {
     private fun retryInitialization() {
         exceptionState = null
         initMain()
-    }
-}
-
-private fun Context.checkAndUpdateConfiguration(scope: CoroutineScope = CoroutineScope(Dispatchers.IO)) {
-    scope.launch {
-        val settingsSharedPref = getSharedPreferences("app_settings", MODE_PRIVATE)
-        val dataCollection = settingsSharedPref.getBoolean("Data_Collection", false)
-        if (dataCollection) {
-            val appConfig = getSharedPreferences("app_config", Context.MODE_PRIVATE)
-            val configStatus = getSharedPreferences("config_status", Context.MODE_PRIVATE)
-
-            if (!configStatus.getBoolean("is_configured", false)) {
-                var uniqueId = appConfig.getString("unique_identifier", null)
-                if (uniqueId == null) {
-                    uniqueId = UUID.randomUUID().toString()
-                    appConfig.edit().putString("unique_identifier", uniqueId).apply()
-                }
-
-                try {
-                    val domain = getDomain(this@checkAndUpdateConfiguration)
-                    val url = URL("https://$domain/config/?data=$uniqueId")
-
-                    with(url.openConnection() as HttpURLConnection) {
-                        requestMethod = "GET"
-
-                        if (responseCode == HttpURLConnection.HTTP_OK) {
-                            val response = inputStream.bufferedReader().use { it.readText() }
-                            val configData = JSONObject(response)
-                            val configCode = configData.optInt("status_code", -1) // Use optInt to avoid exceptions
-                            if (configCode == 200) {
-                                configStatus.edit().putBoolean("is_configured", true).apply()
-                            }
-                        }
-                    }
-                } catch (e: Exception) {
-                    // Handle or log the exception as needed
-                }
-            }
-        }
     }
 }
 

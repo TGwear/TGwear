@@ -8,10 +8,8 @@
 
 package com.gohj99.tgwear
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
@@ -41,13 +39,13 @@ import androidx.compose.ui.unit.sp
 import com.gohj99.tgwear.ui.theme.TGwearTheme
 import com.gohj99.tgwear.ui.verticalRotaryScroll
 
-class AllowDataCollectionActivity : ComponentActivity() {
+class AllowDataCollectionActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        val settingsSharedPref = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+        val settingsSharedPref = getSharedPreferences("app_settings", MODE_PRIVATE)
 
         setContent {
             TGwearTheme {

@@ -57,16 +57,6 @@
             android:label="@string/chat_info_activity_main"
             android:theme="@style/Theme.TGwear" />
         <activity
-            android:name=".GoToAnnouncementActivity"
-            android:exported="true"
-            android:label="@string/announcement_title"
-            android:theme="@style/Theme.TGwear" />
-        <activity
-            android:name=".AnnouncementActivity"
-            android:exported="false"
-            android:label="@string/announcement_title"
-            android:theme="@style/Theme.TGwear" />
-        <activity
             android:name=".GoToCheckUpdateActivity"
             android:exported="true"
             android:label="@string/Beta_title"
@@ -75,11 +65,6 @@
             android:name=".IsBetaActivity"
             android:exported="false"
             android:label="@string/Beta_title"
-            android:theme="@style/Theme.TGwear" />
-        <activity
-            android:name=".NetworkSettingActivity"
-            android:exported="false"
-            android:label="@string/Network_setting"
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".InstallApkActivity"

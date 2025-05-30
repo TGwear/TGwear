@@ -70,7 +70,6 @@
     <string name="Clear_videos">Clear videos</string>
     <string name="error_activity_view">Error Page</string>
     <string name="allow_data_Collection">Allow Data Collection</string>
-    <string name="data_collection_description">We use the open source collection tool ACRA to anonymously collect crash reports, track the most frequently used features, and gather usage pattern data to make TGwear more user-friendly. You can disable this feature at any time in the settings.</string>
     <string name="data_collection_title">Anonymous Statistics\nCrash Reporting</string>
     <string name="disagree">No</string>
     <string name="agree">YES</string>
@@ -108,7 +107,6 @@
     <string name="Search">Search</string>
     <string name="Network_setting">Network Setting</string>
     <string name="Unknown_chat">Unknown Chat</string>
-    <string name="acra_toast_text">The software has encountered an error and it has been reported. Please restart the software.</string>
     <string name="author">Author</string>
     <string name="Famous_Quotes">Famous Quotes</string>
     <string name="notice">Notice</string>
@@ -156,7 +154,6 @@
     <string name="Audio_Error">Audio\nError</string>
     <string name="remind_activity">Remind Activity</string>
     <string name="Remind">Remind</string>
-    <string name="Remind1">Hello! \nWelcome to the TGwear app! \nFirst, we recommend joining our official Telegram group for support. You can join by clicking on the link below: \nhttps://t.me/teleTGwear\n\nHere\'s a quick guide to help you use the app: \n\nLong-press on the message border to reveal more features\nOn the chat page, enter a chat message by tapping the title to get more details. \nLong-press and drag text to select and copy. \nIn the image viewer, long-press on an image to save it to your gallery. \nLong-press on an item on the proxies page to remove a proxies\n\nTGwear is open source and free. If you want to support our development, please consider donating by clicking the button below. \n\nWe hope you enjoy using TGwear!</string>
     <string name="donate_activity">Donate Activity</string>
     <string name="Donate">Donate</string>
     <string name="Telegram_not_connected">No connected (maybe you are not logged in)</string>
@@ -206,9 +203,6 @@
     <string name="Beta" translatable="false">Beta</string>
     <string name="global_scale_factor">Global scaling factor</string>
     <string name="ui_test">Ui test</string>
-    <string name="Remind2">Hello!  Welcome to the TGwear app!   We recommend that you read the instructions in full to avoid unnecessary help  First, we recommend that you join our official Telegram group for support. You can join by clicking the following link: https://t.me/teleAndroidwatch  Here is a quick guide to help you use the app:  When using it for the first time, please manually adjust to the best display zoom in the UI settings Long press the message border to display more functions On the chat page, swipe the screen to the left to enter the message sending page, and click the title to enter the chat message for more details.  Long press and drag text on some pages to select and copy.  In the image viewer, long press an image to save it to your gallery.  Long press an item on the agent page to remove the agent  TGwear is open source and free. If you want to support our development, please consider clicking the button below to donate.   We hope you enjoy using TGwear!</string>
-    <string name="Remind3">Hello! \nWelcome to the TGwear app! \n\nWe recommend that you read the instructions in full to avoid any unnecessary issues.\n\nFirst, we suggest joining our official Telegram group for support. You can join by clicking the link below:\nhttps://t.me/teleTGwear\n\nHere’s a quick guide to help you get started:\n\nOn first use, please manually adjust the display scaling in the UI settings for optimal viewing.\nLong‑press the message border or the sender’s name to reveal additional options.\nIn the chat screen, swipe left to go to the message‑sending page; tap the header to view more details about a chat message.\nOn some screens, long‑press and drag text to select and copy it.\nIn the image viewer, long‑press an image to save it to your gallery.\n\nOn the proxy page, long‑press an entry to delete that proxy.\n\nTGwear is open‑source and free. If you’d like to support our development, please consider clicking the button below to make a donation.\n\nWe hope you enjoy using TGwear!</string>
-    <string name="Remind4">TGwear will stop updating. Please use TGwear\nhttps://github.com/tgwear/tgwear\n\nHello! \nWelcome to the TGwear app! \n\nWe recommend that you read the instructions in full to avoid any unnecessary issues.\n\nFirst, we suggest joining our official Telegram group for support. You can join by clicking the link below:\nhttps://t.me/teleTGwear\n\nHere’s a quick guide to help you get started:\n\nOn first use, please manually adjust the display scaling in the UI settings for optimal viewing.\nLong‑press the message border or the sender’s name to reveal additional options.\nIn the chat screen, swipe left to go to the message‑sending page; tap the header to view more details about a chat message.\nOn some screens, long‑press and drag text to select and copy it.\nIn the image viewer, long‑press an image to save it to your gallery.\n\nOn the proxy page, long‑press an entry to delete that proxy.\n\nTGwear is open‑source and free. If you’d like to support our development, please consider clicking the button below to make a donation.\n\nWe hope you enjoy using TGwear!</string>
     <string name="test_notification">Test notification</string>
     <string name="FCM_state">FCM state</string>
     <string name="mark_as_read">Mark as Read</string>
@@ -221,4 +215,13 @@
     <string name="Connecting_Telegram_Sever">Connect to Telegram server…</string>
     <string name="Topic">Topic</string>
     <string name="Remind5">Hello! \nWelcome to the TGwear app! \n\nWe recommend that you read the instructions in full to avoid any unnecessary issues.\n\nFirst, we suggest joining our official Telegram group for support. You can join by clicking the link below:\nhttps://t.me/teleTGwear\n\nHere’s a quick guide to help you get started:\n\nOn first use, please manually adjust the display scaling in the UI settings to ensure optimal viewing.\nLong-press the message border or the sender’s name to access additional options.\nIn the chat screen, swipe left to access the message composition interface; tap the header to view detailed information about the chat.\nOn applicable screens, long-press and drag to select and copy text.\nIn the image viewer, long-press an image to save it to your device’s gallery.\n\nOn the proxy page, long-press an entry to remove that proxy.\nIn reply or forward mode, tap the reply or forward title above to exit.\n\nTGwear is open-source, and you may request access to the source code on GitHub.</string>
+    <string name="joined_the_group">joined the group</string>
+    <string name="data_collection_description">We use Firebase Crashlytics to anonymously collect crash reports, track the most frequently used features, and gather usage pattern data to make TGwear more user-friendly. You can disable this feature at any time in the settings.</string>
+    <string name="Donation_version">Donation Version</string>
+    <string name="Free_Version">Free Version</string>
+    <string name="notice_about_4">This software is open source.</string>
+    <string name="notice_about_5">If you find it useful, please consider purchasing it on Google Play or donating via the instructions on the donation page.</string>
+    <string name="notice_about_6">This is the donation version.</string>
+    <string name="notice_about_7">We sincerely appreciate your support.</string>
+    <string name="Language">Language</string>
 </resources>

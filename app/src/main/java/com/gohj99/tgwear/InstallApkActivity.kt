@@ -15,11 +15,10 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
 import android.util.Log
-import androidx.activity.ComponentActivity
 import androidx.core.content.FileProvider
 import java.io.File
 
-class InstallApkActivity : ComponentActivity() {
+class InstallApkActivity : BaseActivity() {
     companion object {
         private const val REQUEST_CODE_UNKNOWN_APP = 1234
         const val EXTRA_FILE_NAME = "extra_file_name"

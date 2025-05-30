@@ -24,7 +24,6 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
@@ -63,7 +62,7 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 
-class ChatActivity : ComponentActivity() {
+class ChatActivity : BaseActivity() {
     private var tgApi: TgApi? = null
     private var chat: Chat? = null
     private var chatList = mutableStateOf(emptyList<TdApi.Message>())

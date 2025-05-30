@@ -70,7 +70,6 @@
     <string name="Clear_videos">鮮明なビデオ</string>  
     <string name="error_activity_view">エラーページ</string>  
     <string name="allow_data_Collection">データ収集を許可する</string>  
-    <string name="data_collection_description">当社はオープンソース収集ツール ACRA を使用して匿名でクラッシュ レポートを収集し、最も頻繁に使用される機能を追跡し、使用パターン データを収集して TGwear をより使いやすくしています。この機能は設定でいつでも無効にできます。</string>  
     <string name="data_collection_title">匿名の統計\nクラッシュ レポート</string>  
     <string name="disagree">いいえ</string>  
     <string name="agree">はい</string>  
@@ -108,7 +107,6 @@
     <string name="Search">検索</string>  
     <string name="Network_setting">ネットワーク設定</string>  
     <string name="Unknown_chat">不明なチャット</string>  
-    <string name="acra_toast_text">ソフトウェアでエラーが発生し、報告されました。ソフトウェアを再起動してください。</string>  
     <string name="author">著者</string>  
     <string name="Famous_Quotes">有名な名言</string>  
     <string name="notice">知らせ</string>  
@@ -184,7 +182,6 @@
     <string name="Bot">ボット</string>  
     <string name="Bio">だった</string>  
     <string name="Deleted_message">メッセージが削除されました</string>  
-    <string name="Remind1">こんにちは！ \nwelcome to TGwearアプリ！ \nfirst、サポートのために公式のTelegram Groupに参加することをお勧めします。以下のリンクをクリックして参加できます。 \nlong-pressとドラッグテキストを選択してコピーします。画像ビューアー、画像にロングプレスしてギャラリーに保存します。プロキシページのアイテムのnlong-pressプロキシを削除する\n \ntelwatchはオープンソースで無料です。開発をサポートしたい場合は、下のボタンをクリックして寄付を検討してください。 \n \nwe TGwearの使用を楽しんでいただければ幸いです。</string>  
     <string name="Write_message">メッセージを書く…</string>  
     <string name="Forward">フォワード</string>  
     <string name="Archived_Chats">アーカイブされたチャット</string>  
@@ -205,7 +202,6 @@
     <string name="Apply_notification_permissions">通知許可を申請します</string>  
     <string name="global_scale_factor">グローバルスケーリング係数</string>  
     <string name="ui_test">UIテスト</string>  
-    <string name="Remind2">こんにちは！ \nwelcome to TGwearアプリ！ \n \nwe不必要なヘルプを避けるために指示を完全に読むことをお勧めします\n \nfirst、サポートのために公式のTelegramグループに参加することをお勧めします。次のリンクをクリックして参加できます。ページ、タイトルをクリックしてチャットメッセージを入力して詳細を確認してください。 \nlongページでテキストを押してドラッグして、選択してコピーします。画像ビューアーに、画像を長い間押してギャラリーに保存します。 \nlongエージェントページにアイテムを押して、エージェントを削除してください\n \ntelwatchはオープンソースで無料です。開発をサポートしたい場合は、下のボタンをクリックして寄付してください。 \n \nwe TGwearの使用を楽しんでいただければ幸いです。</string>  
     <string name="test_notification">テスト通知</string>  
     <string name="FCM_state">FCM状態</string>  
     <string name="mark_as_read">読んだことをマークします</string>  
@@ -215,9 +211,16 @@
     <string name="Verify_Code">コードを確認します</string>  
     <string name="Send_Verify_Code">コードを送信します</string>  
     <string name="Login_With_QR">QRでログインします</string>  
-    <string name="Remind3">こんにちは！ \nwelcome to TGwearアプリ！ \n \nwe不必要な問題を回避するために、指示を完全に読むことをお勧めします。以下のリンクをクリックして参加できます。メッセージページ。ヘッダーをタップして、チャットメッセージの詳細を表示します。\non \non nons cress、long -press and drag text textを選択してコピーします。画像ビューアーを長引かせてギャラリーに保存してプロキシページに保存します。開発をサポートしたい場合は、下のボタンをクリックして寄付をすることを検討してください。</string>  
     <string name="Connecting_Telegram_Sever">Telegram Serverに接続してください…</string>  
     <string name="Topic">トピック</string>  
-    <string name="Remind4">テレワッチは更新を停止します。 tgwear \nhttps：//github.com/tgwear/tgwear \n \nhelloを使用してください！ \nwelcome to TGwearアプリ！ \n \nwe不必要な問題を回避するために、指示を完全に読むことをお勧めします。以下のリンクをクリックして参加できます。メッセージページ。ヘッダーをタップして、チャットメッセージの詳細を表示します。\non \non nons cress、long -press and drag text textを選択してコピーします。画像ビューアーを長引かせてギャラリーに保存してプロキシページに保存します。開発をサポートしたい場合は、下のボタンをクリックして寄付をすることを検討してください。</string>  
-    <string name="Remind5">こんにちは！\nTGwearアプリへようこそ！\n\n不必要なトラブルを避けるために、以下の説明を最後までお読みいただくことをおすすめします。\n\nまず、サポート用に公式Telegramグループにご参加ください。以下のリンクをクリックすると参加できます：\nhttps://t.me/teleTGwear\n\n以下は、初めての方のための簡単なガイドです：\n\n初回起動時は、最適な表示のためにUI設定でスケーリングを手動で調整してください。\nメッセージの枠や送信者の名前を長押しすると、追加のオプションが表示されます。\nチャット画面では、左にスワイプしてメッセージ送信ページに移動できます。ヘッダーをタップすると、チャットの詳細が表示されます。\n一部の画面では、テキストを長押ししてドラッグすることで選択・コピーが可能です。\n画像ビューアでは、画像を長押しするとギャラリーに保存されます。\n\nプロキシページでは、エントリを長押しすることでそのプロキシを削除できます。\n返信または転送モード中は、上部の「返信」または「転送」タイトルをタップすることでモードを終了できます。\n\nTGwearはオープンソースで、GitHubでソースコードをリクエストできます。</string>
+    <string name="Remind5">こんにちは！\nTGwearアプリへようこそ！\n\n不必要なトラブルを避けるために、以下の説明を最後までお読みいただくことをおすすめします。\n\nまず、サポート用に公式Telegramグループにご参加ください。以下のリンクをクリックすると参加できます：\nhttps://t.me/teleTGwear\n\n以下は、初めての方のための簡単なガイドです：\n\n初回起動時は、最適な表示のためにUI設定でスケーリングを手動で調整してください。\nメッセージの枠や送信者の名前を長押しすると、追加のオプションが表示されます。\nチャット画面では、左にスワイプしてメッセージ送信ページに移動できます。ヘッダーをタップすると、チャットの詳細が表示されます。\n一部の画面では、テキストを長押ししてドラッグすることで選択・コピーが可能です。\n画像ビューアでは、画像を長押しするとギャラリーに保存されます。\n\nプロキシページでは、エントリを長押しすることでそのプロキシを削除できます。\n返信または転送モード中は、上部の「返信」または「転送」タイトルをタップすることでモードを終了できます。\n\nTGwearはオープンソースで、GitHubでソースコードをリクエストできます。</string>  
+    <string name="joined_the_group">グループに参加しました</string>  
+    <string name="data_collection_description">Firebase Crashlyticsを使用して、クラッシュレポートを匿名で収集し、最も頻繁に使用される機能を追跡し、使用パターンデータを収集してTGWearをよりユーザーフレンドリーにします。この機能は、設定でいつでも無効にできます。</string>  
+    <string name="Donation_version">寄付バージョン</string>  
+    <string name="Free_Version">無料版</string>  
+    <string name="notice_about_4">このソフトウェアはオープンソースです。</string>  
+    <string name="notice_about_5">便利だと思われる場合は、Google Playで購入するか、寄付ページの指示を介して寄付することを検討してください。</string>  
+    <string name="notice_about_6">これは寄付バージョンです。</string>  
+    <string name="notice_about_7">私たちはあなたのサポートに心から感謝します。</string>  
+    <string name="Language">言語</string>
 </resources>

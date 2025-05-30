@@ -70,7 +70,6 @@
     <string name="Clear_videos">清除视频</string>  
     <string name="error_activity_view">错误页面</string>  
     <string name="allow_data_Collection">允许数据收集</string>  
-    <string name="data_collection_description">我们使用开源收集工具 ACRA 来匿名地收集崩溃信息和最常被人们使用的功能和一些使用习惯数据来使得 TGwear 变得更加实用。您可以随时在设置中关闭此功能</string>  
     <string name="data_collection_title">匿名统计\n崩溃报告</string>  
     <string name="disagree">不好</string>  
     <string name="agree">好</string>  
@@ -108,13 +107,12 @@
     <string name="Search">搜索</string>  
     <string name="Network_setting">网络设置</string>  
     <string name="Unknown_chat">未知聊天</string>  
-    <string name="acra_toast_text">软件遇到错误，已报告。请重新启动软件。</string>  
     <string name="author">作者</string>  
     <string name="Famous_Quotes">名言</string>  
     <string name="notice">注意</string>  
     <string name="notice_about_1">本软件开源免费</string>  
     <string name="notice_about_2">如果您在任何地方购买了该软件，请投诉并要求退款。\n请勿在中国大陆内使用本软件</string>  
-    <string name="DeleteMessage">删除消息</string>
+    <string name="DeleteMessage">删除消息</string>  
     <string name="gohj99_description">主要开发者</string>  
     <string name="jelly_description">UI设计</string>  
     <string name="Beta_title">测试版</string>  
@@ -156,7 +154,6 @@
     <string name="Audio_Error">音频\n错误</string>  
     <string name="remind_activity">提醒活动</string>  
     <string name="Remind">提醒</string>  
-    <string name="Remind1">你好！\n欢迎使用 TGwear 应用！\n首先，我们建议加入我们的官方 Telegram 群组以获得支持。你可以点击以下链接加入：\nhttps://t.me/teleTGwear\n\n这里有一个快速指南可以帮助你使用该应用：\n\n消息边框长按会显示更多功能\n在聊天页面上，点击标题即可输入聊天信息以获取更多详细信息。\n长按并拖动文本以选择和复制。\n在图像查看器中，长按图像即可将其保存到你的图库。\n长按代理页面上的项目即可删除代理\n\nTGwear 是开源且免费的。如果你想支持我们的开发，请考虑点击下面的按钮进行捐赠。\n\n我们希望你喜欢使用 TGwear！</string>  
     <string name="donate_activity">捐款活动</string>  
     <string name="Donate">捐赠</string>  
     <string name="Telegram_not_connected">没有连接（也许您没有登录）</string>  
@@ -205,10 +202,7 @@
     <string name="Apply_notification_permissions">申请通知权限</string>  
     <string name="global_scale_factor">全局缩放系数</string>  
     <string name="ui_test">UI测试</string>  
-    <string name="Remind2">你好！\n欢迎使用 TGwear 应用！\n\n我们建议你完整阅读说明，以避免出现不必要的帮助\n\n首先，我们建议您加入我们的官方 Telegram 群组以获得支持。您可以点击以下链接加入:\nhttps://t.me/teleTGwear\n\n以下是帮助您使用该应用的快速指南：\n\n在初次使用的时候，请你在UI设置手动调整到最佳显示缩放\n长按消息边框以显示更多功能\n在聊天页面，向左滑动屏幕以进入消息发送页面，点击标题进入聊天消息以获取更多详细信息。\n在某些页面长按并拖动文本以选择和复制。\n在图像查看器中，长按图像可将其保存到您的图库。\n长按代理页面上的某个项目可删除代理\n\nTGwear 是开源且免费的。如果您想支持我们的开发，请考虑点击下面的按钮进行捐赠。\n\n我们希望您喜欢使用 TGwear！</string>  
-    <string name="Remind3">你好！\n欢迎使用 TGwear 应用！\n\n我们建议你完整阅读说明，以避免出现不必要的帮助\n\n首先，我们建议您加入我们的官方 Telegram 群组以获得支持。您可以点击以下链接加入:\nhttps://t.me/teleTGwear\n\n以下是帮助您使用该应用的快速指南：\n\n在初次使用的时候，请你在UI设置手动调整到最佳显示缩放\n长按消息边框或发送者名称以显示更多功能\n在聊天页面，向左滑动屏幕以进入消息发送页面，点击标题进入聊天消息以获取更多详细信息。\n在某些页面长按并拖动文本以选择和复制。\n在图像查看器中，长按图像可将其保存到您的图库。\n长按代理页面上的某个项目可删除代理\n\nTGwear 是开源且免费的。如果您想支持我们的开发，请考虑点击下面的按钮进行捐赠。\n\n我们希望您喜欢使用 TGwear！</string>  
-    <string name="Remind4">TGwear 将停止更新，请使用 TGwear以获得更好的支持\nhttps://github.com/tgwear/tgwear\n\n你好！\n欢迎使用 TGwear 应用！\n\n我们建议你完整阅读说明，以避免出现不必要的帮助\n\n首先，我们建议您加入我们的官方 Telegram 群组以获得支持。您可以点击以下链接加入:\nhttps://t.me/teleTGwear\n\n以下是帮助您使用该应用的快速指南：\n\n在初次使用的时候，请你在UI设置手动调整到最佳显示缩放\n长按消息边框或发送者名称以显示更多功能\n在聊天页面，向左滑动屏幕以进入消息发送页面，点击标题进入聊天消息以获取更多详细信息。\n在某些页面长按并拖动文本以选择和复制。\n在图像查看器中，长按图像可将其保存到您的图库。\n长按代理页面上的某个项目可删除代理\n\nTGwear 是开源且免费的。如果您想支持我们的开发，请考虑点击下面的按钮进行捐赠。\n\n我们希望您喜欢使用 TGwear！</string>  
-    <string name="test_notification">测试通知</string>
+    <string name="test_notification">测试通知</string>  
     <string name="FCM_state">FCM状态</string>  
     <string name="mark_as_read">标记为阅读</string>  
     <string name="view_activity">查看活动</string>  
@@ -219,5 +213,14 @@
     <string name="Login_With_QR">二维码登录</string>  
     <string name="Connecting_Telegram_Sever">连接到电报服务器…\n中国大陆内无法使用</string>  
     <string name="Topic">话题</string>  
-    <string name="Remind5">您好！\n歡迎使用 TGwear 應用程式！\n\n我們強烈建議您完整閱讀以下使用說明，以避免不必要的問題。\n\n首先，請加入我們的官方 Telegram 支援群組，您可點擊以下連結加入：\nhttps://t.me/teleTGwear\n\n以下是快速上手指南：\n\n首次使用時，請在「設定 → UI」中手動調整顯示縮放比例，以獲得最佳瀏覽體驗。\n長按訊息邊框或發送者名稱，可顯示更多操作選項。\n在聊天畫面中，向左滑動可前往訊息傳送頁面；點擊標題可查看該聊天的詳細資訊。\n在部分畫面中，長按並拖曳文字可選取並複製。\n於圖片檢視器中，長按圖片可將其儲存至相簿。\n\n在代理頁面中，長按一項代理即可刪除該項目。\n在回覆或轉傳模式下，點擊上方的「回覆」或「轉傳」標題可退出該模式。\n\nTGwear 為開放原始碼專案，您可透過 GitHub 申請取得原始碼。</string>
+    <string name="Remind5">你好！\n欢迎使用 TGwear 应用！\n\n我们强烈建议您完整阅读以下使用说明，以避免不必要的问题。\n\n首先，欢迎加入我们的官方 Telegram 支持群，点击以下链接即可加入：\nhttps://t.me/teleTGwear\n\n以下是快速入门指南：\n\n首次使用时，请在“设置 → UI”中手动调整显示缩放比例，以获得最佳视图效果。\n长按消息边框或发送者姓名可打开更多操作选项。\n在聊天界面中，向左滑动可进入消息发送页面；点击顶部标题可查看该聊天的详细信息。\n在部分界面中，长按并拖动文字可进行选择和复制。\n在图片查看器中，长按图片可将其保存到您的图库。\n\n在代理页面，长按某一条代理项即可将其删除。\n在回复或转发模式下，点击上方的“回复”或“转发”标题可退出该模式。\n\nTGwear 是开源项目，您可以通过 GitHub 请求获取其源代码。</string>  
+    <string name="joined_the_group">加入了小组</string>  
+    <string name="data_collection_description">我们使用Firebase Crashlytics匿名收集崩溃报告，跟踪最常用的功能，并收集使用模式数据以使TGwear更加用户友好。您可以在设置中的任何时间禁用此功能。</string>  
+    <string name="Donation_version">捐赠版</string>  
+    <string name="Free_Version">免费版</string>  
+    <string name="notice_about_4">该软件是开源的</string>  
+    <string name="notice_about_5">如果发现它有用，请考虑在Google Play上购买或通过捐赠页面上的说明捐款</string>  
+    <string name="notice_about_6">这是捐赠版本</string>  
+    <string name="notice_about_7">我们感谢您的支持</string>  
+    <string name="Language">语言</string>
 </resources>

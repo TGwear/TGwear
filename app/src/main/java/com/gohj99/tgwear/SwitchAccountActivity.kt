@@ -12,7 +12,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
@@ -45,7 +44,7 @@ import com.gohj99.tgwear.utils.telegram.setFCMToken
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 
-class SwitchAccountActivity : ComponentActivity() {
+class SwitchAccountActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

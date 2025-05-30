@@ -9,7 +9,6 @@
 package com.gohj99.tgwear
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,7 +34,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.drinkless.tdlib.TdApi
 
-class ChatInfoActivity : ComponentActivity() {
+class ChatInfoActivity : BaseActivity() {
     private var tgApi: TgApi? = null
     private var chat: Chat? = null
 

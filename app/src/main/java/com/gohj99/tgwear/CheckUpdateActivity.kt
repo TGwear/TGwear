@@ -16,7 +16,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -63,7 +62,7 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 
-class CheckUpdateActivity : ComponentActivity() {
+class CheckUpdateActivity : BaseActivity() {
     private var downloadId: Long = -1
     private var fileName = ""
     private var filePath = ""

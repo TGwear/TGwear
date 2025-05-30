@@ -19,7 +19,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
@@ -60,7 +59,9 @@ import com.gohj99.tgwear.model.tgFile
 import com.gohj99.tgwear.ui.main.ErrorScreen
 import com.gohj99.tgwear.ui.main.SplashLoadingScreen
 import com.gohj99.tgwear.ui.theme.TGwearTheme
-import com.gohj99.tgwear.utils.telegram.*
+import com.gohj99.tgwear.utils.telegram.TgApi
+import com.gohj99.tgwear.utils.telegram.downloadPhoto
+import com.gohj99.tgwear.utils.telegram.getMessageTypeById
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -71,7 +72,7 @@ import org.drinkless.tdlib.TdApi
 import java.io.File
 import java.io.FileOutputStream
 
-class ViewActivity : ComponentActivity() {
+class ViewActivity : BaseActivity() {
     private var tgApi: TgApi? = null
     private var exceptionState by mutableStateOf<Exception?>(null)
 

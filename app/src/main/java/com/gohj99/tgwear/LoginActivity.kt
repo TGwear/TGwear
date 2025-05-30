@@ -19,7 +19,6 @@ import android.os.Handler
 import android.os.Looper
 import android.util.TypedValue
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
@@ -52,7 +51,7 @@ import java.io.IOException
 import java.security.SecureRandom
 import java.util.Properties
 
-class LoginActivity : ComponentActivity() {
+class LoginActivity : BaseActivity() {
     private lateinit var client: Client
     private lateinit var languageCode: String
     private lateinit var appVersion: String

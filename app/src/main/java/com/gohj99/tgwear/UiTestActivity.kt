@@ -9,12 +9,11 @@
 package com.gohj99.tgwear
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.gohj99.tgwear.ui.theme.TGwearTheme
 
-class UiTestActivity : ComponentActivity() {
+class UiTestActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

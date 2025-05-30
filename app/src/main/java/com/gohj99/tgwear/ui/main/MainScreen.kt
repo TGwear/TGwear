@@ -57,6 +57,7 @@ fun MainScreen(
     contacts: MutableState<List<Chat>>,
     topTitle: MutableState<String>,
     chatsFoldersList: MutableState<List<TdApi.ChatFolder>>,
+    mainChatListPosition: MutableState<Int>,
     currentUserId: MutableState<Long>
 ) {
     val archivedChats = stringResource(id = R.string.Archived_Chats)
@@ -78,8 +79,9 @@ fun MainScreen(
 
     LaunchedEffect(chatsFoldersList.value) {
         allPages = mutableListOf<String>().apply {
-            add(home)
+            //add(home)
             addAll(chatsFoldersList.value.map { it.title })
+            add(mainChatListPosition.value, home)
             addAll(lastPages.toList())
         }
         if (nowPage > allPages.size) {
@@ -148,7 +150,7 @@ fun MainScreen(
                 }
             )
         } else {
-            if (nowPage < (allPages.size - lastPages.size) && nowPage != 0) {
+            if (nowPage < (allPages.size - lastPages.size) && nowPage != mainChatListPosition.value) {
                 if (allPages[nowPage] in chatsFoldersList.value.map { it.title }) {
                     ChatLazyColumn(
                         itemsList = chats,
@@ -241,7 +243,8 @@ fun MainScreenPreview() {
             contacts = remember { mutableStateOf(listOf()) },
             topTitle = remember { mutableStateOf("Home") },
             currentUserId = remember { mutableStateOf(-1) },
-            chatsFoldersList = remember { mutableStateOf(listOf()) }
+            chatsFoldersList = remember { mutableStateOf(listOf()) },
+            mainChatListPosition = mutableStateOf(0)
         )
     }
 }

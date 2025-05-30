@@ -277,16 +277,18 @@ fun SendMessageCompose(
         }
     } else {
         // 消息主题选择
-        if (chatTopics.keys.isNotEmpty()) {
-            TextDropdown(
-                options = chatTopics,
-                onItemSelected = { select ->
-                    selectTopicId.value = select
-                },
-                title = stringResource(R.string.Topic),
-                select = selectTopicId,
-                modifier = Modifier.padding(10.dp)
-            )
+        if (planEditMessage.value != null) {
+            if (chatTopics.keys.isNotEmpty()) {
+                TextDropdown(
+                    options = chatTopics,
+                    onItemSelected = { select ->
+                        selectTopicId.value = select
+                    },
+                    title = stringResource(R.string.Topic),
+                    select = selectTopicId,
+                    modifier = Modifier.padding(10.dp)
+                )
+            }
         }
 
         InputBar(

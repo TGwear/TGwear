@@ -9,7 +9,6 @@
 package com.gohj99.tgwear
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,7 +34,7 @@ import com.gohj99.tgwear.ui.CustomButton
 import com.gohj99.tgwear.ui.theme.TGwearTheme
 import com.gohj99.tgwear.ui.verticalRotaryScroll
 
-class IsBetaActivity : ComponentActivity() {
+class IsBetaActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

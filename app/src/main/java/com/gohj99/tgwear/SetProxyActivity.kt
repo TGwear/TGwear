@@ -11,7 +11,6 @@ package com.gohj99.tgwear
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
@@ -54,7 +53,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.drinkless.tdlib.TdApi
 
-class SetProxyActivity : ComponentActivity() {
+class SetProxyActivity : BaseActivity() {
     private var tgApi: TgApi? = null
     private var tgProxies = mutableStateOf(TdApi.Proxies())
 

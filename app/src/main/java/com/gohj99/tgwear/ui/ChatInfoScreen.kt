@@ -157,12 +157,14 @@ deleteChat: (() -> Unit)? = null
                                 Spacer(Modifier.width(12.dp))
                                 Column {
                                     Spacer(Modifier.height(1.5.dp))
-                                    Text(
-                                        text = chatObject.title,
-                                        color = Color.White,
-                                        style = MaterialTheme.typography.titleMedium,
-                                        fontWeight = FontWeight.Bold
-                                    )
+                                    SelectionContainer{
+                                        Text(
+                                            text = chatObject.title,
+                                            color = Color.White,
+                                            style = MaterialTheme.typography.titleMedium,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                    }
 
                                     Spacer(Modifier.height(5.dp))
 

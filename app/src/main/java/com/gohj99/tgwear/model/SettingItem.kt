@@ -33,4 +33,6 @@ sealed class SettingItem(val name: String) {
         val onProgressChange: (Float) -> Unit,
         val color: Color = Color(0xFF404953)
     ) : SettingItem(itemName)
+
+    data class None(val itemName: String = "None") : SettingItem(itemName)
 }

@@ -554,9 +554,12 @@ internal fun TgApi.handleChatReadOutboxUpdate(update: TdApi.UpdateChatReadOutbox
 
 // 获取聊天文件夹
 internal fun TgApi.handleChatFoldersUpdate(update: TdApi.UpdateChatFolders) {
+    //println(update)
     chatsFoldersList.value = emptyList()
     update.chatFolders?.let { chatFolders ->
         CoroutineScope(Dispatchers.IO).launch {
+            // 更新mainChatListPosition
+            mainChatListPosition.value = update.mainChatListPosition
             // 将每个异步任务放入列表
             val foldersInfo = chatFolders.map { chatFolder ->
                 async { getChatFolderInfo(chatFolder.id) }

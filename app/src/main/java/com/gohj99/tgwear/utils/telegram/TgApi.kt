@@ -30,6 +30,7 @@ class TgApi(
     internal val userId: String = "",
     internal val topTitle: MutableState<String>,
     internal val chatsFoldersList: MutableState<List<TdApi.ChatFolder>>,
+    internal val mainChatListPosition: MutableState<Int>,
     internal val onPaused: MutableState<Boolean>
 ) {
     var saveChatId = 0L

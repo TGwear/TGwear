@@ -70,7 +70,6 @@
     <string name="Clear_videos">Klara filmetoj</string>  
     <string name="error_activity_view">Erarpaĝo</string>  
     <string name="allow_data_Collection">Permesu Kolekton de Datumoj</string>  
-    <string name="data_collection_description">Ni uzas la malfermfontan kolektan ilon ACRA por anonime kolekti kraŝraportojn, spuri la plej ofte uzatajn funkciojn kaj kolekti uzajn ŝablonojn por fari TGwear pli afabla. Vi povas malŝalti ĉi tiun funkcion iam ajn en la agordoj.</string>  
     <string name="data_collection_title">Anonimaj Statistikoj\nFrakasa Raportado</string>  
     <string name="disagree">Ne</string>  
     <string name="agree">JES</string>  
@@ -108,7 +107,6 @@
     <string name="Search">Serĉu</string>  
     <string name="Network_setting">Reta Agordo</string>  
     <string name="Unknown_chat">Nekonata Babilejo</string>  
-    <string name="acra_toast_text">La programaro renkontis eraron kaj ĝi estis raportita. Bonvolu rekomenci la programaron.</string>  
     <string name="author">Aŭtoro</string>  
     <string name="Famous_Quotes">Famaj Citaĵoj</string>  
     <string name="notice">Rimarku</string>  
@@ -184,7 +182,6 @@
     <string name="Bot">bot</string>  
     <string name="Bio">Estis</string>  
     <string name="Deleted_message">Forigita mesaĝo</string>  
-    <string name="Remind1">Saluton! \nwelcome al la TGwear -programo! \nfirst, ni rekomendas aliĝi al nia oficiala telegrama grupo por subteno. Vi povas aliĝi alklakante la suban ligon: \nhttps: //t.me/teleTGwear \n \nhere \ \'estas rapida gvidilo por helpi vin uzi la aplikon: \n \nlong-press sur la mesaĝa limo por malkaŝi pli da funkcioj \ne la babileja paĝo, enigu babilejan mesaĝon per frapado de la titolo por akiri pli da detaloj. \nlong-press kaj trenu tekston por elekti kaj kopii. \ Nin la bilda spektanto, longa premo sur bildo por konservi ĝin en via galerio. \nlong-press sur ero en la paĝo Proxies por forigi predilojn \n \nTGwear estas malferma fonto kaj senpaga. Se vi volas subteni nian disvolviĝon, bonvolu konsideri donaci alklakante la suban butonon. \n \nwe esperas, ke vi ĝuos uzi TGwear!</string>  
     <string name="Write_message">Skribu mesaĝon …</string>  
     <string name="Forward">Antaŭen</string>  
     <string name="Archived_Chats">Arkivitaj babiloj</string>  
@@ -205,7 +202,6 @@
     <string name="Apply_notification_permissions">Petu sciigajn permesojn</string>  
     <string name="global_scale_factor">Tutmonda Skala Faktoro</string>  
     <string name="ui_test">UI -testo</string>  
-    <string name="Remind2">Saluton! \nwelcome al la TGwear -programo! \n \nwe rekomendas ke vi legu la instrukciojn plene por eviti nenecesan helpon \n \nfirst, ni rekomendas ke vi aliĝu al nia oficiala telegrama grupo por subteno. Vi povas aliĝi alklakante la jenan ligon: \nhttps: //t.me/teleTGwear \n \nhere estas rapida gvidilo por helpi vin uzi la aplikon: \n \nwhen uzante ĝin por la unua fojo, bonvolu permane ĝustigi al la plej bona ekrano zoom en la UI -agordo por pli dati la mesaĝon. \nlong Premu kaj trenu tekston sur iuj paĝoj por elekti kaj kopii. \ Nin La Bildo -Vidilo, longe premu bildon por konservi ĝin en via galerio. \nlong Premu eron sur la agento -paĝo por forigi la agenton \n \nTGwear estas malferma fonto kaj senpaga. Se vi volas subteni nian disvolviĝon, bonvolu konsideri alklaki la suban butonon por donaci. \n \nwe esperas, ke vi ĝuos uzi TGwear!</string>  
     <string name="test_notification">Test -sciigo</string>  
     <string name="FCM_state">FCM -ŝtato</string>  
     <string name="mark_as_read">Marko kiel legita</string>  
@@ -215,9 +211,16 @@
     <string name="Verify_Code">Konfirmu kodon</string>  
     <string name="Send_Verify_Code">Sendu kodon</string>  
     <string name="Login_With_QR">Ensalutu kun QR</string>  
-    <string name="Remind3">Saluton! \nwelcome al la TGwear -programo! \n \nwe rekomendas ke vi legu la instrukciojn tute por eviti iujn nenecesajn problemojn. \ N \nfirst, ni sugestas aliĝi al nia oficiala telegrama grupo por subteno. Vi povas aliĝi alklakante la suban ligon: \nhttps: //t.me/teleTGwear \n \nhere estas rapida gvidilo por helpi vin komenci: \n \non unua uzo, bonvolu permane ĝustigi la ekranan skalon en la UI -agordoj por optimuma spektado. Frapetu la kaplinion por vidi pli da detaloj pri babileja mesaĝo. \ Ne iuj ekranoj, longa premo kaj trenu tekston por elekti kaj kopii ĝin. \ Nin la bilda spektanto, longe premu bildon por konservi ĝin en via galerio. \ N \non la prokura paĝo, longe premas eniron por forigi tiun prokraston. \n \nTGwear estas malferma -s -ro kaj senpaga. Se vi ŝatus subteni nian disvolviĝon, bonvolu konsideri alklaki la suban butonon por fari donacon. \ N \nwe esperas, ke vi ĝuos uzi TGwear!</string>  
     <string name="Connecting_Telegram_Sever">Konekti al Telegram -Servilo …</string>  
     <string name="Topic">Temo</string>  
-    <string name="Remind4">TGwear ĉesos ĝisdatigi. Bonvolu uzi tgwear \nhttps: //github.com/tgwear/tgwear \n \nhello! \nwelcome al la TGwear -programo! \n \nwe rekomendas ke vi legu la instrukciojn tute por eviti iujn nenecesajn problemojn. \ N \nfirst, ni sugestas aliĝi al nia oficiala telegrama grupo por subteno. Vi povas aliĝi alklakante la suban ligon: \nhttps: //t.me/teleTGwear \n \nhere estas rapida gvidilo por helpi vin komenci: \n \non unua uzo, bonvolu permane ĝustigi la ekranan skalon en la UI -agordoj por optimuma spektado. Frapetu la kaplinion por vidi pli da detaloj pri babileja mesaĝo. \ Ne iuj ekranoj, longa premo kaj trenu tekston por elekti kaj kopii ĝin. \ Nin la bilda spektanto, longe premu bildon por konservi ĝin en via galerio. \ N \non la prokura paĝo, longe premas eniron por forigi tiun prokraston. \n \nTGwear estas malferma -s -ro kaj senpaga. Se vi ŝatus subteni nian disvolviĝon, bonvolu konsideri alklaki la suban butonon por fari donacon. \ N \nwe esperas, ke vi ĝuos uzi TGwear!</string>  
-    <string name="Remind5">Saluton! \nBonvenon al la TGwear-aplikaĵo! \n\nNi forte rekomendas al vi legi la instrukciojn plene por eviti nenecesajn problemojn.\n\nUnue, ni invitas vin aliĝi al nia oficiala Telegram-grupo por subteno. Vi povas aliĝi per la jena ligilo:\nhttps://t.me/teleTGwear\n\nJen rapida gvidilo por helpi vin komenci:\n\nJe la unua uzo, bonvolu permane agordi la ekranan skaladon en la UI-agordoj por optimuma vidado.\nLonga premo sur mesaĝlimo aŭ la sendinto montras pliajn opciojn.\nEn la babilekrano, svingu maldekstren por iri al la mesaĝ-sendpaĝo; frapu la kaplinion por vidi pli da detaloj pri la babilejo.\nEn iuj ekranoj, vi povas longe premi kaj treni tekston por elekti kaj kopii ĝin.\nEn la bildrigardilo, longe premu bildon por konservi ĝin en via galerio.\n\nEn la prokura paĝo, longe premu enskribon por forigi tiun prokurilon.\nEn responda aŭ plusendanta reĝimo, frapu la titolon „Respondi“ aŭ „Plusendi“ supre por eliri.\n\nTGwear estas malfermkoda, kaj vi povas peti la fontkodon ĉe GitHub.</string>
+    <string name="Remind5">Saluton! \nBonvenon al la TGwear-aplikaĵo! \n\nNi forte rekomendas al vi legi la instrukciojn plene por eviti nenecesajn problemojn.\n\nUnue, ni invitas vin aliĝi al nia oficiala Telegram-grupo por subteno. Vi povas aliĝi per la jena ligilo:\nhttps://t.me/teleTGwear\n\nJen rapida gvidilo por helpi vin komenci:\n\nJe la unua uzo, bonvolu permane agordi la ekranan skaladon en la UI-agordoj por optimuma vidado.\nLonga premo sur mesaĝlimo aŭ la sendinto montras pliajn opciojn.\nEn la babilekrano, svingu maldekstren por iri al la mesaĝ-sendpaĝo; frapu la kaplinion por vidi pli da detaloj pri la babilejo.\nEn iuj ekranoj, vi povas longe premi kaj treni tekston por elekti kaj kopii ĝin.\nEn la bildrigardilo, longe premu bildon por konservi ĝin en via galerio.\n\nEn la prokura paĝo, longe premu enskribon por forigi tiun prokurilon.\nEn responda aŭ plusendanta reĝimo, frapu la titolon „Respondi“ aŭ „Plusendi“ supre por eliri.\n\nTGwear estas malfermkoda, kaj vi povas peti la fontkodon ĉe GitHub.</string>  
+    <string name="joined_the_group">aliĝis al la grupo</string>  
+    <string name="data_collection_description">Ni uzas Firebase Crashlytics por anonime kolekti kraŝajn raportojn, spuri la plej ofte uzitajn funkciojn kaj kolekti uzajn ŝablonajn datumojn por fari TGwear pli uzebla. Vi povas malebligi ĉi tiun funkcion en ajna momento en la agordoj.</string>  
+    <string name="Donation_version">Donaca Versio</string>  
+    <string name="Free_Version">Senpaga versio</string>  
+    <string name="notice_about_4">Ĉi tiu programaro estas malferma fonto.</string>  
+    <string name="notice_about_5">Se vi trovas ĝin utila, bonvolu konsideri aĉeti ĝin en Google Play aŭ donaci per la instrukcioj sur la donacpaĝo.</string>  
+    <string name="notice_about_6">Jen la donaca versio.</string>  
+    <string name="notice_about_7">Ni sincere dankas vian subtenon.</string>  
+    <string name="Language">Lingvo</string>
 </resources>
