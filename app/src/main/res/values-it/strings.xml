@@ -202,7 +202,7 @@
     <string name="Send_Verify_Code">Invia codice di verifica</string>  
     <string name="Login_With_QR">Accedi con QR code</string>  
     <string name="Connecting_Telegram_Sever">Connessione al server Telegram …</string>  
-    <string name="Topic">Argomento</string>  
+    <string name="Topic">Topic</string>  
     <string name="Remind5">Ciao! \ Benvenuto nell\'app TGWare! \n Ti raccomandiamo di leggere le istruzioni per evitare eventuali problemi d\'uso. \n Prima ti consigliamo di entrare a far parte del nostro gruppo ufficiale Telegram per il supporto. È possibile partecipare facendo clic sul link in basso: \nhttps://t.me/teletgwear \n \n Questa è una guida rapida per aiutarti a iniziare: \n nel primo utilizzo, regola manualmente il ridimensionamento del display nelle impostazioni dell\'interfaccia utente per garantire la visualizzazione del messaggio. Tocca l\'intestazione per visualizzare le informazioni dettagliate sulla chat. \ Schermate non applicabili, premere per qulache istante e trascina per selezionare e copiare il testo. \ Nel visualizzatore di immagini, premere per qualche istante sull\'immagine per salvarla nella galleria del tuo dispositivo. \n nella pagina proxy, premere per qualche istante per rimuovere l\'accesso per il proxy. Github.</string>  
     <string name="joined_the_group">Si è unito al gruppo</string>  
     <string name="data_collection_description">Usiamo Firebase Crashlytics per raccogliere rapporti anonimi sugli arresti anomali, tenere traccia delle funzionalità più frequentemente utilizzate e raccogliere i dati sul pattern di utilizzo per rendere TGwear più facili da usare. È possibile disabilitare questa funzione in qualsiasi momento nelle impostazioni.</string>  
