@@ -8,7 +8,7 @@
   -->
 <resources> 
     <string name="Start_messaging">Inizia a messaggiare</string>  
-    <string name="Welcome_to_app">Benvenuti nell\'app TGWare</string>  
+    <string name="Welcome_to_app">Benvenuti nell\'app TGware</string>  
     <string name="Network">Rete</string>  
     <string name="Settings">Impostazioni</string>  
     <string name="Clearing_cache">Cancella cache</string>  
