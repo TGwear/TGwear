@@ -36,7 +36,7 @@ fun MessageBottomFunctionalCompose(
     chatId: Long
 ) {
     val coroutineScope = rememberCoroutineScope()
-    var chatReadList = tgApi?.chatReadList!!
+    val chatReadList = tgApi?.chatReadList!!
 
     if (listState.firstVisibleItemIndex != 0 || listState.firstVisibleItemScrollOffset > 10240) {
         // 滑动最下面

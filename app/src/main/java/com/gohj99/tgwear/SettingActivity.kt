@@ -312,6 +312,34 @@ class SettingActivity : BaseActivity() {
                 title = getString(R.string.App_setting)
                 settingsList.value = listOf(
                     SettingItem.ProgressBar(
+                        itemName = getString(R.string.Delay_read_session_time) + " " + getString(R.string.Donation_version_features),
+                        progress = settingsSharedPref.getFloat("Delay_read_session_time", 0.3f),
+                        maxValue = 3.5f,
+                        minValue = 0f,
+                        base = 0.01f,
+                        onProgressChange = { size ->
+                            if (installer == "com.android.vending") {
+                                with(settingsSharedPref.edit()) {
+                                    putFloat("Delay_read_session_time", size)
+                                    apply()
+                                }
+                            }
+                        }
+                    ),
+                    SettingItem.ProgressBar(
+                        itemName = getString(R.string.Maximum_preload_messages),
+                        progress = settingsSharedPref.getInt("Maximum_preload_messages", 100).toFloat(),
+                        maxValue = 500f,
+                        minValue = 10f,
+                        base = 1f,
+                        onProgressChange = { size ->
+                            with(settingsSharedPref.edit()) {
+                                putInt("Maximum_preload_messages", size.toInt())
+                                apply()
+                            }
+                        }
+                    ),
+                    SettingItem.ProgressBar(
                         itemName = getString(R.string.Message_preload_quantity),
                         progress = settingsSharedPref.getInt("Message_preload_quantity", 10).toFloat(),
                         maxValue = 50f,
@@ -714,6 +742,16 @@ class SettingActivity : BaseActivity() {
                         onClick = {
                             with(settingsSharedPref.edit()) {
                                 putString("app_lang", "ru")
+                                apply()
+                            }
+                            restartSelf()
+                        }
+                    ),
+                    SettingItem.Click(
+                        itemName = "Italiano",
+                        onClick = {
+                            with(settingsSharedPref.edit()) {
+                                putString("app_lang", "it")
                                 apply()
                             }
                             restartSelf()

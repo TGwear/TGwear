@@ -14,6 +14,7 @@ import android.content.ClipboardManager
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -72,6 +73,9 @@ class ChatActivity : BaseActivity() {
     private val listState = LazyListState()
     private var inputText = mutableStateOf("")
     private var chatTopics = mutableMapOf<Long, String>()
+    private val settingsSharedPref: SharedPreferences by lazy {
+        getSharedPreferences("app_settings", MODE_PRIVATE)
+    }
 
     @SuppressLint("AutoboxingStateCreation")
     private var currentUserId = mutableStateOf(-1L) // 使用 MutableState 来持有当前用户 ID
@@ -236,6 +240,23 @@ class ChatActivity : BaseActivity() {
                         inputText.value = it.text
                     }
                 }
+
+                // 获取未读会话数量，并跳转到未读消息
+                TgApiManager.tgApi?.chatReadList!![safeChat.id]?.takeIf { it > 0 }?.let { unreadCount ->
+                    if (unreadCount <= settingsSharedPref.getInt("Maximum_preload_messages", 100)) {
+                        while (true) {
+                            //println("加载消息中")
+                            TgApiManager.tgApi?.fetchMessagesSuspend(fromMessageId = chatList.value.lastOrNull()?.id ?: -1L,nowChatId = safeChat.id)
+                            //val readMessage = chatList.value.find { it.id <= lastReadOutboxMessageId.value }
+                            //println(chatList.value.lastOrNull()?.id)
+                            //println(lastReadInboxMessageId.value)
+                            if (chatList.value.size >= unreadCount) {
+                                break
+                            }
+                        }
+                    }
+                }
+
                 runOnUiThread {
                     setContent {
                         TGwearTheme {
@@ -475,6 +496,11 @@ class ChatActivity : BaseActivity() {
                                 currentUserId = currentUserId,
                                 chatTopics = chatTopics
                             )
+                        }
+                    }
+                    TgApiManager.tgApi?.chatReadList!![safeChat.id]?.takeIf { it > 0 }?.let { unreadCount ->
+                        lifecycleScope.launch {
+                            listState.scrollToItem(unreadCount)
                         }
                     }
                 }

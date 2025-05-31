@@ -222,5 +222,8 @@
     <string name="notice_about_5">Wenn Sie es nützlich finden, erwägen Sie, es bei Google Play zu kaufen oder über die Anweisungen auf der Spendenseite zu spenden.</string>  
     <string name="notice_about_6">Dies ist die Spendenversion.</string>  
     <string name="notice_about_7">Wir schätzen Ihre Unterstützung aufrichtig.</string>  
-    <string name="Language">Sprache</string>
+    <string name="Language">Sprache</string>  
+    <string name="Maximum_preload_messages">Maximale Anzahl von Nachrichten, die im Voraus geladen werden sollen (je größer der Wert ist, desto länger dauert es, die Sitzung zu laden).</string>  
+    <string name="Delay_read_session_time">Verzögerung der Sitzungszeit (s).</string>
+    <string name="Donation_version_features">Spendenversion Features</string>
 </resources>

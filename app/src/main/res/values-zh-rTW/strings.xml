@@ -218,9 +218,12 @@
     <string name="data_collection_description">我們使用Firebase Crashlytics匿名收集崩潰報告，跟踪最常用的功能，並收集使用模式數據以使TGwear更加用戶友好。您可以在設置中的任何時間禁用此功能。</string>  
     <string name="Donation_version">捐贈版</string>  
     <string name="Free_Version">免費版</string>  
-    <string name="notice_about_4">該軟件是開源的</string>  
+    <string name="notice_about_4">本軟體在GitHub上開源</string>  
     <string name="notice_about_5">如果發現它有用，請考慮在Google Play上購買或通過捐贈頁面上的說明捐款</string>  
-    <string name="notice_about_6">這是捐贈版本</string>  
-    <string name="notice_about_7">我們感謝您的支持</string>  
-    <string name="Language">語言</string>
+    <string name="notice_about_6">你已向我們捐贈</string>  
+    <string name="notice_about_7">感謝您的支持</string>  
+    <string name="Language">語言</string>  
+    <string name="Maximum_preload_messages">提前加載消息的最大數量（值越大，加載會話所需的時間越長）</string>  
+    <string name="Delay_read_session_time">延遲閱讀會話時間(s)</string>
+    <string name="Donation_version_features">捐贈版本功能</string>
 </resources>

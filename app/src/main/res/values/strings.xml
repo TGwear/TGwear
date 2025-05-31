@@ -224,4 +224,7 @@
     <string name="notice_about_6">This is the donation version.</string>
     <string name="notice_about_7">We sincerely appreciate your support.</string>
     <string name="Language">Language</string>
+    <string name="Maximum_preload_messages">Maximum number of messages to load in advance (the larger the value, the longer it takes to load the session)</string>
+    <string name="Delay_read_session_time">Delay read session time(s).</string>
+    <string name="Donation_version_features">Donation version features</string>
 </resources>
