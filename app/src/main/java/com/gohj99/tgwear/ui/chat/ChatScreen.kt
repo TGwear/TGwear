@@ -36,6 +36,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -113,8 +114,7 @@ fun SplashChatScreen(
     // 获取context
     val context = LocalContext.current
 
-    //var isFloatingVisible by remember { mutableStateOf(true) }
-    var isLongPressed = remember { mutableStateOf(false) }
+    val isLongPressed = remember { mutableStateOf(false) }
     val selectMessage = remember {
         mutableStateOf(TdApi.Message())
     }
@@ -122,13 +122,13 @@ fun SplashChatScreen(
     val pagerState = rememberPagerState(pageCount = { 2 }, initialPage = 0)
     var notJoin by remember { mutableStateOf(chatObject.positions.isEmpty()) }
     val coroutineScope = rememberCoroutineScope()
-    var planReplyMessage = remember { mutableStateOf(tgApi!!.replyMessage.value) }
+    val planReplyMessage = remember { mutableStateOf(tgApi!!.replyMessage.value) }
     var planReplyMessageSenderName by rememberSaveable { mutableStateOf("") }
-    var planEditMessage = remember { mutableStateOf<TdApi.Message?>((null)) }
-    var planEditMessageText = remember { mutableStateOf("") }
+    val planEditMessage = remember { mutableStateOf<TdApi.Message?>((null)) }
+    val planEditMessageText = remember { mutableStateOf("") }
     val scrollState = rememberScrollState()
     val selectTopicId = rememberSaveable { mutableLongStateOf(0L) }
-    //var chatReadList = tgApi?.chatReadList!!
+    val installer = context.packageManager.getInstallerPackageName(context.packageName)
 
     // 获取show_unknown_message_type值
     val settingsSharedPref = context.getSharedPreferences("app_settings", Context.MODE_PRIVATE)
@@ -136,6 +136,9 @@ fun SplashChatScreen(
 
     // 获取加载内容数量
     val messagePreloadQuantity = settingsSharedPref.getInt("Message_preload_quantity", 10)
+
+    // 获取延迟已读时间
+    val delayReadSessionTime = if (installer == "com.android.vending") settingsSharedPref.getFloat("Delay_read_session_time", 0.3f) else 0.3f
 
     // 获取下滑按钮显示偏移量
     val downButtonOffset = settingsSharedPref.getInt("Down_Button_Offset", 25)
@@ -212,7 +215,7 @@ fun SplashChatScreen(
         snapshotFlow { listState.firstVisibleItemIndex }
             .collect { index ->
                 if (index >= chatList.value.size - messagePreloadQuantity) {
-                    tgApi?.fetchMessages(fromMessageId =  chatList.value.lastOrNull()?.id ?: -1L,nowChatId = chatId)
+                    tgApi?.fetchMessages(fromMessageId = chatList.value.lastOrNull()?.id ?: -1L,nowChatId = chatId)
                 }
             }
     }
@@ -301,10 +304,33 @@ fun SplashChatScreen(
                                 val textColor = if (isCurrentUser) Color(0xFF66D3FE) else Color(0xFFFEFEFE)
                                 val alignment = if (isCurrentUser) Arrangement.End else Arrangement.Start
                                 val modifier = if (isCurrentUser) Modifier.align(Alignment.End) else Modifier
-                                var stateDownloadDone = rememberSaveable { mutableStateOf(false) }
-                                var stateDownload = rememberSaveable { mutableStateOf(false) }
+                                val stateDownloadDone = rememberSaveable { mutableStateOf(false) }
+                                val stateDownload = rememberSaveable { mutableStateOf(false) }
+                                var hasScheduledRead by rememberSaveable(message.id) { mutableStateOf(false) }
 
-                                tgApi?.markMessagesAsRead(messageId = message.id, chatId = chatId)
+                                // 将消息已读代码
+                                // 检测：当前这一项在列表里是否可见
+                                val isVisible = remember(listState) {
+                                    // derivedStateOf 可以让这个 isVisible.value 自动在 listState 发生变化时更新
+                                    derivedStateOf {
+                                        // 获取当前屏幕上所有可见 Item 的 index 列表
+                                        val visibleIndices = listState.layoutInfo.visibleItemsInfo.map { it.index }
+                                        // 如果当前 index 在可见列表里，就认为已“渲染到屏幕上”
+                                        index in visibleIndices
+                                    }
+                                }
+                                // 当 isVisible.value == true 且还没调度过延迟已读（hasScheduledRead = false）时
+                                // 就启动 LaunchedEffect(message.id) 分支，先 delay(1000)，再标记已读
+                                if (isVisible.value && !hasScheduledRead) {
+                                    LaunchedEffect(message.id) {
+                                        // 等待，确保用户能“完整看到”这一条消息
+                                        kotlinx.coroutines.delay(delayReadSessionTime.toLong() * 1000L)
+                                        // 调用接口把这条消息标记为已读
+                                        tgApi?.markMessagesAsRead(messageId = message.id, chatId = chatId)
+                                        // 并将状态设为 true，避免重复调用
+                                        hasScheduledRead = true
+                                    }
+                                }
 
                                 MessageHandleCompose(
                                     message = message,

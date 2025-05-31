@@ -222,5 +222,8 @@
     <string name="notice_about_5">Если вы найдете это полезным, пожалуйста, рассмотрите возможность покупки в Google Play или пожертвовать с помощью инструкций на странице пожертвований.</string>  
     <string name="notice_about_6">Это версия пожертвования.</string>  
     <string name="notice_about_7">Мы искренне ценим вашу поддержку.</string>  
-    <string name="Language">Язык</string>
+    <string name="Language">Язык</string>  
+    <string name="Maximum_preload_messages">Максимальное количество сообщений для загрузки заранее (чем больше значение, тем дольше требуется для загрузки сеанса)</string>  
+    <string name="Delay_read_session_time">Задержка прочтения времени сеанса (s).</string>
+    <string name="Donation_version_features">Особенности версии пожертвования</string>
 </resources>

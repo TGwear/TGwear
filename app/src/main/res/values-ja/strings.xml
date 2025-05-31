@@ -222,5 +222,8 @@
     <string name="notice_about_5">便利だと思われる場合は、Google Playで購入するか、寄付ページの指示を介して寄付することを検討してください。</string>  
     <string name="notice_about_6">これは寄付バージョンです。</string>  
     <string name="notice_about_7">私たちはあなたのサポートに心から感謝します。</string>  
-    <string name="Language">言語</string>
+    <string name="Language">言語</string>  
+    <string name="Maximum_preload_messages">事前にロードするメッセージの最大数（値が大きいほど、セッションのロードに時間がかかります）</string>  
+    <string name="Delay_read_session_time">遅延セッション時間を読み取ります (s)。</string>
+    <string name="Donation_version_features">寄付バージョン機能</string>
 </resources>

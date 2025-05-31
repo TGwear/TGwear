@@ -222,5 +222,8 @@
     <string name="notice_about_5">Se vi trovas ĝin utila, bonvolu konsideri aĉeti ĝin en Google Play aŭ donaci per la instrukcioj sur la donacpaĝo.</string>  
     <string name="notice_about_6">Jen la donaca versio.</string>  
     <string name="notice_about_7">Ni sincere dankas vian subtenon.</string>  
-    <string name="Language">Lingvo</string>
+    <string name="Language">Lingvo</string>  
+    <string name="Maximum_preload_messages">Maksimuma nombro da mesaĝoj por ŝarĝi anticipe (ju pli granda estas la valoro, des pli longe ĝi bezonas por ŝarĝi la kunsidon)</string>  
+    <string name="Delay_read_session_time">Prokrasto Legu Sesio -Tempo (s).</string>
+    <string name="Donation_version_features">Donacaj versiaj funkcioj</string>
 </resources>

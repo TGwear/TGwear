@@ -253,6 +253,49 @@ class TgApi(
         }
     }
 
+    // 协程获取消息
+    suspend fun fetchMessagesSuspend(fromMessageId: Long = saveChatList.value.lastOrNull()?.id ?: -1L, nowChatId: Long = saveChatId, limit: Int = 10) {
+        if (nowChatId == saveChatId) {
+            if (fromMessageId != -1L) {
+                val getChatMessages = TdApi.GetChatHistory().apply {
+                    this.chatId = nowChatId
+                    this.limit = limit // 每次获取 limit 条消息
+                    this.fromMessageId = fromMessageId
+                }
+
+                if (!isExitChatPage){
+                    val result = sendRequest(getChatMessages)
+                    if (result.constructor == TdApi.Error.CONSTRUCTOR) {
+                        val error = result as TdApi.Error
+                        println("Get Chat Messages Error: ${error.message}")
+                    } else {
+                        val messages = result as TdApi.Messages
+                        if (messages.messages.isNotEmpty()) {
+                            val sortedMessages = messages.messages
+                                .toList()
+                                .sortedByDescending { it.date }
+                                .filterNot { message ->
+                                    saveChatList.value.any { it.id == message.id }
+                                }
+
+                            saveChatList.value = saveChatList.value.toMutableList().apply {
+                                if (nowChatId == saveChatId) {
+                                    addAll(sortedMessages) // 将新消息添加到列表最后面
+                                } else {
+                                    println("Discarded messages: $sortedMessages")
+                                }
+                            }
+                            // 继续加载更旧的消息
+                            if (fromMessageId == 0L) {
+                                fetchMessages(messages.messages.last().id)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     // 关闭连接
     fun close() {
         println("Closing client")

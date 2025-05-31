@@ -222,5 +222,8 @@
     <string name="notice_about_5">Si vous le trouvez utile, veuillez envisager de l\'acheter sur Google Play ou un don via les instructions sur la page de don.</string>  
     <string name="notice_about_6">Ceci est la version de don.</string>  
     <string name="notice_about_7">Nous apprécions sincèrement votre soutien.</string>  
-    <string name="Language">Langue</string>
+    <string name="Language">Langue</string>  
+    <string name="Maximum_preload_messages">Nombre maximum de messages à charger à l\'avance (plus la valeur est grande, plus il faut de temps pour charger la session)</string>  
+    <string name="Delay_read_session_time">Retarder les heures de session de lecture (s).</string>
+    <string name="Donation_version_features">Fonctionnalités de version de don</string>
 </resources>
