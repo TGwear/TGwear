@@ -756,6 +756,16 @@ class SettingActivity : BaseActivity() {
                             }
                             restartSelf()
                         }
+                    ),
+                    SettingItem.Click(
+                        itemName = "한국어",
+                        onClick = {
+                            with(settingsSharedPref.edit()) {
+                                putString("app_lang", "ko")
+                                apply()
+                            }
+                            restartSelf()
+                        }
                     )
                 )
             }
