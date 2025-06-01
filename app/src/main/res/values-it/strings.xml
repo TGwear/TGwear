@@ -7,7 +7,7 @@
   ~ Vestibulum commodo. Ut rhoncus gravida arcu.
   -->
 <resources> 
-    <string name="Start_messaging">Inizia a messaggiare</string>  
+    <string name="Start_messaging">Iniziamo...</string>  
     <string name="Welcome_to_app">Benvenuti nell\'app TGware</string>  
     <string name="Network">Rete</string>  
     <string name="Settings">Impostazioni</string>  
