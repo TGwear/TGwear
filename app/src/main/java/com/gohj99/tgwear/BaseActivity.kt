@@ -13,10 +13,16 @@ import androidx.activity.ComponentActivity
 
 abstract class BaseActivity : ComponentActivity() {
     override fun attachBaseContext(newBase: Context) {
+        val installer = newBase.packageManager.getInstallerPackageName(newBase.packageName)
         val prefs = newBase.getSharedPreferences("app_settings", MODE_PRIVATE)
         val lang = prefs.getString("app_lang", null)
-        val ctx = if (lang.isNullOrEmpty()) newBase
-        else LocaleHelper.setLocale(newBase, lang)
-        super.attachBaseContext(ctx)
+        if (installer == "com.android.vending") {
+            if (lang == "en") super.attachBaseContext(LocaleHelper.setLocale(newBase, lang))
+            else super.attachBaseContext(newBase)
+        } else {
+            val ctx = if (lang.isNullOrEmpty()) newBase
+            else LocaleHelper.setLocale(newBase, lang)
+            super.attachBaseContext(ctx)
+        }
     }
 }

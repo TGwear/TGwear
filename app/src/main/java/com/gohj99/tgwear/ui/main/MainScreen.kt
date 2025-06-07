@@ -78,12 +78,15 @@ fun MainScreen(
     var nowPage by remember { mutableIntStateOf(0) }
 
     LaunchedEffect(chatsFoldersList.value) {
-        allPages = mutableListOf<String>().apply {
-            //add(home)
-            addAll(chatsFoldersList.value.map { it.title })
-            add(mainChatListPosition.value, home)
-            addAll(lastPages.toList())
-        }
+        try {
+            allPages = mutableListOf<String>().apply {
+                //add(home)
+                addAll(chatsFoldersList.value.map { it.title })
+                add(mainChatListPosition.value, home)
+                addAll(lastPages.toList())
+            }
+        } catch (_: Exception) {}
+
         if (nowPage > allPages.size) {
             nowPage = 0
         }

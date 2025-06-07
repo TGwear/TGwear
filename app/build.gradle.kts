@@ -24,8 +24,8 @@ android {
         minSdk = 26
         //noinspection OldTargetApi
         targetSdk = 34
-        versionCode = 41
-        versionName = "3.0.5"
+        versionCode = 42
+        versionName = "3.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -129,7 +129,6 @@ dependencies {
     implementation(project(":libtd"))
     implementation(libs.lottie)
     implementation(libs.lottie.compose)
-    // Import the Firebase BoM
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.analytics)

@@ -222,12 +222,14 @@ suspend fun TgApi.getCurrentUser(): List<String>? {
             return null
         }
     } else {
+        /*
         client.send(TdApi.GetMe()) {
             if (it is TdApi.User) {
                 val user = it
                 currentUser = listOf(user.id.toString(), "${user.firstName} ${user.lastName}")
             }
         }
+         */
         return currentUser
     }
 }

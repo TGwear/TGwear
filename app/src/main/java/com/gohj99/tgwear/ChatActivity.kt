@@ -73,7 +73,8 @@ class ChatActivity : BaseActivity() {
     private val listState = LazyListState()
     private var inputText = mutableStateOf("")
     private var chatTopics = mutableMapOf<Long, String>()
-    private val settingsSharedPref: SharedPreferences by lazy {
+    private val selectTopicId = mutableStateOf(0L)
+        private val settingsSharedPref: SharedPreferences by lazy {
         getSharedPreferences("app_settings", MODE_PRIVATE)
     }
 
@@ -94,7 +95,8 @@ class ChatActivity : BaseActivity() {
                             false
                         ),
                         0L
-                    )
+                    ),
+                    selectTopicId.value
                 )
             }
         } else {
@@ -494,7 +496,8 @@ class ChatActivity : BaseActivity() {
                                     goToChat.value = true
                                 },
                                 currentUserId = currentUserId,
-                                chatTopics = chatTopics
+                                chatTopics = chatTopics,
+                                selectTopicId = selectTopicId
                             )
                         }
                     }
@@ -507,7 +510,16 @@ class ChatActivity : BaseActivity() {
             }
             if (chatObject == null) {
                 if (parameter == "lastRun") {
-                    throw IllegalStateException("Unable to create private chat")
+                    //throw IllegalStateException("Unable to create private chat")
+                    println("Unable to create private chat")
+                    runOnUiThread {
+                        Toast.makeText(
+                            this,
+                            "Error: Unable to create private chat",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    finish()
                 } else {
                     tgApi!!.createPrivateChat(chat!!.id)
                     lifecycleScope.launch(Dispatchers.IO) {

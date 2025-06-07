@@ -178,11 +178,11 @@ class TgApi(
     }
 
     // 退出聊天页面
-    suspend fun exitChatPage(draftMessage: TdApi.DraftMessage? = null) {
+    suspend fun exitChatPage(draftMessage: TdApi.DraftMessage? = null, messageThreadId: Long = 0L) {
         chatMutex.withLock {
             //println("退出聊天页面开始执行")
             val closeChatId = saveChatId
-            client.send(TdApi.SetChatDraftMessage(closeChatId, 0, draftMessage)) { result ->
+            client.send(TdApi.SetChatDraftMessage(closeChatId, messageThreadId, draftMessage)) { result ->
                 if (result.constructor == TdApi.Ok.CONSTRUCTOR) {
                     println("Set draft message successfully, ChatId: $closeChatId")
                 } else {

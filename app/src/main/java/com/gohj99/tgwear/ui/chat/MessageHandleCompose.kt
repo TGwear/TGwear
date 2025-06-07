@@ -144,6 +144,12 @@ fun MessageHandleCompose(
                     chatTopics = chatTopics,
                     isCurrentUser = isCurrentUser
                 )
+
+                // 消息交互信息
+                message.interactionInfo?.let {
+                    // 其他用户反应
+                    MessageReactions(it.reactions, isCurrentUser)
+                }
             }
         }
     }

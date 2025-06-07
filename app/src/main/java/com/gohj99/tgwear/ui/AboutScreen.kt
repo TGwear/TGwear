@@ -100,6 +100,8 @@ fun SplashAboutScreen(appVersion: String, buildDate: String) {
             textAlign = TextAlign.Center
         )
 
+        Spacer(modifier = Modifier.height(5.dp))
+
         if (buildDate != "" && buildDate != "null") {
             Text(
                 text = stringResource(id = R.string.Build_Date) + " $buildDate",
@@ -115,6 +117,7 @@ fun SplashAboutScreen(appVersion: String, buildDate: String) {
             text = stringResource(id = R.string.Version) + " $appVersion",
             color = Color.Gray,
             fontSize = 14.sp,
+            lineHeight = 14.sp,
             modifier = Modifier
                 .fillMaxWidth(),
             textAlign = TextAlign.Center

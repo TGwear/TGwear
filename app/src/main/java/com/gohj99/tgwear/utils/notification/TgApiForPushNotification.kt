@@ -28,7 +28,6 @@ import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.drinkless.tdlib.Client
 import org.drinkless.tdlib.TdApi
@@ -415,9 +414,13 @@ class TgApiForPushNotification(private val context: Context) {
 
     // 关闭连接
     fun close() {
-        println("Closing client")
-        runBlocking {
-            sendRequest(TdApi.Close())
-        }
+        println("Closing TgApiForPushNotification client")
+        client.send(TdApi.Close()) {}
+    }
+
+    // 协程-关闭连接
+    suspend fun closeSuspend() {
+        println("Closing TgApiForPushNotification client on suspend")
+        sendRequest(TdApi.Close())
     }
 }
