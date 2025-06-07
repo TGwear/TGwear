@@ -109,7 +109,8 @@ fun SplashChatScreen(
     onLinkClick: (String) -> Unit,
     chatTitleClick: () -> Unit,
     currentUserId: MutableState<Long>,
-    chatTopics: Map<Long, String>
+    chatTopics: Map<Long, String>,
+    selectTopicId: MutableState<Long>
 ) {
     // 获取context
     val context = LocalContext.current
@@ -127,7 +128,6 @@ fun SplashChatScreen(
     val planEditMessage = remember { mutableStateOf<TdApi.Message?>((null)) }
     val planEditMessageText = remember { mutableStateOf("") }
     val scrollState = rememberScrollState()
-    val selectTopicId = rememberSaveable { mutableLongStateOf(0L) }
     val installer = context.packageManager.getInstallerPackageName(context.packageName)
 
     // 获取show_unknown_message_type值
@@ -529,7 +529,8 @@ fun SplashChatScreenPreview() {
             onLinkClick = {},
             chatTitleClick = {},
             currentUserId = mutableLongStateOf(-1L),
-            chatTopics = mutableMapOf()
+            chatTopics = mutableMapOf(),
+            selectTopicId = mutableLongStateOf(0L)
         )
     }
 }

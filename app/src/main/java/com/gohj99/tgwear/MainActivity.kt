@@ -179,7 +179,8 @@ class MainActivity : BaseActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
                 if (TgApiForPushNotificationManager.tgApi != null) {
-                    TgApiForPushNotificationManager.tgApi?.close()
+                    println("MainActivity close TgApiForPushNotification sever")
+                    TgApiForPushNotificationManager.tgApi?.closeSuspend()
                     TgApiForPushNotificationManager.tgApi = null
                 }
                 val gson = Gson()
