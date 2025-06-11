@@ -224,6 +224,7 @@
     <string name="notice_about_7">感谢您的支持</string>  
     <string name="Language">语言</string>  
     <string name="Maximum_preload_messages">提前加载消息的最大数量（值越大，加载会话所需的时间越长）</string>  
-    <string name="Delay_read_session_time">延迟阅读会话时间(s)</string>
-    <string name="Donation_version_features">捐赠版本功能</string>
+    <string name="Delay_read_session_time">延迟阅读会话时间(s)</string>  
+    <string name="Donation_version_features">捐赠版本功能</string>  
+    <string name="Download_Complete">下载完毕</string>
 </resources>
