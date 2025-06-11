@@ -73,7 +73,12 @@ fun MessageMainBodyCompose(
 
     Row(
         modifier = Modifier
-            .padding(5.dp)
+            .padding(
+                start = 5.dp,
+                end = 5.dp,
+                top = 6.5.dp,
+                bottom = 3.dp
+            )
             .fillMaxWidth(),
         horizontalArrangement = alignment
     ) {
@@ -87,7 +92,7 @@ fun MessageMainBodyCompose(
                     start = 8.dp,
                     end = 8.dp,
                     top = 6.dp,
-                    bottom = 1.dp
+                    bottom = 0.5.dp
                 )
                 .pointerInput(Unit) {
                     detectTapGestures(

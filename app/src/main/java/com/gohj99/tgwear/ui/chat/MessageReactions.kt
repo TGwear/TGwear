@@ -35,7 +35,7 @@ fun MessageReactions(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentWidth(if (isCurrentUser) Alignment.End else Alignment.Start)
-                .padding(top = 1.dp, bottom = 2.5.dp, start = 3.5.dp, end = 3.5.dp),
+                .padding(top = 0.dp, bottom = 2.5.dp, start = 3.5.dp, end = 3.5.dp),
             maxItemsInEachRow = 4    // 每行之间的垂直间距
         ) {
             messageReactions.forEach { unreadReaction ->

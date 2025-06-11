@@ -303,13 +303,10 @@ fun SplashAboutScreen(appVersion: String, buildDate: String) {
                     Spacer(modifier = Modifier.height(5.dp))
 
                     Text(
-                        text = "\nLife is dear, love is dearer. Both can be given up for freedom.\n\n" +
-                                "The only way to deal with an unfree world is to become so absolutely free that your very existence is an act of rebellion.\n\n" +
-                                "宁鸣而死，不默而生\n\n" +
-                                "总有地上的生灵 敢于直面雷霆的威光\n\n" +
-                                "Liberté, Égalité, Fraternité\n\n" +
-                                "cai san próta andreioméni,chaíre, o chaíre, Eleutheriá!\n\n" +
-                                "Свобода лучше, чем несвобода.",
+                        text = "\nI think, therefore I am.\n\n" +
+                                "The unexamined life is not worth living.\n\n" +
+                                "The impediment to action advances action. What stands in the way becomes the way.\n\n" +
+                                "The journey of a thousand miles begins with a single step.",
                         color = Color.White,
                         fontSize = MaterialTheme.typography.titleMedium.fontSize,
                         modifier = Modifier
