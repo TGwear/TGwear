@@ -36,7 +36,7 @@ Except for the cases described above, this Application does not collect, store, 
 We respect your right to choose.
 
 * **Explicit Consent**: When you first launch this Application, we will ask for your explicit consent via a pop-up dialog to allow us to collect information for analytics and crash reporting.
-* **Withdraw at Any Time**: If you change your mind, you can turn the information collection option off or on at any time in the **"Settings" -\> "Privacy Settings"** menu of this Application. Once turned off, this Application will stop sending new analytics and crash data to Firebase.
+* **Withdraw at Any Time**: If you change your mind, you can withdraw your consent at any time by navigating to **"Settings" -> "App Settings"** and toggling the **"Data Collection"** option. Once turned off, this Application will stop sending new analytics and crash data to Firebase.
 
 **4. How We Use Information**
 
