@@ -2,7 +2,7 @@
 
 **Effective Date:** June 13, 2025
 
-Welcome to **TGwear** ("this Application"), developed by **Alittlejelly and gohj99** ("we," "us," or "our"). We understand the importance of your personal information and are fully committed to protecting its security and reliability. We strive to maintain your trust in us and adhere to the following principles to protect your personal information: consistency of power and responsibility, clear purpose, choice and consent, minimum necessity, security assurance, subject participation, and transparency.
+Welcome to **TGwear** ("this Application"), developed by **Alittlejelly** ("we," "us," or "our"). We understand the importance of your personal information and are fully committed to protecting its security and reliability. We strive to maintain your trust in us and adhere to the following principles to protect your personal information: consistency of power and responsibility, clear purpose, choice and consent, minimum necessity, security assurance, subject participation, and transparency.
 
 Please read and understand this Privacy Policy carefully before using this Application.
 
