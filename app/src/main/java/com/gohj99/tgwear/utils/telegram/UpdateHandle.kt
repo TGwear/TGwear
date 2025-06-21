@@ -417,7 +417,6 @@ internal fun TgApi.handleNewChat(update: TdApi.UpdateNewChat){
                     isPrivateChat = isPrivateChat
                 )
             )
-
         }
     }
 

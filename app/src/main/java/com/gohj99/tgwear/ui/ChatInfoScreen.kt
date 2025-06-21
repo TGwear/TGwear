@@ -50,6 +50,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.wear.compose.material3.ScrollIndicator
 import coil.compose.rememberAsyncImagePainter
 import com.gohj99.tgwear.R
 import com.gohj99.tgwear.TgApiManager
@@ -75,6 +76,7 @@ deleteChat: (() -> Unit)? = null
     var messageJson = ""
     val context = LocalContext.current
     var isExpanded by remember { mutableStateOf(false) }
+    val listState = rememberLazyListState()
 
 //    val markwon = remember { Markwon.create(context) }
 //    val infoSpanned: Spanned = remember(info) { markwon.toMarkdown(info) }
@@ -103,7 +105,6 @@ deleteChat: (() -> Unit)? = null
             )
         }
 
-        val listState = rememberLazyListState()
         LazyColumn(
             state = listState,
             modifier = Modifier
@@ -292,6 +293,13 @@ deleteChat: (() -> Unit)? = null
                 Spacer(modifier = Modifier.height(50.dp))
             }
         }
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        ScrollIndicator(
+            state = listState,
+            modifier = Modifier.align(Alignment.CenterEnd)
+        )
     }
 }
 

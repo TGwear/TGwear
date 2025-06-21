@@ -8,6 +8,7 @@
 
 package com.gohj99.tgwear.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.MarqueeAnimationMode
@@ -18,10 +19,12 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
@@ -58,6 +61,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -67,6 +71,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.gohj99.tgwear.R
 import kotlinx.coroutines.flow.first
@@ -531,6 +536,51 @@ fun TextDropdown(
                     }
                 )
             }
+        }
+    }
+}
+
+@SuppressLint("UnusedBoxWithConstraintsScope")
+@Composable
+fun VerticalLazyScrollbar(
+    modifier: Modifier = Modifier,
+    listState: LazyListState,
+    thumbHeightDp: Dp = 48.dp
+) {
+    val density = LocalDensity.current
+    val thumbHeightPx = with(density) { thumbHeightDp.toPx() }
+
+    BoxWithConstraints(modifier = modifier) {
+        val boxHeightPx = constraints.maxHeight.toFloat()
+
+        val layoutInfo = listState.layoutInfo
+        val visibleItems = layoutInfo.visibleItemsInfo
+
+        if (visibleItems.isNotEmpty()) {
+            // 平均 item 高度（估算）
+            val averageItemHeight = visibleItems.sumOf { it.size } / visibleItems.size.toFloat()
+
+            // 可滚动的最大 item 数（总数 - 可见数）
+            val itemCount = layoutInfo.totalItemsCount
+            val visibleCount = visibleItems.size
+            val maxScrollItems = (itemCount - visibleCount).coerceAtLeast(1)
+
+            val totalScrollHeightPx = maxScrollItems * averageItemHeight
+
+            val scrolledHeightPx = listState.firstVisibleItemIndex * averageItemHeight +
+                    listState.firstVisibleItemScrollOffset
+
+            val scrollRatio = (scrolledHeightPx / totalScrollHeightPx).coerceIn(0f, 1f)
+
+            val thumbOffsetY = (boxHeightPx - thumbHeightPx) * scrollRatio
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .offset { IntOffset(0, thumbOffsetY.toInt()) }
+                    .height(thumbHeightDp)
+                    .background(Color.Gray, shape = RoundedCornerShape(50))
+            )
         }
     }
 }

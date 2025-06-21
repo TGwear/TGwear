@@ -12,12 +12,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -44,6 +47,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gohj99.tgwear.R
 import com.gohj99.tgwear.model.SettingItem
+import com.gohj99.tgwear.ui.VerticalLazyScrollbar
 import com.gohj99.tgwear.ui.main.MainCard
 import com.gohj99.tgwear.ui.verticalRotaryScroll
 import java.math.BigDecimal
@@ -52,48 +56,62 @@ import java.math.RoundingMode
 @Composable
 fun SettingLazyColumn(
     itemsList: MutableState<List<SettingItem>>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    getListState: LazyListState? = null
 ) {
-    val listState = rememberLazyListState()
+    val listState = getListState ?: rememberLazyListState()
 
-    LazyColumn(
-        state = listState,
-        modifier = modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp)
-            .verticalRotaryScroll(listState)
-    ) {
-        item {
-            Spacer(modifier = Modifier.height(8.dp)) // 添加一个高度为 8dp 的 Spacer
+    Box(modifier = Modifier.fillMaxSize()) {
+        if (getListState == null) {
+            VerticalLazyScrollbar(
+                listState = listState,
+                modifier = Modifier
+                    .padding(end = 5.dp)
+                    .fillMaxHeight()
+                    .width(8.dp)
+                    .align(Alignment.CenterEnd)
+            )
         }
-        items(itemsList.value.size) { index ->
-            val item = itemsList.value[index]
-            when (item) {
-                is SettingItem.Click -> {
-                    SettingClickView(item.itemName, item.onClick, item.color)
-                }
 
-                is SettingItem.Switch -> {
-                    SettingSwitchView(item.itemName, item.isSelected, item.onSelect, item.color)
-                }
-
-                is SettingItem.ProgressBar -> {
-                    SettingProgressBarView(
-                        item.itemName,
-                        item.progress,
-                        item.maxValue,
-                        item.minValue,
-                        item.base,
-                        item.onProgressChange,
-                        item.color
-                    )
-                }
-
-                else -> {}
+        LazyColumn(
+            state = listState,
+            modifier = modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp)
+                .verticalRotaryScroll(listState)
+        ) {
+            item {
+                Spacer(modifier = Modifier.height(8.dp)) // 添加一个高度为 8dp 的 Spacer
             }
-        }
-        item {
-            Spacer(modifier = Modifier.height(50.dp))
+            items(itemsList.value.size) { index ->
+                val item = itemsList.value[index]
+                when (item) {
+                    is SettingItem.Click -> {
+                        SettingClickView(item.itemName, item.onClick, item.color)
+                    }
+
+                    is SettingItem.Switch -> {
+                        SettingSwitchView(item.itemName, item.isSelected, item.onSelect, item.color)
+                    }
+
+                    is SettingItem.ProgressBar -> {
+                        SettingProgressBarView(
+                            item.itemName,
+                            item.progress,
+                            item.maxValue,
+                            item.minValue,
+                            item.base,
+                            item.onProgressChange,
+                            item.color
+                        )
+                    }
+
+                    else -> {}
+                }
+            }
+            item {
+                Spacer(modifier = Modifier.height(50.dp))
+            }
         }
     }
 }

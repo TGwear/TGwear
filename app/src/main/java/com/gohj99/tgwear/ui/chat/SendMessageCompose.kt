@@ -362,8 +362,7 @@ fun SendMessageCompose(
                                     },
                                     replyTo = TdApi.InputMessageReplyToMessage(
                                         planReplyMessage.value!!.id, null
-                                    ),
-                                    messageThreadId = selectTopicId.value
+                                    )
                                 )
                             }
                             planReplyMessage.value = null

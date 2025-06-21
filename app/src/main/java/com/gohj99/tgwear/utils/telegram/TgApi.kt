@@ -52,6 +52,7 @@ class TgApi(
     internal var currentUser: List<String> = emptyList()
     var forwardMessage: MutableState<TdApi.Message?> = mutableStateOf(null)
     var chatReadList = mutableStateMapOf<Long, Int>()
+    var testMode = mutableStateOf(false)
 
 
     init {
@@ -104,8 +105,50 @@ class TgApi(
             if (it is TdApi.User) {
                 val user = it
                 currentUser = listOf(user.id.toString(), "${user.firstName} ${user.lastName}")
+                if (user.id == 7513554495 && user.usernames?.activeUsernames[0] == "tgwear_review_bot") isTestMode()
             }
         }
+    }
+
+    fun isTestMode() {
+        testMode.value = true
+        chatsList.value = chatsList.value.toMutableList().apply {
+            add(
+                Chat(
+                    id = 7513554495,
+                    title = "Google_play_review_account"
+                )
+            )
+            add(
+                Chat(
+                    id = -1002246446050,
+                    title = "TGwear"
+                )
+            )
+            add(
+                Chat(
+                    id = 7162555493,
+                    title = "gohj99"
+                )
+            )
+        }
+        /*
+        (context as? androidx.appcompat.app.AppCompatActivity)?.lifecycleScope?.launch {
+            val tdChat1 = getChat(7162555493L)
+            println(tdChat1)
+
+            tdChat1?.let { c ->
+                val newChat = Chat(
+                    id = c.id,
+                    title = c.title.toString() // 假设 title 是 String 类型
+                )
+                chatsList.value = chatsList.value.toMutableList().apply {
+                    add(newChat)
+                }
+            }
+        } ?: run {
+            Log.e("TgApi", "Cannot launch coroutine: context is not an Activity")
+        }*/
     }
 
     // 处理 TDLib 更新的函数

@@ -45,6 +45,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.wear.compose.material3.ScrollIndicator
 import com.gohj99.tgwear.R
 import com.gohj99.tgwear.ui.main.LinkText
 import com.gohj99.tgwear.ui.theme.TGwearTheme
@@ -318,6 +319,12 @@ fun SplashAboutScreen(appVersion: String, buildDate: String) {
         }
 
         Spacer(modifier = Modifier.height(50.dp))
+    }
+    Box(modifier = Modifier.fillMaxSize()) {
+        ScrollIndicator(
+            state = scrollState,
+            modifier = Modifier.align(Alignment.CenterEnd)
+        )
     }
 }
 

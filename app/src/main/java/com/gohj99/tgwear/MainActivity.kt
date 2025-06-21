@@ -17,18 +17,13 @@ import android.os.Looper
 import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
 import com.gohj99.tgwear.model.Chat
@@ -348,8 +343,6 @@ class MainActivity : BaseActivity() {
                     onPaused = onPaused
                 )
                 ChatsListManager.chatsList = chatsList
-                TgApiManager.tgApi?.loadChats(15)
-                TgApiManager.tgApi?.getContacts(contacts)
                 // 异步获取当前用户 ID
                 lifecycleScope.launch {
                     while (currentUserId.value == -1L) {
@@ -358,7 +351,9 @@ class MainActivity : BaseActivity() {
                         }
                     }
                     TgApiManager.tgApi?.getArchiveChats()
+                    TgApiManager.tgApi?.getContacts(contacts)
                 }
+                TgApiManager.tgApi?.loadChats(15)
                 // 检查是否切换账号和是否打开消息推送
                 if (settingsSharedPref.getBoolean("Change_account", false)) {
                     with(sharedPref.edit()) {
@@ -524,18 +519,5 @@ fun JsonObject.firstAdd(key: String, value: String) {
     // 将临时对象的数据重新添加到当前对象
     for (entry in tempJsonObject.entrySet()) {
         this.add(entry.key, entry.value)
-    }
-}
-
-@Composable
-fun SplashScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center // 居中对齐
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground),
-            contentDescription = "Splash Icon"
-        )
     }
 }

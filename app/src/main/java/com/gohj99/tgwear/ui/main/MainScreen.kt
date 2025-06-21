@@ -80,7 +80,6 @@ fun MainScreen(
     LaunchedEffect(chatsFoldersList.value) {
         try {
             allPages = mutableListOf<String>().apply {
-                //add(home)
                 addAll(chatsFoldersList.value.map { it.title })
                 add(mainChatListPosition.value, home)
                 addAll(lastPages.toList())
@@ -163,16 +162,14 @@ fun MainScreen(
                         contactsList = contacts.value
                     )
                 }
+            } else if (nowPage == mainChatListPosition.value){
+                ChatLazyColumn(
+                    itemsList = chats,
+                    callback = chatPage,
+                    currentUserId = currentUserId,
+                )
             } else {
                 when (if (nowPage <= allPages.size) allPages[nowPage] else "error") {
-                    home -> {
-                        ChatLazyColumn(
-                            itemsList = chats,
-                            callback = chatPage,
-                            currentUserId = currentUserId,
-                        )
-                    }
-
                     archivedChats -> {
                         ArchivedChatsLazyColumn(
                             itemsList = chats,

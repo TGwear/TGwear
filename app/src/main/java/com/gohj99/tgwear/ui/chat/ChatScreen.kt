@@ -53,6 +53,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.wear.compose.material3.ScrollIndicator
 import com.gohj99.tgwear.R
 import com.gohj99.tgwear.TgApiManager.tgApi
 import com.gohj99.tgwear.model.Chat
@@ -233,7 +234,7 @@ fun SplashChatScreen(
             // 标题
             Box(
                 modifier = Modifier
-                    .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 0.dp) // 调整垂直填充
+                    .padding(start = 48.dp, end = 48.dp, top = 8.dp, bottom = 0.dp) // 调整垂直填充
                     .clickable(
                         onClick = { chatTitleClick() }
                     )
@@ -442,6 +443,23 @@ fun SplashChatScreen(
                     chatId = chatId
                 )
             }
+        }
+    }
+
+    if (pagerState.currentPage == 0) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            ScrollIndicator(
+                state = listState,
+                reverseDirection = true,
+                modifier = Modifier.align(Alignment.CenterEnd)
+            )
+        }
+    } else {
+        Box(modifier = Modifier.fillMaxSize()) {
+            ScrollIndicator(
+                state = scrollState,
+                modifier = Modifier.align(Alignment.CenterEnd)
+            )
         }
     }
 }

@@ -19,6 +19,7 @@ gson-versions = "2.13.1"
 media3Exoplayer = "1.7.1"
 media3Ui = "1.7.1"
 markwon = "4.6.2"
+composeMaterial3 = "1.5.0-beta04"
 
 [libraries]
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
@@ -51,6 +52,7 @@ gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson-vers
 androidx-media3-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "media3Exoplayer" }
 androidx-media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "media3Ui" }
 markwon-core = { group = "io.noties.markwon", name = "core", version.ref = "markwon" }
+androidx-compose-material3 = { group = "androidx.wear.compose", name = "compose-material3", version.ref = "composeMaterial3" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -24,8 +24,8 @@ android {
         minSdk = 26
         //noinspection OldTargetApi
         targetSdk = 34
-        versionCode = 43
-        versionName = "3.1.1"
+        versionCode = 44
+        versionName = "3.1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -124,6 +124,7 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.ui)
+    implementation(libs.androidx.compose.material3)
     testImplementation(libs.junit)
     implementation(libs.zxing.core)
     implementation(project(":libtd"))
