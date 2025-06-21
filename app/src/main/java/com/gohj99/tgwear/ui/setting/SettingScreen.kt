@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -29,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.wear.compose.material3.ScrollIndicator
 import com.gohj99.tgwear.R
 import com.gohj99.tgwear.model.SettingItem
 import com.gohj99.tgwear.ui.theme.TGwearTheme
@@ -38,6 +40,8 @@ fun SplashSettingScreen(
     title: String,
     settings: MutableState<List<SettingItem>>
 ) {
+    val listState = rememberLazyListState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -65,7 +69,14 @@ fun SplashSettingScreen(
 
         Spacer(modifier = Modifier.height(4.dp)) // 添加间距
 
-        SettingLazyColumn(settings)
+        SettingLazyColumn(settings, getListState = listState)
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        ScrollIndicator(
+            state = listState,
+            modifier = Modifier.align(Alignment.CenterEnd)
+        )
     }
 }
 

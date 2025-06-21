@@ -36,6 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.wear.compose.material3.ScrollIndicator
 import com.gohj99.tgwear.ui.theme.TGwearTheme
 import com.gohj99.tgwear.ui.verticalRotaryScroll
 
@@ -140,36 +141,13 @@ fun SplashAllowDataCollectionScreen(set: (Boolean) -> Unit) {
         }
 
         Spacer(modifier = Modifier.height(42.dp))
-//        Row(
-//            horizontalArrangement = Arrangement.Center,
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(bottom = 64.dp, start = 16.dp, end = 16.dp)
-//        ) {
-//            Button(
-//                onClick = { set(false) },
-//                modifier = Modifier.weight(1f),
-//                colors = ButtonDefaults.buttonColors(
-//                    containerColor = Color(0xFF3E4D58),  // 按钮背景颜色
-//                    contentColor = Color.White   // 按钮文字颜色
-//                )
-//            ) {
-//                Text(text = stringResource(id = R.string.disagree))
-//            }
-//
-//            Spacer(modifier = Modifier.width(8.dp))
-//
-//            Button(
-//                onClick = { set(true) },
-//                modifier = Modifier.weight(1f),
-//                colors = ButtonDefaults.buttonColors(
-//                    containerColor = Color(0xFF3A7FBE),  // 按钮背景颜色
-//                    contentColor = Color.White   // 按钮文字颜色
-//                )
-//            ) {
-//                Text(text = stringResource(id = R.string.agree))
-//            }
-//        }
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        ScrollIndicator(
+            state = scrollState,
+            modifier = Modifier.align(Alignment.CenterEnd)
+        )
     }
 }
 

@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import com.gohj99.tgwear.ui.login.SplashBotTokenScreen
 import com.gohj99.tgwear.ui.login.SplashLoginQRScreen
 import com.gohj99.tgwear.ui.login.SplashLoginScreen
 import com.gohj99.tgwear.ui.login.SplashPasswordScreen
@@ -65,6 +66,7 @@ class LoginActivity : BaseActivity() {
     private var phoneNumber = mutableStateOf("")
     private var verifyCode = mutableStateOf("")
     private var password = mutableStateOf("")
+    private var botToken = mutableStateOf("")
 
     override fun onDestroy() {
         super.onDestroy()
@@ -113,48 +115,67 @@ class LoginActivity : BaseActivity() {
                             password = password,
                         )
                     } else {
-                        if (loginWay.value == "PhoneNumber") {
-                            SplashLoginScreen(
-                                showSendCode = showSendCode,
-                                onLoginWithQR = {
-                                    loginWay.value = "QrCode"
-                                    client.send(TdApi.RequestQrCodeAuthentication(LongArray(0))) {
-                                        if (!(it is TdApi.Ok)) {
-                                            loginWay.value = "PhoneNumber"
-                                        }
-                                        authRequestHandler(
-                                            it
-                                        )
-                                    }
-                                },
-                                onSendVerifyCode = { phoneNumber ->
-                                    showSendCode = false
-                                    client.send(TdApi.SetAuthenticationPhoneNumber(phoneNumber, null)) {
-                                        if (it is TdApi.Ok) {
-                                            // 发送验证码成功
-                                            runOnUiThread {
-                                                Toast.makeText(this@LoginActivity, getString(R.string.Successful), Toast.LENGTH_SHORT).show()
+                        when (loginWay.value) {
+                            "PhoneNumber" -> {
+                                SplashLoginScreen(
+                                    showSendCode = showSendCode,
+                                    onLoginWithQR = {
+                                        loginWay.value = "QrCode"
+                                        client.send(TdApi.RequestQrCodeAuthentication(LongArray(0))) {
+                                            if (!(it is TdApi.Ok)) {
+                                                loginWay.value = "PhoneNumber"
                                             }
-                                        } else {
-                                            showSendCode = true
+                                            authRequestHandler(
+                                                it
+                                            )
                                         }
-                                        authRequestHandler(
-                                            it
-                                        )
-                                    }
-                                },
-                                onDone = { code ->
-                                    client.send(TdApi.CheckAuthenticationCode(code)) {
-                                        authRequestHandler(
-                                            it
-                                        )
-                                    }
-                                },
-                                phoneNumber = phoneNumber,
-                                verifyCode = verifyCode
-                            )
-                        } else if (loginWay.value == "QrCode") {
-                            SplashLoginQRScreen(qrCodeLink = qrCodeLink)
+                                    },
+                                    onSendVerifyCode = { phoneNumber ->
+                                        showSendCode = false
+                                        client.send(TdApi.SetAuthenticationPhoneNumber(phoneNumber, null)) {
+                                            if (it is TdApi.Ok) {
+                                                // 发送验证码成功
+                                                runOnUiThread {
+                                                    Toast.makeText(this@LoginActivity, getString(R.string.Successful), Toast.LENGTH_SHORT).show()
+                                                }
+                                            } else {
+                                                showSendCode = true
+                                            }
+                                            authRequestHandler(
+                                                it
+                                            )
+                                        }
+                                    },
+                                    onDone = { code ->
+                                        client.send(TdApi.CheckAuthenticationCode(code)) {
+                                            authRequestHandler(
+                                                it
+                                            )
+                                        }
+                                    },
+                                    onLongDone = { loginWay.value = "BotToken" },
+                                    phoneNumber = phoneNumber,
+                                    verifyCode = verifyCode
+                                )
+                            }
+
+                            "QrCode" -> {
+                                SplashLoginQRScreen(qrCodeLink = qrCodeLink)
+                            }
+
+                            "BotToken" -> {
+                                SplashBotTokenScreen(
+                                    onDoneClick = { token ->
+                                        client.send(TdApi.CheckAuthenticationBotToken(token)) {
+                                            authRequestHandler(
+                                                it
+                                            )
+                                        }
+                                    },
+                                    doneStr = doneStr,
+                                    botToken = botToken,
+                                )
+                            }
                         }
                     }
                 }

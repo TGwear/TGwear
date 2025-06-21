@@ -12,6 +12,7 @@ import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,7 +25,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,6 +48,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.wear.compose.material3.ScrollIndicator
 import com.gohj99.tgwear.R
 import com.gohj99.tgwear.generateQrCode
 import com.gohj99.tgwear.ui.CustomButton
@@ -64,6 +65,7 @@ fun SplashLoginScreen(
     onLoginWithQR: () -> Unit,
     onSendVerifyCode: (String) -> Unit,
     onDone: (String) -> Unit,
+    onLongDone: () -> Unit,
     phoneNumber: MutableState<String>,
     verifyCode: MutableState<String>
 ) {
@@ -141,12 +143,15 @@ fun SplashLoginScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        IconButton(
-            onClick = {
-                onDone(verifyCode.value)
-            },
+        // 完成按钮
+        Box(
             modifier = Modifier
                 .size(45.dp)
+                .combinedClickable(
+                    onClick = { onDone(verifyCode.value) },
+                    onLongClick = { onLongDone() }
+                ),
+            contentAlignment = Alignment.Center
         ) {
             Image(
                 painter = painterResource(id = R.drawable.next_icon),
@@ -157,13 +162,19 @@ fun SplashLoginScreen(
 
         Spacer(modifier = Modifier.height(42.dp))
     }
+    Box(modifier = Modifier.fillMaxSize()) {
+        ScrollIndicator(
+            state = scrollState,
+            modifier = Modifier.align(Alignment.CenterEnd)
+        )
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun SplashLoginScreenPreview() {
     TGwearTheme {
-        SplashLoginScreen(true, {}, {}, {}, remember { mutableStateOf("") }, remember { mutableStateOf("") })
+        SplashLoginScreen(true, {}, {}, {}, {}, remember { mutableStateOf("") }, remember { mutableStateOf("") })
     }
 }
 
@@ -295,6 +306,58 @@ fun SplashPasswordScreen(
                     onDoneClick(password.value)
                 } else doneStr.value = passwordError
                 password.value = ""
+            },
+            text = doneStr.value
+        )
+    }
+}
+
+// bot token输入页面
+@Composable
+fun SplashBotTokenScreen(
+    onDoneClick: (String) -> Unit,
+    doneStr: MutableState<String>,
+    botToken: MutableState<String>
+) {
+    val loading = stringResource(id = R.string.loading)
+    val passwordError = stringResource(id = R.string.Password_Error)
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "Bot Account",
+            color = Color.White,
+            fontSize = 20.sp,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 5.dp),
+            textAlign = TextAlign.Center
+        )
+
+        // 密码输入框
+        InputRoundBar(
+            query = botToken.value,
+            isPassword = true,
+            onQueryChange = {
+                botToken.value = it
+            },
+            placeholder = "Bot Token"
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        CustomButton(
+            onClick = {
+                if (botToken.value != "") {
+                    doneStr.value = loading
+                    onDoneClick(botToken.value)
+                } else doneStr.value = passwordError
+                botToken.value = ""
             },
             text = doneStr.value
         )

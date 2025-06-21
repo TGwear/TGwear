@@ -392,6 +392,13 @@ fun TgApi.sendMessage(chatId: Long, message: InputMessageContent, replyTo: TdApi
             println("Send Message Error: ${error.message}")
         } else {
             println("Message sent successfully")
+            if (testMode.value == true) {
+                if (result is TdApi.Message) {
+                    saveChatList.value = saveChatList.value.toMutableList().apply {
+                        add(0, result) // 新消息存储在最前面
+                    }
+                }
+            }
         }
     }
 }

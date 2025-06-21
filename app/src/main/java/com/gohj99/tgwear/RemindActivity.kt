@@ -38,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.wear.compose.material3.ScrollIndicator
 import com.gohj99.tgwear.ui.main.LinkText
 import com.gohj99.tgwear.ui.theme.TGwearTheme
 import com.gohj99.tgwear.ui.verticalRotaryScroll
@@ -155,6 +156,13 @@ fun SplashRemindScreen(done: (Boolean) -> Unit) {
         }
 
         Spacer(modifier = Modifier.height(42.dp))
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        ScrollIndicator(
+            state = scrollState,
+            modifier = Modifier.align(Alignment.CenterEnd)
+        )
     }
 }
 

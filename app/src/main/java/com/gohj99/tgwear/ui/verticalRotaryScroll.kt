@@ -30,9 +30,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /*
- * gohj99调教了114514小时的表冠转动函数
- * 震动和线性滑动一应俱全
- * 包舒服的，跟德芙一样（
+ * 表冠转动函数
  */
 @OptIn(ExperimentalWearFoundationApi::class)
 @Composable
