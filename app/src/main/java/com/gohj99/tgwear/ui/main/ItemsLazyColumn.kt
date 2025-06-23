@@ -101,7 +101,7 @@ fun ChatLazyColumn(
         val sortedList = itemsList.value
             .filter {
                 //println("Filtering chat ${it.id}: order=${it.order}, isArchive=${it.isArchiveChatPin}")
-                it.order !in listOf(-1L, 0L) && it.isArchiveChatPin == null
+                if (chatsFolder == null) it.order !in listOf(-1L, 0L) && it.isArchiveChatPin == null else it.order !in listOf(-1L, 0L)
             }
             .sortedWith(
                 // 第一排序条件：order不为null时降序排列
