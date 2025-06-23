@@ -511,6 +511,16 @@ class SettingActivity : BaseActivity() {
                                 .show()
                             restartSelf()
                         }
+                    ),
+                    SettingItem.Switch(
+                        itemName = "Use Test Dc (If you don't know, please don't click)",
+                        isSelected = settingsSharedPref.getBoolean("useTestDc", false),
+                        onSelect = { isUseTestDc ->
+                            with(settingsSharedPref.edit()) {
+                                putBoolean("useTestDc", isUseTestDc)
+                                commit()
+                            }
+                        }
                     )
                 )
             }

@@ -12,6 +12,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
@@ -67,6 +68,7 @@ class LoginActivity : BaseActivity() {
     private var verifyCode = mutableStateOf("")
     private var password = mutableStateOf("")
     private var botToken = mutableStateOf("")
+    private var settingsSharedPref: SharedPreferences? = null
 
     override fun onDestroy() {
         super.onDestroy()
@@ -85,6 +87,7 @@ class LoginActivity : BaseActivity() {
 
         languageCode = this.resources.configuration.locales[0].language
         appVersion = getAppVersion(this)
+        settingsSharedPref = getSharedPreferences("app_settings", MODE_PRIVATE)
 
         setContent {
             TGwearTheme {
@@ -216,6 +219,7 @@ class LoginActivity : BaseActivity() {
                 val sharedPref = getSharedPreferences("LoginPref", MODE_PRIVATE)
                 val encryptionKeyString = sharedPref.getString("encryption_key", null)
                 val authorizationState = (update as TdApi.UpdateAuthorizationState).authorizationState
+                val isUseTestDc = settingsSharedPref?.getBoolean("useTestDc", false)
                 when (authorizationState.constructor) {
                     TdApi.AuthorizationStateWaitTdlibParameters.CONSTRUCTOR -> {
                         // 获取应用外部数据目录
@@ -228,8 +232,6 @@ class LoginActivity : BaseActivity() {
                         // 设置 TDLib 参数
                         client.send(TdApi.SetTdlibParameters().apply {
                             databaseDirectory = externalDir.absolutePath + "/tdlib"
-                            useMessageDatabase = true
-                            useSecretChats = true
                             apiId = tdapiId
                             apiHash = tdapiHash
                             systemLanguageCode = languageCode
@@ -238,6 +240,10 @@ class LoginActivity : BaseActivity() {
                             applicationVersion = appVersion
                             useSecretChats = false
                             useMessageDatabase = true
+                            useChatInfoDatabase = true
+                            useFileDatabase = false
+                            useTestDc = isUseTestDc ?: false
+                            filesDirectory = externalDir.absolutePath + "/files"
                             databaseEncryptionKey = if (encryptionKeyString != null) {
                                 // 检查本地是否有加密密钥
                                 encryptionKeyString.chunked(2).map { it.toInt(16).toByte() }.toByteArray()
