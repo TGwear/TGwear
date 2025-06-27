@@ -20,7 +20,6 @@ import java.util.Properties
 class AboutActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
         val config = loadConfig(this)
         val buildDate = config.getProperty("BUILD_DATE")

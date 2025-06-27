@@ -12,15 +12,16 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.util.TypedValue
 import android.widget.Toast
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.lifecycleScope
 import com.gohj99.tgwear.ui.login.SplashBotTokenScreen
 import com.gohj99.tgwear.ui.login.SplashLoginQRScreen
 import com.gohj99.tgwear.ui.login.SplashLoginScreen
@@ -40,11 +42,17 @@ import com.gohj99.tgwear.ui.main.SplashLoadingScreen
 import com.gohj99.tgwear.ui.theme.TGwearTheme
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import org.drinkless.tdlib.Client
 import org.drinkless.tdlib.TdApi
 import java.io.File
@@ -67,6 +75,10 @@ class LoginActivity : BaseActivity() {
     private var verifyCode = mutableStateOf("")
     private var password = mutableStateOf("")
     private var botToken = mutableStateOf("")
+    private var settingsSharedPref: SharedPreferences? = null
+    private var testMode by mutableStateOf(false)
+    private var testPhone = ""
+    private var testCode = ""
 
     override fun onDestroy() {
         super.onDestroy()
@@ -81,100 +93,124 @@ class LoginActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
         languageCode = this.resources.configuration.locales[0].language
         appVersion = getAppVersion(this)
+        settingsSharedPref = getSharedPreferences("app_settings", MODE_PRIVATE)
 
         setContent {
             TGwearTheme {
-                if (showLoading) {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        SplashLoadingScreen()
-                        Text(
-                            text = stringResource(R.string.Connecting_Telegram_Sever),
-                            color = Color.White
-                        )
-                    }
+                if (testMode) {
+                    SplashLoadingScreen(modifier = Modifier.fillMaxSize())
                 } else {
-                    if (showPasswordScreen.value) {
-                        SplashPasswordScreen(
-                            onDoneClick = { password ->
-                                client.send(TdApi.CheckAuthenticationPassword(password)) {
-                                    authRequestHandler(
-                                        it
+                    if (showLoading) {
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            SplashLoadingScreen()
+                            Text(
+                                text = stringResource(R.string.Connecting_Telegram_Sever),
+                                color = Color.White
+                            )
+                        }
+                    } else {
+                        if (showPasswordScreen.value) {
+                            SplashPasswordScreen(
+                                onDoneClick = { password ->
+                                    client.send(TdApi.CheckAuthenticationPassword(password)) {
+                                        authRequestHandler(
+                                            it
+                                        )
+                                    }
+                                },
+                                passwordHint = passwordHint,
+                                doneStr = doneStr,
+                                password = password,
+                            )
+                        } else {
+                            when (loginWay.value) {
+                                "PhoneNumber" -> {
+                                    SplashLoginScreen(
+                                        showSendCode = showSendCode,
+                                        onLongDone = { loginWay.value = "BotToken" },
+                                        phoneNumber = phoneNumber,
+                                        verifyCode = verifyCode,
+                                        onLoginWithQR = {
+                                            loginWay.value = "QrCode"
+                                            client.send(TdApi.RequestQrCodeAuthentication(LongArray(0))) {
+                                                if (it !is TdApi.Ok) {
+                                                    loginWay.value = "PhoneNumber"
+                                                }
+                                                authRequestHandler(
+                                                    it
+                                                )
+                                            }
+                                        },
+                                        onSendVerifyCode = { phoneNumber ->
+                                            showSendCode = false
+                                            client.send(TdApi.SetAuthenticationPhoneNumber(phoneNumber, null)) {
+                                                if (it is TdApi.Ok) {
+                                                    // 发送验证码成功
+                                                    runOnUiThread {
+                                                        Toast.makeText(this@LoginActivity, getString(R.string.Successful), Toast.LENGTH_SHORT).show()
+                                                    }
+                                                } else {
+                                                    showSendCode = true
+                                                }
+                                                authRequestHandler(
+                                                    it
+                                                )
+                                            }
+                                        },
+                                        onDone = { code ->
+                                            client.send(TdApi.CheckAuthenticationCode(code)) {
+                                                authRequestHandler(
+                                                    it
+                                                )
+                                            }
+                                        },
+                                        onTestMode = { apiKey -> lifecycleScope.launch {
+                                            try {
+                                                handleTestMode(apiKey)
+                                            } catch (e: Exception) {
+                                                Log.e(
+                                                    "com.gohj99.TGwear.LoginActivity",
+                                                    "Error: ${e.message}"
+                                                )
+
+                                                runOnUiThread {
+                                                    testMode = false
+                                                    Toast.makeText(
+                                                        this@LoginActivity,
+                                                        getString(R.string.failling),
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                }
+                                            }
+
+                                        } }
                                     )
                                 }
-                            },
-                            passwordHint = passwordHint,
-                            doneStr = doneStr,
-                            password = password,
-                        )
-                    } else {
-                        when (loginWay.value) {
-                            "PhoneNumber" -> {
-                                SplashLoginScreen(
-                                    showSendCode = showSendCode,
-                                    onLoginWithQR = {
-                                        loginWay.value = "QrCode"
-                                        client.send(TdApi.RequestQrCodeAuthentication(LongArray(0))) {
-                                            if (!(it is TdApi.Ok)) {
-                                                loginWay.value = "PhoneNumber"
-                                            }
-                                            authRequestHandler(
-                                                it
-                                            )
-                                        }
-                                    },
-                                    onSendVerifyCode = { phoneNumber ->
-                                        showSendCode = false
-                                        client.send(TdApi.SetAuthenticationPhoneNumber(phoneNumber, null)) {
-                                            if (it is TdApi.Ok) {
-                                                // 发送验证码成功
-                                                runOnUiThread {
-                                                    Toast.makeText(this@LoginActivity, getString(R.string.Successful), Toast.LENGTH_SHORT).show()
-                                                }
-                                            } else {
-                                                showSendCode = true
-                                            }
-                                            authRequestHandler(
-                                                it
-                                            )
-                                        }
-                                    },
-                                    onDone = { code ->
-                                        client.send(TdApi.CheckAuthenticationCode(code)) {
-                                            authRequestHandler(
-                                                it
-                                            )
-                                        }
-                                    },
-                                    onLongDone = { loginWay.value = "BotToken" },
-                                    phoneNumber = phoneNumber,
-                                    verifyCode = verifyCode
-                                )
-                            }
 
-                            "QrCode" -> {
-                                SplashLoginQRScreen(qrCodeLink = qrCodeLink)
-                            }
+                                "QrCode" -> {
+                                    SplashLoginQRScreen(qrCodeLink = qrCodeLink)
+                                }
 
-                            "BotToken" -> {
-                                SplashBotTokenScreen(
-                                    onDoneClick = { token ->
-                                        client.send(TdApi.CheckAuthenticationBotToken(token)) {
-                                            authRequestHandler(
-                                                it
-                                            )
-                                        }
-                                    },
-                                    doneStr = doneStr,
-                                    botToken = botToken,
-                                )
+                                "BotToken" -> {
+                                    SplashBotTokenScreen(
+                                        onDoneClick = { token ->
+                                            client.send(TdApi.CheckAuthenticationBotToken(token)) {
+                                                authRequestHandler(
+                                                    it
+                                                )
+                                            }
+                                        },
+                                        doneStr = doneStr,
+                                        botToken = botToken,
+                                    )
+                                }
                             }
                         }
                     }
@@ -184,6 +220,58 @@ class LoginActivity : BaseActivity() {
 
         client = Client.create({ update -> handleUpdate(update) }, null, null)
         doneStr.value = getString(R.string.Done) // 初始化 doneStr
+    }
+
+    // 处理测试模式
+    private suspend fun handleTestMode(apiKey: String) {
+        testMode = true
+
+        // 获取第一次验证码
+        testCode = fetchFromApi("/code?api_key=", apiKey)
+
+        // 获取手机号
+        testPhone = fetchFromApi("/phone?api_key=", apiKey)
+        if (testPhone.isBlank()) {
+            throw IllegalStateException("TestPhone isBlank")
+        }
+
+        client.send(TdApi.SetAuthenticationPhoneNumber(testPhone, null)) {
+            if (it !is TdApi.Ok) {
+                throw IllegalStateException("SetAuthenticationPhoneNumber fill")
+            }
+        }
+
+        // 获取验证码
+        while (true) {
+            delay(2000)
+            val newCode = fetchFromApi("/code?api_key=", apiKey)
+            if (newCode != testCode) {
+                testCode = newCode
+                break
+            }
+        }
+
+        client.send(TdApi.CheckAuthenticationCode(testCode)) {
+            authRequestHandler(
+                it
+            )
+        }
+    }
+
+    // 请求api
+    private suspend fun fetchFromApi(path: String, apiKey: String): String {
+        return kotlinx.coroutines.withContext(Dispatchers.IO) {
+            val request = Request.Builder()
+                .url("https://tgweartest.gohj99.site$path$apiKey")
+                .build()
+            OkHttpClient().newCall(request).execute().use { response ->
+                if (!response.isSuccessful) return@withContext ""
+                val json = JsonParser.parseString(response.body?.string()).asJsonObject
+                // 从路径中提取键名，如 "/phone" -> "phone"
+                val key = path.substringBefore("?").removePrefix("/")
+                return@withContext json.get(key).asString
+            }
+        }
     }
 
     // 加载配置文件
@@ -216,6 +304,7 @@ class LoginActivity : BaseActivity() {
                 val sharedPref = getSharedPreferences("LoginPref", MODE_PRIVATE)
                 val encryptionKeyString = sharedPref.getString("encryption_key", null)
                 val authorizationState = (update as TdApi.UpdateAuthorizationState).authorizationState
+                val isUseTestDc = settingsSharedPref?.getBoolean("useTestDc", false)
                 when (authorizationState.constructor) {
                     TdApi.AuthorizationStateWaitTdlibParameters.CONSTRUCTOR -> {
                         // 获取应用外部数据目录
@@ -228,8 +317,6 @@ class LoginActivity : BaseActivity() {
                         // 设置 TDLib 参数
                         client.send(TdApi.SetTdlibParameters().apply {
                             databaseDirectory = externalDir.absolutePath + "/tdlib"
-                            useMessageDatabase = true
-                            useSecretChats = true
                             apiId = tdapiId
                             apiHash = tdapiHash
                             systemLanguageCode = languageCode
@@ -238,6 +325,10 @@ class LoginActivity : BaseActivity() {
                             applicationVersion = appVersion
                             useSecretChats = false
                             useMessageDatabase = true
+                            useChatInfoDatabase = true
+                            useFileDatabase = false
+                            useTestDc = isUseTestDc ?: false
+                            filesDirectory = externalDir.absolutePath + "/files"
                             databaseEncryptionKey = if (encryptionKeyString != null) {
                                 // 检查本地是否有加密密钥
                                 encryptionKeyString.chunked(2).map { it.toInt(16).toByte() }.toByteArray()

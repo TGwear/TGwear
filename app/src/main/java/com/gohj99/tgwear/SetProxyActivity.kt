@@ -66,7 +66,6 @@ class SetProxyActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
         tgApi = TgApiManager.tgApi
         if (tgApi == null) {

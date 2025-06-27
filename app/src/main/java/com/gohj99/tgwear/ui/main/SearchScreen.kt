@@ -16,8 +16,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -35,8 +35,7 @@ import com.gohj99.tgwear.ui.verticalRotaryScroll
 import com.gohj99.tgwear.utils.telegram.searchPublicChats
 
 @Composable
-fun SearchLazyColumn(callback: (Chat) -> Unit) {
-    val listState = rememberLazyListState()
+fun SearchLazyColumn(callback: (Chat) -> Unit, listState: LazyListState) {
     val searchText = rememberSaveable { mutableStateOf("") }
     val searchList = rememberSaveable { mutableStateOf(listOf<Chat>()) }
 

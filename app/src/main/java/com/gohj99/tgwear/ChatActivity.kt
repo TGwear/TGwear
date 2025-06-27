@@ -129,7 +129,6 @@ class ChatActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
         // 接收传递的 Chat 对象
         chat = intent.getParcelableExtra("chat")

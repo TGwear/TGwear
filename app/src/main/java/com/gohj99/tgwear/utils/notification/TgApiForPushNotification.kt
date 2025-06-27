@@ -10,6 +10,8 @@ package com.gohj99.tgwear.utils.notification
 
 import android.content.ContentResolver
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
@@ -36,7 +38,7 @@ import java.io.IOException
 import java.util.concurrent.CountDownLatch
 
 class TgApiForPushNotification(private val context: Context) {
-    private val sharedPref = context.getSharedPreferences("LoginPref", Context.MODE_PRIVATE)
+    private val sharedPref = context.getSharedPreferences("LoginPref", MODE_PRIVATE)
     private val client: Client = Client.create({ update -> handleUpdate(update) }, null, null)
     private val userList = sharedPref.getString("userList", "")
     private val gson = Gson()
@@ -44,6 +46,7 @@ class TgApiForPushNotification(private val context: Context) {
     private val authLatch = CountDownLatch(1)
     private var currentUser: List<String> = emptyList()
     private var userId = ""
+    val settingsSharedPref: SharedPreferences = context.getSharedPreferences("app_settings", MODE_PRIVATE)
 
     init {
         // 获取用户ID
@@ -59,12 +62,11 @@ class TgApiForPushNotification(private val context: Context) {
         val tdapiId = config.getProperty("api_id").toInt()
         val tdapiHash = config.getProperty("api_hash")
         val encryptionKeyString = sharedPref.getString("encryption_key", null)
+        val isUseTestDc = settingsSharedPref.getBoolean("useTestDc", false)
         client.send(TdApi.SetTdlibParameters().apply {
             databaseDirectory = externalDir.absolutePath + (if (userId == "") "/tdlib" else {
                 "/$userId/tdlib"
             })
-            useMessageDatabase = true
-            useSecretChats = true
             apiId = tdapiId
             apiHash = tdapiHash
             systemLanguageCode = context.resources.configuration.locales[0].language
@@ -73,6 +75,10 @@ class TgApiForPushNotification(private val context: Context) {
             applicationVersion = getAppVersion(context)
             useSecretChats = false
             useMessageDatabase = true
+            useChatInfoDatabase = true
+            useFileDatabase = false
+            useTestDc = isUseTestDc
+            filesDirectory = externalDir.absolutePath + "/files"
             databaseEncryptionKey = encryptionKeyString?.chunked(2)?.map { it.toInt(16).toByte() }
                 ?.toByteArray()
                 ?: throw IllegalStateException("Encryption key not found")

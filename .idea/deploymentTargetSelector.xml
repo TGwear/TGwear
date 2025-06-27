@@ -35,10 +35,10 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="SplashRemindScreenPreview">
+      <SelectionState runConfigName="SplashPasswordScreenPreview">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="SplashPasswordScreenPreview">
+      <SelectionState runConfigName="SplashPasswordScreenPreview (1)">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

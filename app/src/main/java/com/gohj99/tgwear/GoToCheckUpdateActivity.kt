@@ -48,7 +48,6 @@ import com.gohj99.tgwear.ui.verticalRotaryScroll
 class GoToCheckUpdateActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
         val installer = packageManager.getInstallerPackageName(packageName)
         if (installer == "com.android.vending") {

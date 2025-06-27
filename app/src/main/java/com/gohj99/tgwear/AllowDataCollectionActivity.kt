@@ -44,7 +44,6 @@ class AllowDataCollectionActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
         val settingsSharedPref = getSharedPreferences("app_settings", MODE_PRIVATE)
 

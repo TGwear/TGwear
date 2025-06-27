@@ -59,7 +59,6 @@ class SettingActivity : BaseActivity() {
     @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
         val settingsSharedPref = getSharedPreferences("app_settings", MODE_PRIVATE)
         //Log.d("SharedPreferences", "当前获取状态: " + settingsSharedPref.getBoolean("Data_Collection", false))
@@ -511,6 +510,16 @@ class SettingActivity : BaseActivity() {
                                 .show()
                             restartSelf()
                         }
+                    ),
+                    SettingItem.Switch(
+                        itemName = "Use Test Dc (If you don't know, please don't click)",
+                        isSelected = settingsSharedPref.getBoolean("useTestDc", false),
+                        onSelect = { isUseTestDc ->
+                            with(settingsSharedPref.edit()) {
+                                putBoolean("useTestDc", isUseTestDc)
+                                commit()
+                            }
+                        }
                     )
                 )
             }
@@ -762,6 +771,16 @@ class SettingActivity : BaseActivity() {
                         onClick = {
                             with(settingsSharedPref.edit()) {
                                 putString("app_lang", "ko")
+                                apply()
+                            }
+                            restartSelf()
+                        }
+                    ),
+                    SettingItem.Click(
+                        itemName = "Español",
+                        onClick = {
+                            with(settingsSharedPref.edit()) {
+                                putString("app_lang", "es")
                                 apply()
                             }
                             restartSelf()

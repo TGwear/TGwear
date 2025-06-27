@@ -64,12 +64,11 @@ class TgApi(
         val tdapiId = config.getProperty("api_id").toInt()
         val tdapiHash = config.getProperty("api_hash")
         val encryptionKeyString = sharedPref.getString("encryption_key", null)
+        val isUseTestDc = settingsSharedPref.getBoolean("useTestDc", false)
         client.send(TdApi.SetTdlibParameters().apply {
             databaseDirectory = externalDir.absolutePath + (if (userId == "") "/tdlib" else {
                 "/$userId/tdlib"
             })
-            useMessageDatabase = true
-            useSecretChats = true
             apiId = tdapiId
             apiHash = tdapiHash
             systemLanguageCode = context.resources.configuration.locales[0].language
@@ -78,6 +77,10 @@ class TgApi(
             applicationVersion = getAppVersion(context)
             useSecretChats = false
             useMessageDatabase = true
+            useChatInfoDatabase = true
+            useFileDatabase = false
+            useTestDc = isUseTestDc
+            filesDirectory = externalDir.absolutePath + "/files"
             databaseEncryptionKey = encryptionKeyString?.chunked(2)?.map { it.toInt(16).toByte() }
                 ?.toByteArray()
                 ?: throw IllegalStateException("Encryption key not found")
