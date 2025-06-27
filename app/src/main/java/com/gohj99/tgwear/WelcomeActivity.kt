@@ -41,7 +41,6 @@ class WelcomeActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
         // 获取共享偏好设置
         sharedPref = getSharedPreferences("LoginPref", MODE_PRIVATE)

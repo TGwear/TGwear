@@ -93,7 +93,6 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
         // 获取数据收集配置
         if (!settingsSharedPref.contains("Data_Collection")) {

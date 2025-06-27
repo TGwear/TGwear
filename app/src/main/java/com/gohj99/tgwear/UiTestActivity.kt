@@ -16,7 +16,6 @@ import com.gohj99.tgwear.ui.theme.TGwearTheme
 class UiTestActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
         setContent {
             TGwearTheme {

@@ -22,11 +22,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,6 +43,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.wear.compose.material3.ScrollIndicator
 import com.gohj99.tgwear.R
 import com.gohj99.tgwear.model.Chat
 import com.gohj99.tgwear.model.SettingItem
@@ -66,6 +69,7 @@ fun MainScreen(
     val home = stringResource(id = R.string.HOME)
     val setting = stringResource(id = R.string.Settings)
     var showMenu by remember { mutableStateOf(false) }
+
     val lastPages = listOf(
         archivedChats,
         contact,
@@ -76,6 +80,11 @@ fun MainScreen(
         mutableStateOf(listOf(home) + lastPages)  // 直接合并两个列表
     }
     var nowPage by remember { mutableIntStateOf(0) }
+
+    val listState = key(nowPage, showMenu) {
+        rememberLazyListState()
+    }
+
 
     LaunchedEffect(chatsFoldersList.value) {
         try {
@@ -149,7 +158,8 @@ fun MainScreen(
                 nowPage = { page ->
                     nowPage = page
                     showMenu = false
-                }
+                },
+                listState = listState
             )
         } else {
             if (nowPage < (allPages.size - lastPages.size) && nowPage != mainChatListPosition.value) {
@@ -159,7 +169,8 @@ fun MainScreen(
                         callback = chatPage,
                         chatsFolder = chatsFoldersList.value.find { it.title == allPages[nowPage] },
                         currentUserId = currentUserId,
-                        contactsList = contacts.value
+                        contactsList = contacts.value,
+                        listState = listState
                     )
                 }
             } else if (nowPage == mainChatListPosition.value){
@@ -167,35 +178,46 @@ fun MainScreen(
                     itemsList = chats,
                     callback = chatPage,
                     currentUserId = currentUserId,
+                    listState = listState
                 )
             } else {
                 when (if (nowPage <= allPages.size) allPages[nowPage] else "error") {
                     archivedChats -> {
                         ArchivedChatsLazyColumn(
                             itemsList = chats,
-                            callback = chatPage
+                            callback = chatPage,
+                            listState = listState
                         )
                     }
 
                     contact -> {
                         ContactsLazyColumn(
                             itemsList = contacts.value,
-                            callback = chatPage
+                            callback = chatPage,
+                            listState = listState
                         )
                     }
 
                     search -> {
                         SearchLazyColumn(
-                            callback = chatPage
+                            callback = chatPage,
+                            listState = listState
                         )
                     }
 
                     setting -> {
-                        SettingLazyColumn(settingList)
+                        SettingLazyColumn(itemsList = settingList, getListState = listState)
                     }
                 }
             }
         }
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        ScrollIndicator(
+            state = listState,
+            modifier = Modifier.align(Alignment.CenterEnd)
+        )
     }
 }
 

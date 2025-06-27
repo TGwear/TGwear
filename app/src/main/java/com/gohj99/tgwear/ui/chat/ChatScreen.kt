@@ -27,8 +27,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -53,6 +51,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.wear.compose.foundation.pager.HorizontalPager
+import androidx.wear.compose.foundation.pager.PagerState
+import androidx.wear.compose.material3.HorizontalPageIndicator
 import androidx.wear.compose.material3.ScrollIndicator
 import com.gohj99.tgwear.R
 import com.gohj99.tgwear.TgApiManager.tgApi
@@ -121,7 +122,8 @@ fun SplashChatScreen(
         mutableStateOf(TdApi.Message())
     }
     val senderNameMap = remember { mutableStateOf(mutableMapOf<Long, String?>()) }
-    val pagerState = rememberPagerState(pageCount = { 2 }, initialPage = 0)
+    val pagerState: PagerState =
+        androidx.wear.compose.foundation.pager.rememberPagerState(initialPage = 0) { 2 }
     var notJoin by remember { mutableStateOf(chatObject.positions.isEmpty()) }
     val coroutineScope = rememberCoroutineScope()
     val planReplyMessage = remember { mutableStateOf(tgApi!!.replyMessage.value) }
@@ -430,6 +432,11 @@ fun SplashChatScreen(
                 onDismiss = { isLongPressed.value = false }
             )
         }
+
+        HorizontalPageIndicator(
+            pagerState = pagerState,
+            backgroundColor = Color.Transparent
+        )
 
         // 0页下方功能区
         if (pagerState.currentPage == 0) {

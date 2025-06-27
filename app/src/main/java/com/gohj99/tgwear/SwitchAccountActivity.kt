@@ -48,7 +48,6 @@ import com.google.gson.JsonObject
 class SwitchAccountActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
         // 获取传入账号
         val account: String = intent.getStringExtra("account").toString()

@@ -93,7 +93,7 @@ class CheckUpdateActivity : BaseActivity() {
                 client.newCall(request).enqueue(object : Callback {
                     override fun onFailure(call: Call, e: IOException) {
                         Log.e(
-                            "com.TGwear.TGwear.CheckUpdateActivity",
+                            "com.gohj99.TGwear.CheckUpdateActivity",
                             "Request failed: ${e.message}"
                         )
                     }

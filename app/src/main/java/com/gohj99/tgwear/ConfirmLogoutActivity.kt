@@ -53,7 +53,6 @@ class ConfirmLogoutActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
         tgApi = TgApiManager.tgApi
 

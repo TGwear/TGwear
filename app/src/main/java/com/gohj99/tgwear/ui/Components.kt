@@ -417,6 +417,9 @@ fun InputRoundBar(
             } else {
                 VisualTransformation.None
             },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = if (isPassword) KeyboardType.Password else KeyboardType.Text
+            ),
             textStyle = LocalTextStyle.current.copy(
                 color = Color.White,
                 fontSize = MaterialTheme.typography.titleMedium.fontSize

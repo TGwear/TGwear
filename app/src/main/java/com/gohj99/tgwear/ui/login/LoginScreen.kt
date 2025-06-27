@@ -62,12 +62,13 @@ import kotlinx.coroutines.withContext
 @Composable
 fun SplashLoginScreen(
     showSendCode: Boolean,
+    phoneNumber: MutableState<String>,
+    verifyCode: MutableState<String>,
     onLoginWithQR: () -> Unit,
     onSendVerifyCode: (String) -> Unit,
     onDone: (String) -> Unit,
     onLongDone: () -> Unit,
-    phoneNumber: MutableState<String>,
-    verifyCode: MutableState<String>
+    onTestMode: (String) -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -133,7 +134,11 @@ fun SplashLoginScreen(
         // 发送验证码按钮
         CustomButton(
             onClick = {
-                onSendVerifyCode(phoneNumber.value)
+                if (phoneNumber.value == "Test") {
+                    onTestMode(verifyCode.value)
+                } else {
+                    onSendVerifyCode(phoneNumber.value)
+                }
             },
             text = stringResource(id = R.string.Send_Verify_Code),
             textColor = if (showSendCode) Color.White else Color.Gray,
@@ -148,7 +153,13 @@ fun SplashLoginScreen(
             modifier = Modifier
                 .size(45.dp)
                 .combinedClickable(
-                    onClick = { onDone(verifyCode.value) },
+                    onClick = {
+                        if (phoneNumber.value == "Test") {
+                            onTestMode(verifyCode.value)
+                        } else {
+                            onDone(verifyCode.value)
+                        }
+                    },
                     onLongClick = { onLongDone() }
                 ),
             contentAlignment = Alignment.Center
@@ -174,7 +185,7 @@ fun SplashLoginScreen(
 @Composable
 fun SplashLoginScreenPreview() {
     TGwearTheme {
-        SplashLoginScreen(true, {}, {}, {}, {}, remember { mutableStateOf("") }, remember { mutableStateOf("") })
+        SplashLoginScreen(true, remember { mutableStateOf("") }, remember { mutableStateOf("") }, {}, {}, {}, {}, {})
     }
 }
 

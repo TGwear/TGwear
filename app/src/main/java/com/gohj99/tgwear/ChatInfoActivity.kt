@@ -40,7 +40,6 @@ class ChatInfoActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
         // 显示加载页面
         setContent {

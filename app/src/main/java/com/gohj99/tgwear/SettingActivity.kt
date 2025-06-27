@@ -59,7 +59,6 @@ class SettingActivity : BaseActivity() {
     @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
         val settingsSharedPref = getSharedPreferences("app_settings", MODE_PRIVATE)
         //Log.d("SharedPreferences", "当前获取状态: " + settingsSharedPref.getBoolean("Data_Collection", false))

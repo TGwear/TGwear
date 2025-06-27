@@ -47,7 +47,6 @@ import com.gohj99.tgwear.utils.urlHandle
 class RemindActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         val settingsSharedPref = getSharedPreferences("app_settings", MODE_PRIVATE)
         setContent {
             TGwearTheme {

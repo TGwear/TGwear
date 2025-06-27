@@ -53,7 +53,6 @@ import com.gohj99.tgwear.utils.urlHandle
 class DonateActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             TGwearTheme {
                 SplashDonateScreen()
