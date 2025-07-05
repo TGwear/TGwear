@@ -18,7 +18,6 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.content.ContextCompat
@@ -385,8 +384,18 @@ class SettingActivity : BaseActivity() {
                         }
                     ),
                     SettingItem.Click(
+                        itemName = getString(R.string.Restart),
+                        onClick = {
+                            restartSelf()
+                        }
+                    ),
+                    SettingItem.Click(
                         itemName = getString(R.string.Clearing_cache),
                         onClick = {
+                            cacheDir.deleteRecursively()
+                            val dir = File(externalDir.absolutePath)
+                            dir.listFiles()?.find { it.name == "temp" && it.isDirectory }
+                                ?.deleteRecursively()
                             cacheDir.deleteRecursively()
                             Toast.makeText(
                                 this,
@@ -396,15 +405,9 @@ class SettingActivity : BaseActivity() {
                         }
                     ),
                     SettingItem.Click(
-                        itemName = getString(R.string.Restart),
-                        onClick = {
-                            restartSelf()
-                        }
-                    ),
-                    SettingItem.Click(
                         itemName = getString(R.string.Clear_thumbnails),
                         onClick = {
-                            val dir = File(externalDir.absolutePath + chatId + "/tdlib")
+                            val dir = File(externalDir.absolutePath)
                             dir.listFiles()?.find { it.name == "thumbnails" && it.isDirectory }
                                 ?.deleteRecursively()
                             cacheDir.deleteRecursively()
@@ -418,7 +421,7 @@ class SettingActivity : BaseActivity() {
                     SettingItem.Click(
                         itemName = getString(R.string.Clear_photos),
                         onClick = {
-                            val dir = File(externalDir.absolutePath + chatId + "/tdlib")
+                            val dir = File(externalDir.absolutePath)
                             dir.listFiles()?.find { it.name == "photos" && it.isDirectory }
                                 ?.deleteRecursively()
                             cacheDir.deleteRecursively()
@@ -432,7 +435,7 @@ class SettingActivity : BaseActivity() {
                     SettingItem.Click(
                         itemName = getString(R.string.Clear_voice),
                         onClick = {
-                            val dir = File(externalDir.absolutePath + chatId + "/tdlib")
+                            val dir = File(externalDir.absolutePath)
                             dir.listFiles()?.find { it.name == "voice" && it.isDirectory }
                                 ?.deleteRecursively()
                             cacheDir.deleteRecursively()
@@ -446,22 +449,8 @@ class SettingActivity : BaseActivity() {
                     SettingItem.Click(
                         itemName = getString(R.string.Clear_videos),
                         onClick = {
-                            val dir = File(externalDir.absolutePath + chatId + "/tdlib")
+                            val dir = File(externalDir.absolutePath)
                             dir.listFiles()?.find { it.name == "videos" && it.isDirectory }
-                                ?.deleteRecursively()
-                            cacheDir.deleteRecursively()
-                            Toast.makeText(
-                                this,
-                                getString(R.string.Successful),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    ),
-                    SettingItem.Click(
-                        itemName = getString(R.string.Clear_cache),
-                        onClick = {
-                            val dir = File(externalDir.absolutePath + chatId + "/tdlib")
-                            dir.listFiles()?.find { it.name == "temp" && it.isDirectory }
                                 ?.deleteRecursively()
                             cacheDir.deleteRecursively()
                             Toast.makeText(

@@ -328,7 +328,7 @@ class LoginActivity : BaseActivity() {
                             useChatInfoDatabase = true
                             useFileDatabase = false
                             useTestDc = isUseTestDc ?: false
-                            filesDirectory = externalDir.absolutePath + "/files"
+                            filesDirectory = externalDir.absolutePath
                             databaseEncryptionKey = if (encryptionKeyString != null) {
                                 // 检查本地是否有加密密钥
                                 encryptionKeyString.chunked(2).map { it.toInt(16).toByte() }.toByteArray()

@@ -78,7 +78,7 @@ class TgApiForPushNotification(private val context: Context) {
             useChatInfoDatabase = true
             useFileDatabase = false
             useTestDc = isUseTestDc
-            filesDirectory = externalDir.absolutePath + "/files"
+            filesDirectory = externalDir.absolutePath
             databaseEncryptionKey = encryptionKeyString?.chunked(2)?.map { it.toInt(16).toByte() }
                 ?.toByteArray()
                 ?: throw IllegalStateException("Encryption key not found")
