@@ -6,8 +6,8 @@
   ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
   ~ Vestibulum commodo. Ut rhoncus gravida arcu.
   -->
-<resources>
-    <string name="Start_messaging">Komencu mesaĝadon</string>
+<resources> 
+    <string name="Start_messaging">Komencu mesaĝadon</string>  
     <string name="Welcome_to_app">Bonvenon al TGwear-apliko</string>  
     <string name="Network">Reto</string>  
     <string name="Settings">Agordo</string>  
@@ -15,8 +15,8 @@
     <string name="Reset_self">Restarigi mem(Rekomenci)</string>  
     <string name="Successful">Sukcesa</string>  
     <string name="Password">Pasvorto</string>  
-    <string name="Password_Error">Pasvorta Eraro</string>
-    <string name="Done">Farita</string>
+    <string name="Password_Error">Pasvorta Eraro</string>  
+    <string name="Done">Farita</string>  
     <string name="scan_qr">Skani Formularon Telegramon</string>  
     <string name="loading">ŝarĝante…</string>  
     <string name="Request_error">Peti eraron</string>  
@@ -216,5 +216,6 @@
     <string name="Maximum_preload_messages">Maksimuma nombro da mesaĝoj por ŝarĝi anticipe (ju pli granda estas la valoro, des pli longe ĝi bezonas por ŝarĝi la kunsidon)</string>  
     <string name="Delay_read_session_time">Prokrasto Legu Sesio -Tempo (s).</string>  
     <string name="Donation_version_features">Donacaj versiaj funkcioj</string>  
-    <string name="Download_Complete">Elŝutu Kompleta</string>
+    <string name="Download_Complete">Elŝutu Kompleta</string>  
+    <string name="Clear_documents">Klaraj dokumentoj</string>
 </resources>

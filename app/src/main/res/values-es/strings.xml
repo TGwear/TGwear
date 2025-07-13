@@ -216,5 +216,6 @@
     <string name="Maximum_preload_messages">Número máximo de mensajes a cargar por adelantado (cuanto mayor sea el valor, más tiempo tardará en cargarse la sesión)</string>  
     <string name="Delay_read_session_time">Retrasar el tiempo de lectura de la sesión.</string>  
     <string name="Donation_version_features">Características de la versión de donación</string>  
-    <string name="Download_Complete">Descargar completo</string>
+    <string name="Download_Complete">Descargar completo</string>  
+    <string name="Clear_documents">Documentos claros</string>
 </resources>

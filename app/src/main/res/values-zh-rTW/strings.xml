@@ -6,8 +6,8 @@
   ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
   ~ Vestibulum commodo. Ut rhoncus gravida arcu.
   -->
-<resources>
-    <string name="Start_messaging">開始發送訊息</string>
+<resources> 
+    <string name="Start_messaging">開始發送訊息</string>  
     <string name="Welcome_to_app">歡迎使用TGwear應用程式</string>  
     <string name="Network">網路</string>  
     <string name="Settings">環境</string>  
@@ -15,8 +15,8 @@
     <string name="Reset_self">自我重置（重新啟動）</string>  
     <string name="Successful">成功的</string>  
     <string name="Password">密碼</string>  
-    <string name="Password_Error">密碼錯誤</string>
-    <string name="Done">完畢</string>
+    <string name="Password_Error">密碼錯誤</string>  
+    <string name="Done">完畢</string>  
     <string name="scan_qr">掃描電報表格</string>  
     <string name="loading">載入中…</string>  
     <string name="Request_error">請求錯誤</string>  
@@ -216,5 +216,6 @@
     <string name="Maximum_preload_messages">提前加載消息的最大數量（值越大，加載會話所需的時間越長）</string>  
     <string name="Delay_read_session_time">延遲閱讀會話時間(s)</string>  
     <string name="Donation_version_features">捐贈版本功能</string>  
-    <string name="Download_Complete">下載完成</string>
+    <string name="Download_Complete">下載完成</string>  
+    <string name="Clear_documents">清除文件</string>
 </resources>

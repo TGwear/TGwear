@@ -405,6 +405,20 @@ class SettingActivity : BaseActivity() {
                         }
                     ),
                     SettingItem.Click(
+                        itemName = getString(R.string.Clear_documents),
+                        onClick = {
+                            val dir = File(externalDir.absolutePath)
+                            dir.listFiles()?.find { it.name == "documents" && it.isDirectory }
+                                ?.deleteRecursively()
+                            cacheDir.deleteRecursively()
+                            Toast.makeText(
+                                this,
+                                getString(R.string.Successful),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    ),
+                    SettingItem.Click(
                         itemName = getString(R.string.Clear_thumbnails),
                         onClick = {
                             val dir = File(externalDir.absolutePath)

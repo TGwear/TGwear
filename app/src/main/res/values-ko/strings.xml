@@ -216,5 +216,6 @@
     <string name="Maximum_preload_messages">미리 로드할 최대 메시지 수 (값이 클수록 세션을 로드하는 데 시간이 더 오래 걸림)</string>  
     <string name="Delay_read_session_time">읽기 세션 시간을 지연합니다.</string>  
     <string name="Donation_version_features">기부 버전 기능</string>  
-    <string name="Download_Complete">전체 다운로드</string>
+    <string name="Download_Complete">전체 다운로드</string>  
+    <string name="Clear_documents">명확한 문서</string>
 </resources>

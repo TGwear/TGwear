@@ -228,4 +228,5 @@
     <string name="Delay_read_session_time">Delay read session time(s).</string>
     <string name="Donation_version_features">Donation version features</string>
     <string name="Download_Complete">Download Complete</string>
+    <string name="Clear_documents">Clear documents</string>
 </resources>

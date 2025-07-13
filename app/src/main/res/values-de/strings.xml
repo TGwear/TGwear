@@ -216,5 +216,6 @@
     <string name="Maximum_preload_messages">Maximale Anzahl der im Voraus zu ladenden Nachrichten (je größer der Wert, desto länger dauert das Laden der Sitzung)</string>  
     <string name="Delay_read_session_time">Verzögerungszeit(en) der Lesesitzung.</string>  
     <string name="Donation_version_features">Funktionen der Spendenversion</string>  
-    <string name="Download_Complete">Laden Sie vollständig herunter</string>
+    <string name="Download_Complete">Laden Sie vollständig herunter</string>  
+    <string name="Clear_documents">Dokumente klaren</string>
 </resources>

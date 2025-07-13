@@ -6,8 +6,8 @@
   ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
   ~ Vestibulum commodo. Ut rhoncus gravida arcu.
   -->
-<resources>
-    <string name="Start_messaging">Войти</string>
+<resources> 
+    <string name="Start_messaging">Войти</string>  
     <string name="Welcome_to_app">Добро пожаловать</string>  
     <string name="Network">Сеть</string>  
     <string name="Settings">Настройки</string>  
@@ -15,8 +15,8 @@
     <string name="Reset_self">Сбросить настройки (Перезапустить)</string>  
     <string name="Successful">Успешно</string>  
     <string name="Password">Пароль</string>  
-    <string name="Password_Error">Неверный пароль</string>
-    <string name="Done">Готово</string>
+    <string name="Password_Error">Неверный пароль</string>  
+    <string name="Done">Готово</string>  
     <string name="scan_qr">Сканируйте QR-код</string>  
     <string name="loading">Загрузка…</string>  
     <string name="Request_error">Ошибка запроса</string>  
@@ -216,5 +216,6 @@
     <string name="Maximum_preload_messages">Максимальное количество сообщений для загрузки заранее (чем больше значение, тем дольше требуется для загрузки сеанса)</string>  
     <string name="Delay_read_session_time">Задержка прочтения времени сеанса (s).</string>  
     <string name="Donation_version_features">Особенности версии пожертвования</string>  
-    <string name="Download_Complete">Скачать комплекс</string>
+    <string name="Download_Complete">Скачать комплекс</string>  
+    <string name="Clear_documents">Четкие документы</string>
 </resources>

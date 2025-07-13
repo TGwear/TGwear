@@ -216,5 +216,6 @@
     <string name="Maximum_preload_messages">事前に読み込むメッセージの最大数（値が大きいほど、セッションの読み込みにかかる時間が長くなります）</string>  
     <string name="Delay_read_session_time">読み取りセッション時間を遅延します。</string>  
     <string name="Donation_version_features">寄付版の機能</string>  
-    <string name="Download_Complete">完全にダウンロードしてください</string>
+    <string name="Download_Complete">完全にダウンロードしてください</string>  
+    <string name="Clear_documents">クリアドキュメント</string>
 </resources>
