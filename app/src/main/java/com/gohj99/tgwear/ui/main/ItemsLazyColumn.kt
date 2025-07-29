@@ -34,16 +34,9 @@ import com.gohj99.tgwear.TgApiManager
 import com.gohj99.tgwear.model.Chat
 import com.gohj99.tgwear.ui.SearchBar
 import com.gohj99.tgwear.ui.verticalRotaryScroll
+import com.gohj99.tgwear.utils.matchingString
 import com.gohj99.tgwear.utils.telegram.loadChats
 import org.drinkless.tdlib.TdApi
-
-// 字符串匹配
-fun matchingString(target: String, original: String): Boolean {
-    return if (target != "")
-        if (original != "") original.contains(target, ignoreCase = true)
-        else false
-    else true
-}
 
 @Composable
 fun ChatLazyColumn(
