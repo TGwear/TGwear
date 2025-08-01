@@ -10,17 +10,16 @@ package com.gohj99.tgwear
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import com.gohj99.tgwear.ui.VoiceCallScreen
 import com.gohj99.tgwear.ui.theme.TGwearTheme
-import org.thunderdog.challegram.voip.VoIP
 
 class VoiceCallActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        VoIP.initialize(this)
-
         setContent {
             TGwearTheme {
+                VoiceCallScreen()
             }
         }
     }

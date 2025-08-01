@@ -1,6 +1,20 @@
 -keep class org.drinkless.tdlib.** { *; }
 -keep class org.drinkless.tdlib.TdApi$* { *; }
 -keep class org.drinkless.tdlib.Client$* { *; }
+-keep class org.thunderdog.challegram.** { *; }
+-keep class org.* { *; }
+-keep class org.** { *; }
+-keepclassmembers class org.* { *; }
+-keepclassmembers class org.** { *; }
+-keep class org.*
+-keep class org.**
+-keepclassmembers class org.**
+-keepclassmembers class org.*
+-keep class androidx.media3.*
+-keep class androidx.media3.**
+-keepclassmembers class androidx.media3.*
+-keepclassmembers class androidx.media3.**
+-keep class org.thunderdog.challegram.voip.AudioRecordJNI { *; }
 -keep class okhttp3.internal.platform.** { *; }
 -keep class org.bouncycastle.jsse.** { *; }
 -keep class org.bouncycastle.** { *; }
