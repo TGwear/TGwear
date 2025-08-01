@@ -21,6 +21,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.drinkless.tdlib.Client
 import org.drinkless.tdlib.TdApi
+import org.thunderdog.challegram.voip.VoIPInstance
 import java.io.File
 import java.util.concurrent.CountDownLatch
 
@@ -54,7 +55,8 @@ class TgApi(
     var forwardMessage: MutableState<TdApi.Message?> = mutableStateOf(null)
     var chatReadList = mutableStateMapOf<Long, Int>()
     var testMode = mutableStateOf(false)
-
+    var callItem: TdApi.Call? = null
+    var voipItem: VoIPInstance? = null
 
     init {
         // 获取应用外部数据目录
@@ -178,6 +180,7 @@ class TgApi(
             TdApi.UpdateChatNotificationSettings.CONSTRUCTOR -> handleChatNotificationSettingsUpdate(update as TdApi.UpdateChatNotificationSettings)
             TdApi.UpdateChatDraftMessage.CONSTRUCTOR -> handleChatDraftMessageUpdate(update as TdApi.UpdateChatDraftMessage)
             TdApi.UpdateCall.CONSTRUCTOR -> handleCallUpdate(update as TdApi.UpdateCall)
+            TdApi.UpdateNewCallSignalingData.CONSTRUCTOR -> handleNewCallSignalingDataUpdate(update as TdApi.UpdateNewCallSignalingData)
             // 其他更新
             else -> {
                 Log.d("TdApiUpdate","Received update: $update")

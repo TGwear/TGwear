@@ -22,6 +22,7 @@ import com.gohj99.tgwear.R
 import com.gohj99.tgwear.TgApiManager.tgApi
 import com.gohj99.tgwear.model.Chat
 import com.gohj99.tgwear.utils.generateChatTitleIconBitmap
+import com.gohj99.tgwear.utils.getNetworkType
 import com.gohj99.tgwear.utils.notification.drawableToBitmap
 import com.gohj99.tgwear.utils.notification.sendChatMessageNotification
 import com.google.firebase.messaging.FirebaseMessaging
@@ -32,6 +33,13 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.drinkless.tdlib.TdApi
+import org.thunderdog.challegram.voip.ConnectionStateListener
+import org.thunderdog.challegram.voip.NetworkStats
+import org.thunderdog.challegram.voip.VoIP
+import org.thunderdog.challegram.voip.VoIPInstance
+import org.thunderdog.challegram.voip.annotation.AudioState
+import org.thunderdog.challegram.voip.annotation.CallState
+import org.thunderdog.challegram.voip.annotation.VideoState
 import java.io.File
 import java.io.IOException
 
@@ -828,23 +836,93 @@ internal fun TgApi.handleChatDraftMessageUpdate(update: TdApi.UpdateChatDraftMes
 
 internal fun TgApi.handleCallUpdate(update: TdApi.UpdateCall) {
     val call = update.call
+    callItem = call
     when (call.state) {
         is TdApi.CallStateReady -> {
             // 呼叫已就绪
             println("Call is ready")
+            val stateListener = object : ConnectionStateListener {
+                override fun onSignallingDataEmitted(data: ByteArray?) {
+                    if (data == null) return
+                    println("→ 发出信令包，长度 ${data.size}")
+                    client.send(
+                        TdApi.SendCallSignalingData(call.id, data)
+                    ) { result -> println("SendCallSignalingData: $result") }
+                }
+
+                override fun onConnectionStateChanged(context: VoIPInstance, @CallState newState: Int) {
+                    // newState 会是下面这些常量之一：
+                    //  CallState.PENDING, EXCHANGING_KEYS, READY, HANGING_UP, DISCARDED, ERROR
+                    println("🔌 VoIP 连接状态变更: $newState")
+                }
+
+                override fun onRemoteMediaStateChanged(
+                    context: VoIPInstance,
+                    @AudioState audioState: Int,
+                    @VideoState videoState: Int
+                ) {
+                    // audioState: 0=ENDED, 1=PAUSED, 2=PLAYING
+                    println("🎧 远端媒体状态：audio=$audioState, video=$videoState")
+                }
+
+                override fun onStopped(
+                    releasedContext: VoIPInstance,
+                    finalStats: NetworkStats,
+                    debugLog: String?
+                ) {
+                    println("🛑 VoIP 已停止：$finalStats")
+                    debugLog?.let { println("📝 调试日志：$it") }
+                }
+            }
+
+            voipItem = VoIP.instantiateAndConnect(
+                call,
+                call.state as TdApi.CallStateReady?,
+                stateListener,
+                false,
+                null,
+                getNetworkType(context),
+                true,
+                1,
+                false
+            )
+        }
+        is TdApi.CallStatePending -> {
+            // 被呼叫在等待
+            println("Call is pending")
             onCall.invoke(call)
+        }
+        is TdApi.CallStateExchangingKeys -> {
+            // 正在交换密钥
+            println("Exchanging keys")
+            //voipItem?.initializeAndConnect()
         }
         is TdApi.CallStateHangingUp -> {
             // 呼叫已挂断
             println("Call is hanging up")
+            voipItem = null
+            callItem = null
         }
         is TdApi.CallStateDiscarded -> {
             // 呼叫已结束
             println("Call is discarded")
+            voipItem = null
+            callItem = null
         }
         else -> {
             // 其他状态
             println("Call state: ${call.state}")
         }
     }
+}
+
+internal fun TgApi.handleNewCallSignalingDataUpdate(update: TdApi.UpdateNewCallSignalingData) {
+    val data = update.data
+    //val call = update.callId
+    println("New call signaling data: $data")
+
+    voipItem!!.handleIncomingSignalingData(data)
+    /*client.send(
+        TdApi.SendCallSignalingData(call, data)
+    ) { result -> println("SendCallSignalingData: $result") }*/
 }

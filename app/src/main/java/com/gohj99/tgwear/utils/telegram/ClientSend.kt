@@ -19,6 +19,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import org.drinkless.tdlib.TdApi
 import org.drinkless.tdlib.TdApi.InputMessageContent
+import org.thunderdog.challegram.voip.VoIP
 import java.io.File
 import kotlin.coroutines.resume
 
@@ -439,6 +440,17 @@ fun TgApi.setFCMToken(token: String = "", callback: (Long) -> Unit = {}) {
             callback(result.id)
         } else {
             println("Failed to set FCM token: $result")
+        }
+    }
+}
+
+// 接受通话
+fun TgApi.acceptCall(callId: Int) {
+    client.send(TdApi.AcceptCall(callId, VoIP.getProtocol())) { result ->
+        if (result is TdApi.Ok) {
+            println("Call accepted successfully")
+        } else {
+            println("Failed to accept call: $result")
         }
     }
 }

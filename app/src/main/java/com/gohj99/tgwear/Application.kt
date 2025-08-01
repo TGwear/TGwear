@@ -11,20 +11,27 @@ package com.gohj99.tgwear
 import android.app.Application
 
 class Application : Application() {
+
+    companion object {
+        private lateinit var application: Application
+        fun getApplication(): Application = application
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        application = this
+    }
+
     init {
         System.loadLibrary("tdjni")
         System.loadLibrary("tgcallsjni")
         System.loadLibrary("leveldbjni")
         System.loadLibrary("tgxjni")
-        System.loadLibrary("tgcallsjni")
+        System.loadLibrary("tgcallsjni") // 重复加载一次可能没必要，可以去掉
 
         Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
-
+            throwable.printStackTrace()
         }
     }
-
-    companion object {
-        private lateinit var mApplication: com.gohj99.tgwear.Application
-        fun getApplication(): com.gohj99.tgwear.Application = mApplication
-    }
 }
+
