@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+<resources>
+    <string name="app_name">Media3 Compose Demo</string>
+    <string name="playpause_button_play">Play</string>
+    <string name="playpause_button_pause">Pause</string>
+    <string name="next_button">Next</string>
+    <string name="previous_button">Previous</string>
+    <string name="repeat_button_repeat_off_description">Current mode: Repeat none. Toggle repeat mode.</string>
+    <string name="repeat_button_repeat_one_description">Current mode: Repeat one. Toggle repeat mode.</string>
+    <string name="repeat_button_repeat_all_description">Current mode: Repeat all. Toggle repeat mode.</string>
+    <string name="shuffle_button_shuffle_on_description">Disable shuffle mode.</string>
+    <string name="shuffle_button_shuffle_off_description">Enable shuffle mode</string>
+</resources>

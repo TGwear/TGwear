@@ -7,7 +7,7 @@
  */
 package org.thunderdog.challegram.voip;
 
-import static cn.spacexc.neogram.utils.LogUtilsKt.getLogDir;
+import static com.gohj99.tgwear.utils.LogKt.getLogDir;
 
 import androidx.annotation.Nullable;
 
@@ -15,8 +15,6 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
-
-import cn.spacexc.neogram.Application;
 
 public class VoIPLogs {
     private static final int KEEP_COUNT = 6;

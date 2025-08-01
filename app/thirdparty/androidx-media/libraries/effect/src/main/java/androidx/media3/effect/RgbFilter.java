@@ -1,0 +1,97 @@
+/*
+ * Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+
+package androidx.media3.effect;
+
+import static androidx.media3.common.util.Assertions.checkState;
+
+import android.content.Context;
+import androidx.media3.common.VideoFrameProcessingException;
+import androidx.media3.common.util.UnstableApi;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+
+/**
+ * Provides common color filters.
+ *
+ * <p>This effect assumes a {@linkplain DefaultVideoFrameProcessor#WORKING_COLOR_SPACE_LINEAR
+ * linear} working color space.
+ */
+@UnstableApi
+public final class RgbFilter implements RgbMatrix {
+  private static final int COLOR_FILTER_GRAYSCALE_INDEX = 1;
+  private static final int COLOR_FILTER_INVERTED_INDEX = 2;
+
+  // Grayscale transformation matrix using the BT.709 luminance coefficients from
+  // https://en.wikipedia.org/wiki/Grayscale#Converting_colour_to_grayscale
+  private static final float[] FILTER_MATRIX_GRAYSCALE_SDR = {
+    0.2126f, 0.2126f, 0.2126f, 0, 0.7152f, 0.7152f, 0.7152f, 0, 0.0722f, 0.0722f, 0.0722f, 0, 0, 0,
+    0, 1
+  };
+  // Grayscale transformation using the BT.2020 primary colors from
+  // https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-2-201510-I!!PDF-E.pdf
+  // TODO(b/241240659): Add HDR tests once infrastructure supports it.
+  private static final float[] FILTER_MATRIX_GRAYSCALE_HDR = {
+    0.2627f, 0.2627f, 0.2627f, 0, 0.6780f, 0.6780f, 0.6780f, 0, 0.0593f, 0.0593f, 0.0593f, 0, 0, 0,
+    0, 1
+  };
+  // Inverted filter uses the transformation R' = -R + 1 = 1 - R.
+  private static final float[] FILTER_MATRIX_INVERTED = {
+    -1, 0, 0, 0, 0, -1, 0, 0, 0, 0, -1, 0, 1, 1, 1, 1
+  };
+
+  private final int colorFilter;
+
+  /**
+   * Ensures that the usage of HDR is consistent. {@code null} indicates that HDR has not yet been
+   * set.
+   */
+  private @MonotonicNonNull Boolean useHdr;
+
+  /** Creates a new grayscale {@code RgbFilter} instance. */
+  public static RgbFilter createGrayscaleFilter() {
+    return new RgbFilter(COLOR_FILTER_GRAYSCALE_INDEX);
+  }
+
+  /** Creates a new inverted {@code RgbFilter} instance. */
+  public static RgbFilter createInvertedFilter() {
+    return new RgbFilter(COLOR_FILTER_INVERTED_INDEX);
+  }
+
+  private RgbFilter(int colorFilter) {
+    this.colorFilter = colorFilter;
+  }
+
+  private void checkForConsistentHdrSetting(boolean useHdr) {
+    if (this.useHdr == null) {
+      this.useHdr = useHdr;
+    } else {
+      checkState(this.useHdr == useHdr, "Changing HDR setting is not supported.");
+    }
+  }
+
+  @Override
+  public float[] getMatrix(long presentationTimeUs, boolean useHdr) {
+    checkForConsistentHdrSetting(useHdr);
+    switch (colorFilter) {
+      case COLOR_FILTER_GRAYSCALE_INDEX:
+        return useHdr ? FILTER_MATRIX_GRAYSCALE_HDR : FILTER_MATRIX_GRAYSCALE_SDR;
+      case COLOR_FILTER_INVERTED_INDEX:
+        return FILTER_MATRIX_INVERTED;
+      default:
+        // Should never happen.
+        throw new IllegalStateException("Invalid color filter " + colorFilter);
+    }
+  }
+
+  @Override
+  public BaseGlShaderProgram toGlShaderProgram(Context context, boolean useHdr)
+      throws VideoFrameProcessingException {
+    checkForConsistentHdrSetting(useHdr);
+    return RgbMatrix.super.toGlShaderProgram(context, useHdr);
+  }
+}

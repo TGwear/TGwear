@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="exo_download_description">ទាញយក</string>
+    <string name="exo_download_notification_channel_name">ទាញយក</string>
+    <string name="exo_download_downloading">កំពុង​ទាញ​យក</string>
+    <string name="exo_download_completed">បាន​បញ្ចប់​ការទាញយក</string>
+    <string name="exo_download_failed">មិន​អាច​ទាញយក​បាន​ទេ</string>
+    <string name="exo_download_removing">កំពុង​លុប​ការទាញយក</string>
+    <string name="exo_download_paused">ការទាញយក​ត្រូវបានផ្អាក</string>
+    <string name="exo_download_paused_for_network">ការទាញយក​កំពុងរង់ចាំ​ការតភ្ជាប់បណ្ដាញ</string>
+    <string name="exo_download_paused_for_wifi">ការទាញយក​កំពុងរង់ចាំ​ការតភ្ជាប់ Wi-Fi</string>
+</resources>

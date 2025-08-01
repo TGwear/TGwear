@@ -8,12 +8,12 @@
 
 package org.thunderdog.challegram.voip;
 
-import static cn.spacexc.neogram.utils.LogUtilsKt.TAG_VOIP;
+import static com.gohj99.tgwear.utils.LogKt.TAG_VOIP;
+
+import com.gohj99.tgwear.utils.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import cn.spacexc.neogram.utils.LogUtils;
 
 
 /**
@@ -29,7 +29,7 @@ public class VoIPServerConfig {
             config = new JSONObject(json);
             nativeSetConfig(json);
         } catch (JSONException x) {
-            LogUtils.INSTANCE.info(TAG_VOIP, "Error parsing VoIP config" + x);
+            Log.INSTANCE.info(TAG_VOIP, "Error parsing VoIP config" + x);
         }
     }
 

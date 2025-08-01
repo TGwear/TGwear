@@ -1,0 +1,38 @@
+/*
+ * Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.3.2'
+        classpath 'com.google.android.gms:strict-version-matcher-plugin:1.2.4'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.20'
+        classpath 'org.jetbrains.kotlin:compose-compiler-gradle-plugin:2.0.20'
+    }
+}
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url 'https://jitpack.io'
+            content {
+                includeGroup "com.github.philburk"
+            }
+        }
+    }
+    if (it.hasProperty('externalBuildDir')) {
+        if (!new File(externalBuildDir).isAbsolute()) {
+            externalBuildDir = new File(rootDir, externalBuildDir)
+        }
+        buildDir = "${externalBuildDir}/${project.name}"
+    }
+    group = 'androidx.media3'
+}

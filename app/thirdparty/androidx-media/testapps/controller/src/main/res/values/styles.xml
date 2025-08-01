@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.MediaControl">
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:padding">@dimen/padding_small</item>
+        <item name="android:tint">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="TestHeader" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/text_dark</item>
+        <item name="android:textSize">@dimen/test_header_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="SubHeader" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/text_dark</item>
+        <item name="android:textSize">@dimen/test_subheader_text_size</item>
+    </style>
+
+    <style name="SubText" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/text_light</item>
+        <item name="android:textSize">@dimen/test_details_text_size</item>
+    </style>
+
+    <style name="TestLogDivider" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/test_details_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>

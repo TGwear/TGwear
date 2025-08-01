@@ -14,15 +14,13 @@ import android.media.audiofx.NoiseSuppressor;
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 
+import com.gohj99.tgwear.utils.StringUtils;
+
 import org.drinkless.tdlib.TdApi;
+import org.thunderdog.challegram.voip.annotation.CallNetworkType;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.thunderdog.challegram.voip.VoIPInstance;
-import org.thunderdog.challegram.voip.annotation.CallNetworkType;
-
-import cn.spacexc.neogram.utils.StringUtils;
 
 public final class VoIPController extends VoIPInstance {
     public static final int PEER_CAP_GROUP_CALLS = 1;

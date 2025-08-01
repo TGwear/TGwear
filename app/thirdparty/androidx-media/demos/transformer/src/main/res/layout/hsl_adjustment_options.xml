@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".ConfigurationActivity">
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1"
+        android:layout_marginTop="32dp"
+        android:measureWithLargestChild="true"
+        android:paddingStart="24dp"
+        android:paddingEnd="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TableRow
+            android:layout_weight="1"
+            android:gravity="center_vertical">
+
+            <TextView android:text="@string/hue_adjustment" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/hsl_adjustments_hue"
+                android:valueFrom="-360"
+                android:value="0"
+                android:valueTo="360"
+                android:layout_gravity="end" />
+        </TableRow>
+
+        <TableRow
+            android:layout_weight="1"
+            android:gravity="center_vertical">
+
+            <TextView android:text="@string/saturation_adjustment" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/hsl_adjustments_saturation"
+                android:valueFrom="-100"
+                android:value="0"
+                android:valueTo="100"
+                android:layout_gravity="end" />
+        </TableRow>
+
+        <TableRow
+            android:layout_weight="1"
+            android:gravity="center_vertical">
+
+            <TextView android:text="@string/lightness_adjustment" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/hsl_adjustment_lightness"
+                android:valueFrom="-100"
+                android:value="0"
+                android:valueTo="100"
+                android:layout_gravity="end" />
+        </TableRow>
+    </TableLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

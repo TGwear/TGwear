@@ -1,0 +1,65 @@
+/*
+ * Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+apply from: "$gradle.ext.androidxMediaSettingsDir/common_library_config.gradle"
+android {
+    namespace 'androidx.media3.effect'
+
+    defaultConfig {
+        // The following argument makes the Android Test Orchestrator run its
+        // "pm clear" command after each test invocation. This command ensures
+        // that the app's state is completely cleared between tests.
+        testInstrumentationRunnerArguments clearPackageData: 'true'
+    }
+
+    buildTypes {
+        debug {
+            testCoverageEnabled = true
+        }
+    }
+
+    sourceSets {
+        androidTest.assets.srcDir '../test_data/src/test/assets/'
+        test.assets.srcDir '../test_data/src/test/assets/'
+    }
+
+    lintOptions {
+        // TODO: b/353490583 - Enable this once the violations are fixed.
+        checkTestSources false
+    }
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
+}
+
+dependencies {
+    implementation 'androidx.annotation:annotation:' + androidxAnnotationVersion
+    api project(modulePrefix + 'lib-common')
+    implementation project(modulePrefix + 'lib-datasource')
+    compileOnly 'com.google.errorprone:error_prone_annotations:' + errorProneVersion
+    compileOnly 'org.checkerframework:checker-qual:' + checkerframeworkVersion
+    compileOnly 'org.jetbrains.kotlin:kotlin-annotations-jvm:' + kotlinAnnotationsVersion
+    testImplementation project(modulePrefix + 'test-utils-robolectric')
+    testImplementation project(modulePrefix + 'test-utils')
+    testImplementation project(modulePrefix + 'test-data')
+    testImplementation 'org.robolectric:robolectric:' + robolectricVersion
+    testImplementation 'com.google.truth:truth:' + truthVersion
+    androidTestImplementation project(modulePrefix + 'lib-exoplayer')
+    androidTestImplementation 'junit:junit:' + junitVersion
+    androidTestImplementation 'androidx.test:runner:' + androidxTestRunnerVersion
+    androidTestImplementation 'com.google.truth:truth:' + truthVersion
+    androidTestImplementation project(modulePrefix + 'test-utils')
+}
+
+ext {
+    releaseArtifactId = 'media3-effect'
+    releaseName = 'Media3 Effect module'
+}
+apply from: '../../publish.gradle'

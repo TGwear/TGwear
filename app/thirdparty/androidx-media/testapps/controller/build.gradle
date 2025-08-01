@@ -1,0 +1,62 @@
+/*
+ * Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+apply from: '../../constants.gradle'
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+android {
+    namespace 'androidx.media3.testapp.controller'
+
+    compileSdk project.ext.compileSdkVersion
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    defaultConfig {
+        versionName project.ext.releaseVersion
+        versionCode project.ext.releaseVersionCode
+        minSdkVersion project.ext.minSdkVersion
+        targetSdkVersion project.ext.appTargetSdkVersion
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    buildTypes {
+        release {
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles = [
+                    'proguard-rules.txt',
+                    getDefaultProguardFile('proguard-android-optimize.txt')
+            ]
+            signingConfig signingConfigs.debug
+        }
+        debug {
+            jniDebuggable = true
+        }
+    }
+
+    lintOptions {
+        // The test app isn't indexed, and doesn't have translations.
+        disable 'GoogleAppIndexingWarning', 'MissingTranslation'
+    }
+}
+
+dependencies {
+    implementation 'androidx.core:core-ktx:' + androidxCoreVersion
+    implementation 'androidx.appcompat:appcompat:' + androidxAppCompatVersion
+    implementation 'com.google.android.material:material:' + androidxMaterialVersion
+    implementation 'androidx.media:media:' + androidxMediaVersion
+    implementation project(modulePrefix + 'lib-session')
+    implementation project(modulePrefix + 'lib-datasource')
+}

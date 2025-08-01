@@ -31,7 +31,8 @@ class TgApi(
     internal val topTitle: MutableState<String>,
     internal val chatsFoldersList: MutableState<List<TdApi.ChatFolder>>,
     internal val mainChatListPosition: MutableState<Int>,
-    internal val onPaused: MutableState<Boolean>
+    internal val onPaused: MutableState<Boolean>,
+    internal val onCall: (TdApi.Call) -> Unit,
 ) {
     var saveChatId = 0L
     var replyMessage = mutableStateOf<TdApi.Message?>(null)
@@ -176,6 +177,7 @@ class TgApi(
             TdApi.UpdateChatPhoto.CONSTRUCTOR -> handleChatPhotoUpdate(update as TdApi.UpdateChatPhoto)
             TdApi.UpdateChatNotificationSettings.CONSTRUCTOR -> handleChatNotificationSettingsUpdate(update as TdApi.UpdateChatNotificationSettings)
             TdApi.UpdateChatDraftMessage.CONSTRUCTOR -> handleChatDraftMessageUpdate(update as TdApi.UpdateChatDraftMessage)
+            TdApi.UpdateCall.CONSTRUCTOR -> handleCallUpdate(update as TdApi.UpdateCall)
             // 其他更新
             else -> {
                 Log.d("TdApiUpdate","Received update: $update")

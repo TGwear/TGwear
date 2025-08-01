@@ -1,0 +1,58 @@
+/*
+ * Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+
+apply plugin: 'maven-publish'
+apply from: "$gradle.ext.androidxMediaSettingsDir/missing_aar_type_workaround.gradle"
+
+afterEvaluate {
+    if (gradle.ext.has('rootProjectIsAndroidXMedia3') && gradle.ext.rootProjectIsAndroidXMedia3) {
+        publishing {
+            repositories {
+                maven {
+                    url = findProperty('mavenRepo') ?: "${buildDir}/repo"
+                }
+            }
+            publications {
+                release(MavenPublication) {
+                    from components.release
+                    groupId = 'androidx.media3'
+                    artifactId = findProperty('releaseArtifactId') ?: ''
+                    version = findProperty('releaseVersion') ?: ''
+                    pom {
+                        name =
+                                findProperty('releaseName')
+                                        ?: ''
+                        description =
+                                findProperty('releaseDescription')
+                                        ?: findProperty('releaseName')
+                                        ?: ''
+                        licenses {
+                            license {
+                                name = 'The Apache Software License, Version 2.0'
+                                url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                                distribution = 'repo'
+                            }
+                        }
+                        developers {
+                            developer {
+                                name = 'The Android Open Source Project'
+                            }
+                        }
+                        scm {
+                            connection = 'scm:git:https://github.com/androidx/media.git'
+                            url = 'https://github.com/androidx/media'
+                        }
+                        withXml {
+                            addMissingAarTypeToXml(it)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

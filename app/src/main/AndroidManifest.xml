@@ -29,20 +29,27 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:name=".Application"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TGwear"
         tools:ignore="WearStandaloneAppFlag"
         tools:targetApi="31">
         <activity
+            android:name=".VoiceCallActivity"
+            android:exported="false"
+            android:label="@string/Voice_call_activity"
+            android:taskAffinity=""
+            android:theme="@style/Theme.TGwear" />
+        <activity
             android:name=".AddProxyActivity"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/add_proxy_activity"
             android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".SetProxyActivity"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/set_proxy_activity"
             android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />
@@ -54,19 +61,19 @@
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".RemindActivity"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/remind_activity"
             android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".ChatInfoActivity"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/chat_info_activity_main"
             android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".GoToCheckUpdateActivity"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/Beta_title"
             android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />

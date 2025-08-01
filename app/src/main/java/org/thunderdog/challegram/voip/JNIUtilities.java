@@ -8,9 +8,6 @@
 
 package org.thunderdog.challegram.voip;
 
-import static cn.spacexc.neogram.utils.LogUtilsKt.TAG_VOIP;
-
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.LinkAddress;
@@ -18,19 +15,15 @@ import android.net.LinkProperties;
 import android.net.Network;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import com.gohj99.tgwear.Application;
+
 import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.util.Enumeration;
-
-import cn.spacexc.neogram.Application;
-import cn.spacexc.neogram.utils.LogUtils;
 
 /**
  * Created by grishka on 16.01.2018.
@@ -38,7 +31,6 @@ import cn.spacexc.neogram.utils.LogUtils;
 
 @SuppressWarnings("unused")
 public class JNIUtilities {
-    @TargetApi(23)
     public static String getCurrentNetworkInterfaceName() {
         ConnectivityManager cm = (ConnectivityManager) Application.Companion.getApplication().getSystemService(Context.CONNECTIVITY_SERVICE);
         Network net = cm.getActiveNetwork();
@@ -52,7 +44,7 @@ public class JNIUtilities {
 
     public static String[] getLocalNetworkAddressesAndInterfaceName() {
         ConnectivityManager cm = (ConnectivityManager) Application.Companion.getApplication().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        {
             Network net = cm.getActiveNetwork();
             if (net == null)
                 return null;
@@ -73,46 +65,13 @@ public class JNIUtilities {
                 }
             }
             return new String[]{linkProps.getInterfaceName(), ipv4, ipv6};
-        } else {
-            try {
-                Enumeration<NetworkInterface> itfs = NetworkInterface.getNetworkInterfaces();
-                if (itfs == null)
-                    return null;
-                while (itfs.hasMoreElements()) {
-                    NetworkInterface itf = itfs.nextElement();
-                    if (itf.isLoopback() || !itf.isUp())
-                        continue;
-                    Enumeration<InetAddress> addrs = itf.getInetAddresses();
-                    String ipv4 = null, ipv6 = null;
-                    while (addrs.hasMoreElements()) {
-                        InetAddress a = addrs.nextElement();
-                        if (a instanceof Inet4Address) {
-                            if (!a.isLinkLocalAddress()) {
-                                ipv4 = a.getHostAddress();
-                            }
-                        } else if (a instanceof Inet6Address) {
-                            if (!a.isLinkLocalAddress() && (a.getAddress()[0] & 0xF0) != 0xF0) {
-                                ipv6 = a.getHostAddress();
-                            }
-                        }
-                    }
-                    return new String[]{itf.getName(), ipv4, ipv6};
-                }
-                return null;
-            } catch (Exception x) {
-                x.printStackTrace();
-                LogUtils.INSTANCE.info(TAG_VOIP, x.toString());
-                return null;
-            }
         }
     }
 
     // [name, country, mcc, mnc]
     public static String[] getCarrierInfo() {
         TelephonyManager tm = (TelephonyManager) Application.Companion.getApplication().getSystemService(Context.TELEPHONY_SERVICE);
-        if (Build.VERSION.SDK_INT >= 24) {
-            tm = tm.createForSubscriptionId(SubscriptionManager.getDefaultDataSubscriptionId());
-        }
+        tm = tm.createForSubscriptionId(SubscriptionManager.getDefaultDataSubscriptionId());
         if (!TextUtils.isEmpty(tm.getNetworkOperatorName())) {
             String mnc = "", mcc = "";
             String carrierID = tm.getNetworkOperator();

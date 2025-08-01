@@ -825,3 +825,26 @@ internal fun TgApi.handleChatDraftMessageUpdate(update: TdApi.UpdateChatDraftMes
         }
     }
 }
+
+internal fun TgApi.handleCallUpdate(update: TdApi.UpdateCall) {
+    val call = update.call
+    when (call.state) {
+        is TdApi.CallStateReady -> {
+            // 呼叫已就绪
+            println("Call is ready")
+            onCall.invoke(call)
+        }
+        is TdApi.CallStateHangingUp -> {
+            // 呼叫已挂断
+            println("Call is hanging up")
+        }
+        is TdApi.CallStateDiscarded -> {
+            // 呼叫已结束
+            println("Call is discarded")
+        }
+        else -> {
+            // 其他状态
+            println("Call state: ${call.state}")
+        }
+    }
+}

@@ -8,8 +8,7 @@
 
 package org.thunderdog.challegram.voip;
 
-
-import static cn.spacexc.neogram.utils.LogUtilsKt.TAG_VOIP;
+import static com.gohj99.tgwear.utils.LogKt.TAG_VOIP;
 
 import android.util.Log;
 

@@ -7,7 +7,6 @@
  */
 package org.thunderdog.challegram.voip;
 
-import android.os.Build;
 import android.os.SystemClock;
 import android.text.TextUtils;
 
@@ -22,15 +21,9 @@ import androidx.media3.decoder.vp9.VpxLibrary;
 
 import com.getkeepsafe.relinker.ReLinker;
 import com.getkeepsafe.relinker.ReLinkerInstance;
-
-import org.webrtc.SoftwareVideoEncoderFactory;
-import org.webrtc.VideoCodecInfo;
+import com.gohj99.tgwear.Application;
 
 import java.util.ArrayList;
-import java.util.Locale;
-
-import cn.spacexc.neogram.Application;
-import leveldb.LevelDB;
 
 
 public class NLoader implements ReLinker.Logger {

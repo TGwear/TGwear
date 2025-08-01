@@ -14,11 +14,11 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioRecord;
 import android.media.AudioTrack;
-import android.os.Build;
-import org.webrtc.Logging;
-import org.webrtc.CalledByNative;
 
-import cn.spacexc.neogram.Application;
+import com.gohj99.tgwear.Application;
+
+import org.webrtc.CalledByNative;
+import org.webrtc.Logging;
 
 /**
  * This class contains static functions to query sample rate and input/output audio buffer sizes.

@@ -1,0 +1,42 @@
+/*
+ * Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+apply from: "$gradle.ext.androidxMediaSettingsDir/common_library_config.gradle"
+
+android {
+    namespace 'androidx.media3.decoder.midi'
+
+    sourceSets.test.assets.srcDir '../test_data/src/test/assets/'
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
+}
+
+dependencies {
+    api project(modulePrefix + 'lib-exoplayer')
+    api project(modulePrefix + 'lib-decoder')
+    api project(modulePrefix + 'lib-extractor')
+    api project(modulePrefix + 'lib-common')
+    implementation 'androidx.annotation:annotation:' + androidxAnnotationVersion
+    // Jsyn v17.1.0
+    implementation 'com.github.philburk:jsyn:40a41092cbab558d7d410ec43d93bb1e4121e86a'
+    compileOnly 'org.checkerframework:checker-qual:' + checkerframeworkVersion
+    testImplementation 'androidx.test:core:' + androidxTestCoreVersion
+    testImplementation 'androidx.test.ext:junit:' + androidxTestJUnitVersion
+    testImplementation project(modulePrefix + 'test-utils')
+    testImplementation project(modulePrefix + 'test-data')
+    testImplementation 'org.robolectric:robolectric:' + robolectricVersion
+}
+
+ext {
+    releaseArtifactId = 'media3-exoplayer-midi'
+    releaseName = 'Media3 MIDI decoder module'
+}
+apply from: '../../publish.gradle'

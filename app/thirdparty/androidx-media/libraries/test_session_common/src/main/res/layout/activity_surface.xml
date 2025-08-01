@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_view_group"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keepScreenOn="true">
+
+    <SurfaceView
+        android:id="@+id/surface_view_first"
+        android:layout_width="30dp"
+        android:layout_height="40dp"></SurfaceView>
+    <!-- The size of two SurfaceViews should be different. -->
+    <SurfaceView
+        android:id="@+id/surface_view_second"
+        android:layout_width="50dp"
+        android:layout_height="60dp"></SurfaceView>
+
+    <TextureView
+        android:id="@+id/texture_view_first"
+        android:layout_width="70dp"
+        android:layout_height="80dp"></TextureView>
+    <!-- The size of two TextureViews should be different. -->
+    <TextureView
+        android:id="@+id/texture_view_second"
+        android:layout_width="90dp"
+        android:layout_height="100dp"></TextureView>
+</LinearLayout>

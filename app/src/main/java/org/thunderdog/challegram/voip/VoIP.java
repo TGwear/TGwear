@@ -7,18 +7,24 @@
  */
 package org.thunderdog.challegram.voip;
 
-import static cn.spacexc.neogram.ui.screen.call.VoiceCallScreenKt.VOIP_CONNECTION_MIN_LAYER;
+import static com.gohj99.tgwear.ui.VoiceCallScreenKt.VOIP_CONNECTION_MIN_LAYER;
 
 import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
 
+import com.gohj99.tgwear.utils.BitwiseUtilsKt;
+import com.gohj99.tgwear.utils.StringUtils;
+
 import org.drinkless.tdlib.TdApi;
+import org.thunderdog.challegram.voip.annotation.CallNetworkType;
+import org.thunderdog.challegram.voip.annotation.DataSavingOption;
 import org.webrtc.ContextUtils;
 
 import java.io.File;
@@ -30,14 +36,6 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.thunderdog.challegram.voip.Filter;
-import org.thunderdog.challegram.voip.annotation.CallNetworkType;
-import org.thunderdog.challegram.voip.annotation.DataSavingOption;
-
-import cn.spacexc.neogram.utils.BitwiseUtilsKt;
-import cn.spacexc.neogram.utils.LogUtils;
-import cn.spacexc.neogram.utils.StringUtils;
 
 public class VoIP {
     public static class Version implements Comparable<Version> {
@@ -312,7 +310,7 @@ public class VoIP {
         if (!allowFilter || !isForceDisabled(tgVoipVersion)) {
             versions.add(tgVoipVersion);
         }
-        Set<String> restrictedTgCallsVersions = new LinkedHashSet<>() {{
+        Set<String> restrictedTgCallsVersions = new LinkedHashSet<String>() {{
             add("11.0.0");
         }};
         /*for (String tgCallsVersion : tgCallsVersions) {
@@ -324,7 +322,7 @@ public class VoIP {
         }*/
         if (versions.isEmpty()) {
             versions.add(tgVoipVersion);
-            LogUtils.INSTANCE.info("Versions", tgVoipVersion);
+            Log.i("Versions", tgVoipVersion);
         }
         return restrictedTgCallsVersions.toArray(new String[0]);//versions.toArray(new String[0]);
     }
@@ -438,7 +436,7 @@ public class VoIP {
                             version
                     );
                 } catch (Throwable t) {
-                    LogUtils.INSTANCE.info("VOIP", "Unknown tgcalls %s" + t + " " + version);
+                    Log.i("VOIP", "Unknown tgcalls %s" + t + " " + version);
                 }
             }
             if (tgcalls != null) {
@@ -451,7 +449,7 @@ public class VoIP {
                 return tgcalls;
             } catch (Throwable t) {
                 t.printStackTrace();
-                LogUtils.INSTANCE.error("VOIP", tgcalls.getLibraryName() + " " + tgcalls.getLibraryVersion() + " initialization failed");
+                Log.e("VOIP", tgcalls.getLibraryName() + " " + tgcalls.getLibraryVersion() + " initialization failed");
             }
             // Make sure resources are released,
             // when call initialization has failed

@@ -9,9 +9,9 @@ package org.thunderdog.challegram.voip;
 
 import androidx.annotation.NonNull;
 
-import java.io.File;
+import com.gohj99.tgwear.Application;
 
-import cn.spacexc.neogram.Application;
+import java.io.File;
 
 public class VoIPPersistentConfig {
     static @NonNull File getVoipConfigFile() {

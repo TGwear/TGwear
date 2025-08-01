@@ -31,10 +31,7 @@ import com.gohj99.tgwear.utils.telegram.setFCMToken
 import com.google.firebase.Firebase
 import com.google.firebase.crashlytics.crashlytics
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.gson.Gson
-import com.google.gson.JsonObject
 import java.io.File
-
 
 class SettingActivity : BaseActivity() {
     private var settingsList = mutableStateOf(listOf<SettingItem>())
@@ -70,15 +67,6 @@ class SettingActivity : BaseActivity() {
 
         // 初始标题
         var title = getString(R.string.Settings)
-
-        val gson = Gson()
-        val sharedPref = getSharedPreferences("LoginPref", MODE_PRIVATE)
-        val userList = sharedPref.getString("userList", "")
-        var chatId = ""
-        if (userList != "") {
-            val jsonObject: JsonObject = gson.fromJson(userList, JsonObject::class.java)
-            chatId = "/" + jsonObject.keySet().first()
-        }
 
         val installer = packageManager.getInstallerPackageName(packageName)
 
@@ -784,6 +772,26 @@ class SettingActivity : BaseActivity() {
                         onClick = {
                             with(settingsSharedPref.edit()) {
                                 putString("app_lang", "es")
+                                apply()
+                            }
+                            restartSelf()
+                        }
+                    ),
+                    SettingItem.Click(
+                        itemName = "اللغة العربية",
+                        onClick = {
+                            with(settingsSharedPref.edit()) {
+                                putString("app_lang", "ar")
+                                apply()
+                            }
+                            restartSelf()
+                        }
+                    ),
+                    SettingItem.Click(
+                        itemName = "Türkçe",
+                        onClick = {
+                            with(settingsSharedPref.edit()) {
+                                putString("app_lang", "tr")
                                 apply()
                             }
                             restartSelf()

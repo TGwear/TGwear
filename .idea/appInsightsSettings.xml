@@ -21,14 +21,6 @@
         <entry key="Firebase Crashlytics">
           <value>
             <InsightsFilterSettings>
-              <option name="connection">
-                <ConnectionSetting>
-                  <option name="appId" value="com.gohj99.tgwear" />
-                  <option name="mobileSdkAppId" value="1:610254606175:android:85ea467e612d8a6bccb0ea" />
-                  <option name="projectId" value="tgwear-gohj99" />
-                  <option name="projectNumber" value="610254606175" />
-                </ConnectionSetting>
-              </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
               <option name="timeIntervalDays" value="THIRTY_DAYS" />
               <option name="visibilityType" value="ALL" />

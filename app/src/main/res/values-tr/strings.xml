@@ -19,7 +19,7 @@
     <string name="Password">Parola</string>
     <string name="Password_Error">Parola hatası</string>
     <string name="Done">Tamam</string>
-    <string name="scan_qr">Telegram\'dan tara</string>
+    <string name="scan_qr">Telegram’dan tara</string>
     <string name="loading">Yükleniyor…</string>
     <string name="Request_error">İstek hatası</string>
     <string name="HOME">Ana ekran</string>
@@ -52,7 +52,7 @@
     <string name="No_player">Oynatıcı bulunamadı</string>
     <string name="Save">Kaydet</string>
     <string name="Download_first">Önce indirin</string>
-    <string name="Same_name_video_exists">Ayno videoya sahip</string>
+    <string name="Same_name_video_exists">Aynı videoya sahip</string>
     <string name="No_need_to_save">Kaydetmeye gerek yok</string>
     <string name="Download">İndir</string>
     <string name="Play">Oynat</string>
@@ -205,7 +205,28 @@
     <string name="Login_With_QR">Karekodla giriş yap</string>
     <string name="Connecting_Telegram_Sever">Telegram sunucusuna bağlanılıyor</string>
     <string name="Topic">Konu</string>
-    <string name="Remind5">Merhaba!\nTGwear uygulamasına hoş geldiniz!\n\nGereksiz sorunları bertaraf etmek için talimatları baştan sona okumanızı tavsiye ederiz.\n\nİlk olarak, destek için resmi Telegram grubumuza katılmanızı tavsiye ederiz. Aşağıdaki linke tıklayarak katılabilirsiniz (İngilizce):\nhttps://t.me/teleTGwear\n\nBaşlamanıza yardımcı olmak için işte hızlı bir kılavuz:\nİlk kullanımda en iyi görüntüleme için arayüz ayarlarında görüntü ölçeklemesini elle ayarlayın.\nMesaj kenarlıklarına veya gönderen adına basılı tutarak ek seçeneklere erişin.\nSohbet ekranında mesaj yazma arayüzüne erişmek için sola kaydırım; sohbet hakkında detaylı bilgileri görüntülemek için başlığa dokunun.\nUyumlu ekranlarda metin seçmek ve kopyalamak için basılı tutun ve sürükleyin.\nResim görüntüleyicide bir resmi cihazınızın galerisine kaydetmek için resme basılı tutun.\n\nProxy sayfasında bir proxy'yi kaldırmak için o girdiye basılı tutun.\nYanıtlama veya yönlendirme modunda çıkmak için yanıtın veya yönlendirmenin başlığına dokunun.\n\nTGwear açık kaynaktır ve kaynak koduna GitHub'dan erişebilirsiniz.</string>
+    <string name="Remind5"><![CDATA[
+Merhaba!
+TGwear uygulamasına hoş geldiniz!
+
+Gereksiz sorunları bertaraf etmek için talimatları baştan sona okumanızı tavsiye ederiz.
+
+İlk olarak, destek için resmi Telegram grubumuza katılmanızı tavsiye ederiz.
+Aşağıdaki linke tıklayarak katılabilirsiniz (İngilizce):
+https://t.me/teleTGwear
+
+Başlamanıza yardımcı olmak için işte hızlı bir kılavuz:
+- İlk kullanımda en iyi görüntüleme için arayüz ayarlarında görüntü ölçeklemesini elle ayarlayın.
+- Mesaj kenarlıklarına veya gönderen adına basılı tutarak ek seçeneklere erişin.
+- Sohbet ekranında mesaj yazma arayüzüne erişmek için sola kaydırım; sohbet hakkında detaylı bilgileri görüntülemek için başlığa dokunun.
+- Uyumlu ekranlarda metin seçmek ve kopyalamak için basılı tutun ve sürükleyin.
+- Resim görüntüleyicide bir resmi cihazınızın galerisine kaydetmek için resme basılı tutun.
+
+Proxy sayfasında bir proxy’yi kaldırmak için o girdiye basılı tutun.
+Yanıtlama veya yönlendirme modunda çıkmak için başlığa dokunun.
+
+TGwear açık kaynaktır ve kaynak koduna GitHub’dan erişebilirsiniz.
+]]></string>
     <string name="joined_the_group">gruba katıldı</string>
     <string name="data_collection_description">Çökme bildirilerini toplamak, en sık kullanılan özellikleri takip etmek ve TGwear\'ı daha kullanıcı dostu yapmak için kullanım kalıbı verisini toplamak için Firebase Crashlytics kullanırız. Bu özelliği istediğiniz zaman ayarlardan devre dışı bırakabilirsiniz.</string>
     <string name="Donation_version">Bağış sürümü</string>

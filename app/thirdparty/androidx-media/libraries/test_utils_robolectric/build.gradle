@@ -1,0 +1,34 @@
+/*
+ * Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+apply from: "$gradle.ext.androidxMediaSettingsDir/common_library_config.gradle"
+
+
+android {
+    namespace 'androidx.media3.test.utils.robolectric'
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
+}
+
+dependencies {
+    compileOnly 'org.checkerframework:checker-qual:' + checkerframeworkVersion
+    compileOnly 'org.jetbrains.kotlin:kotlin-annotations-jvm:' + kotlinAnnotationsVersion
+    implementation 'androidx.annotation:annotation:' + androidxAnnotationVersion
+    implementation 'org.robolectric:robolectric:' + robolectricVersion
+    api project(modulePrefix + 'lib-exoplayer')
+    api project(modulePrefix + 'test-utils')
+}
+
+ext {
+    releaseArtifactId = 'media3-test-utils-robolectric'
+    releaseName = 'Media3 robolectric test utils module'
+}
+apply from: '../../publish.gradle'

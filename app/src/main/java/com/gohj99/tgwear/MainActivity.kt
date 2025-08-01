@@ -187,7 +187,8 @@ class MainActivity : BaseActivity() {
                         topTitle = topTitle,
                         chatsFoldersList = chatsFoldersList,
                         mainChatListPosition = mainChatListPosition,
-                        onPaused = onPaused
+                        onPaused = onPaused,
+                        onCall = {}
                     )
 
                     // 调用重试机制来获取用户信息
@@ -338,7 +339,15 @@ class MainActivity : BaseActivity() {
                     topTitle = topTitle,
                     chatsFoldersList = chatsFoldersList,
                     mainChatListPosition = mainChatListPosition,
-                    onPaused = onPaused
+                    onPaused = onPaused,
+                    onCall = { call ->
+                        startActivity(
+                            Intent(
+                                this@MainActivity,
+                                VoiceCallActivity::class.java
+                            )
+                        )
+                    }
                 )
                 ChatsListManager.chatsList = chatsList
                 // 异步获取当前用户 ID

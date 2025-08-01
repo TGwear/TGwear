@@ -17,7 +17,7 @@ plugins {
 
 android {
     namespace = "com.gohj99.tgwear"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.gohj99.tgwear"
@@ -67,6 +67,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            ndk {
+                debugSymbolLevel = "FULL"
+            }
             configure<CrashlyticsExtension> {
                 // Enable processing and uploading of native symbols to Firebase servers.
                 // By default, this is disabled to improve build speeds.
@@ -161,6 +164,7 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.crashlytics.ndk)
+    implementation(libs.relinker)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

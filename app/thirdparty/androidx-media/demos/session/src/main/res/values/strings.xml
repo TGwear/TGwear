@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+<resources>
+    <string name="app_name">Media3 Session Demo</string>
+    <string name="current_playlist_name">Current playlist</string>
+    <string name="open_player_content_description">Click to view your playlist</string>
+    <string name="added_media_item_format">Added %1$s to playlist</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="play_button">Play</string>
+    <string name="waiting_for_metadata">Connecting…</string>
+    <string name="notification_permission_denied">
+    "Without notification access the app can't warn about failed background operations"</string>
+</resources>

@@ -1,0 +1,85 @@
+/*
+ * Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+package androidx.media3.common.util;
+
+import static com.google.common.truth.Truth.assertThat;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+/** Tests {@link AtomicFile}. */
+@RunWith(AndroidJUnit4.class)
+public final class AtomicFileTest {
+
+  private File tempFolder;
+  private File file;
+  private AtomicFile atomicFile;
+
+  @Before
+  public void setUp() throws Exception {
+    tempFolder =
+        Util.createTempDirectory(ApplicationProvider.getApplicationContext(), "AtomicFileTest");
+    file = new File(tempFolder, "atomicFile");
+    atomicFile = new AtomicFile(file);
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    Util.recursiveDelete(tempFolder);
+  }
+
+  @Test
+  public void delete() throws Exception {
+    assertThat(file.createNewFile()).isTrue();
+    atomicFile.delete();
+    assertThat(file.exists()).isFalse();
+  }
+
+  @Test
+  public void writeRead() throws Exception {
+    OutputStream output = atomicFile.startWrite();
+    output.write(5);
+    atomicFile.endWrite(output);
+    output.close();
+
+    assertRead();
+
+    output = atomicFile.startWrite();
+    output.write(5);
+    output.write(6);
+    output.close();
+
+    assertRead();
+
+    output = atomicFile.startWrite();
+    output.write(6);
+
+    assertRead();
+    output.close();
+
+    output = atomicFile.startWrite();
+
+    assertRead();
+    output.close();
+  }
+
+  private void assertRead() throws IOException {
+    InputStream input = atomicFile.openRead();
+    assertThat(input.read()).isEqualTo(5);
+    assertThat(input.read()).isEqualTo(-1);
+    input.close();
+  }
+}
