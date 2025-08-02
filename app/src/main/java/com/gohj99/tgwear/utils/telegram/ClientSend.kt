@@ -454,3 +454,13 @@ fun TgApi.acceptCall(callId: Int) {
         }
     }
 }
+
+fun TgApi.discardCall(nowCallItem: TdApi.Call) {
+    client.send(TdApi.DiscardCall(nowCallItem.id, false, voipItem!!.callDuration.toInt(), false, voipItem!!.connectionId)) { result ->
+        if (result is TdApi.Ok) {
+            println("Call discarded successfully")
+        } else {
+            println("Failed to discard call: $result")
+        }
+    }
+}

@@ -232,4 +232,7 @@
     <string name="Voice_call_activity">Voice call activity</string>
     <string name="Calling">Calling</string>
     <string name="Accept_Call">Accept Call</string>
+    <string name="Hang_Up">Hang Up</string>
+    <string name="Exchanging_Encryption_Keys">Exchanging Encryption Keys</string>
+    <string name="Call_Ended">Call Ended</string>
 </resources>

@@ -15,24 +15,37 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gohj99.tgwear.R
+import com.gohj99.tgwear.model.Chat
+import com.gohj99.tgwear.utils.getColorById
 
 const val VOIP_CONNECTION_MIN_LAYER = 65
 
 @Composable
 fun VoiceCallScreen(
+    chat: Chat,
+    state: MutableState<String>,
     acceptCall: () -> Unit,
+    disCall: () -> Unit
 ) {
     Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
     ) {
@@ -53,13 +66,79 @@ fun VoiceCallScreen(
 
         Spacer(modifier = Modifier.height(4.dp)) // 添加间距
 
-        Box(
-            contentAlignment = Alignment.Center
-        ) {
-            CustomButton(
-                onClick = acceptCall,
-                text = stringResource(id = R.string.Accept_Call)
-            )
+        if (chat.chatPhoto != null) {
+            ThumbnailChatPhoto(chat.chatPhoto, 35, chat.title)
+            Spacer(Modifier.width(6.dp))
+        } else {
+            Surface(
+                modifier = Modifier
+                    .size(35.dp), // 固定宽高为35dp
+                color = getColorById(chat.accentColorId),
+                shape = CircleShape
+            ) {
+                Box(contentAlignment = Alignment.Center) { // 居中显示文本
+                    Text(
+                        text = chat.title[0].toString().uppercase(),
+                        color = Color.White,
+                        fontSize = 18.sp,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+            Spacer(Modifier.width(6.dp))
+        }
+
+        Spacer(modifier = Modifier.height(4.dp)) // 添加间距
+
+        Text(
+            text = chat.title,
+            color = Color.White,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold
+        )
+
+        when (state.value) {
+            "CallStatePending" -> {
+                Box(
+                    contentAlignment = Alignment.Center
+                ) {
+                    CustomButton(
+                        onClick = acceptCall,
+                        text = stringResource(id = R.string.Accept_Call)
+                    )
+                }
+            }
+
+            "CallStateReady" -> {
+                Box(
+                    contentAlignment = Alignment.Center
+                ) {
+                    CustomButton(
+                        onClick = disCall,
+                        text = stringResource(id = R.string.Hang_Up)
+                    )
+                }
+            }
+
+            "CallStateExchangingKeys" -> {
+                Text(
+                    text = stringResource(id = R.string.Exchanging_Encryption_Keys),
+                    color = Color.White,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+
+            "CallStateDiscarded", "CallStateHangingUp" -> {
+                Text(
+                    text = stringResource(id = R.string.Call_Ended),
+                    color = Color.White,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
         }
     }
 }

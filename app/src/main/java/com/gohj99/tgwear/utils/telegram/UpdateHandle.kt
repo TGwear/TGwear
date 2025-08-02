@@ -914,6 +914,7 @@ internal fun TgApi.handleCallUpdate(update: TdApi.UpdateCall) {
             println("Call state: ${call.state}")
         }
     }
+    onCallback.invoke(call)
 }
 
 internal fun TgApi.handleNewCallSignalingDataUpdate(update: TdApi.UpdateNewCallSignalingData) {
