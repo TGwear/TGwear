@@ -11,6 +11,8 @@ package com.gohj99.tgwear
 import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
+import android.media.AudioManager
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +25,9 @@ import com.gohj99.tgwear.utils.telegram.TgApi
 import com.gohj99.tgwear.utils.telegram.acceptCall
 import com.gohj99.tgwear.utils.telegram.discardCall
 import com.gohj99.tgwear.utils.telegram.getChat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.drinkless.tdlib.TdApi
 
@@ -30,20 +35,26 @@ private const val RECORD_AUDIO_PERMISSION = Manifest.permission.RECORD_AUDIO
 private const val REQUEST_CODE_AUDIO = 1001
 
 class VoiceCallActivity : BaseActivity() {
-    private lateinit var tgApi: TgApi
+    private val tgApi: TgApi? = TgApiManager.tgApi
     private lateinit var callItem: TdApi.Call
     private lateinit var chatItem: Chat
     private val state = mutableStateOf("CallStatePending")
+    private lateinit var audioManager: AudioManager
+    private val emoji = mutableStateOf("")
+    private val callDuration = mutableStateOf(0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            setShowWhenLocked(true)
+            setTurnScreenOn(true)
+        }
 
         // 获取 TgApi 实例
-        if (TgApiManager.tgApi == null) {
+        if (tgApi == null) {
             finish()
             return
         }
-        tgApi = TgApiManager.tgApi!!
 
         // 获取call对象
         if (tgApi.callItem == null) {
@@ -52,8 +63,43 @@ class VoiceCallActivity : BaseActivity() {
         }
         callItem = tgApi.callItem!!
 
+        tgApi.onCallback[callItem.userId] = {update, str ->
+            state.value = when (update.state) {
+                is TdApi.CallStatePending -> {
+                    if (callItem.isOutgoing) {
+                        "SelfCallStatePending"
+                    } else {
+                        "CallStatePending"
+                    }
+                }
+                is TdApi.CallStateReady -> {
+                    if (str == null) {
+                        // 交换密钥阶段完成
+                        updateCallDuration()
+                        "CallStateReady"
+                    } else {
+                        // 交换密钥中
+                        emoji.value = str
+                        "CallStateExchangingKeys"
+                    }
+                }
+                is TdApi.CallStateHangingUp -> {
+                    destroyMe()
+                    "CallStateHangingUp"
+                }
+                is TdApi.CallStateDiscarded -> {
+                    destroyMe()
+                    "CallStateDiscarded"
+                }
+                is TdApi.CallStateExchangingKeys -> "CallStateExchangingKeys"
+                else -> "CallStateWaiting"
+            }
+        }
+
         // 检测权限
         checkAndRequestAudioPermission(this)
+
+        audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
 
         chatItem = tgApi.chatsList.value.firstOrNull { it.id == callItem.userId } ?: runBlocking {
             val chatObject = tgApi.getChat(callItem.userId)  // 在 runBlocking 中赋值
@@ -64,22 +110,17 @@ class VoiceCallActivity : BaseActivity() {
             )
         }
 
-        tgApi.onCallback = {update ->
-            state.value = when (update.state) {
-                is TdApi.CallStatePending -> "CallStatePending"
-                is TdApi.CallStateReady -> "CallStateReady"
-                is TdApi.CallStateHangingUp -> "CallStateHangingUp"
-                is TdApi.CallStateDiscarded -> "CallStateDiscarded"
-                is TdApi.CallStateExchangingKeys -> "CallStateExchangingKeys"
-                else -> "CallStateWaiting"
-            }
-        }
+        audioManager.mode = AudioManager.MODE_IN_COMMUNICATION // 设置通话模式
+        audioManager.isMicrophoneMute = false                  // 打开麦克风
+        audioManager.isSpeakerphoneOn = true                   // 使用扬声器
 
         setContent {
             TGwearTheme {
                 VoiceCallScreen(
                     chat = chatItem,
                     state = state,
+                    emoji = emoji,
+                    callDuration = callDuration,
                     acceptCall = {
                         tgApi.acceptCall(callItem.id)
                     },
@@ -93,9 +134,28 @@ class VoiceCallActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        tgApi.discardCall(callItem)
+        audioManager.mode = AudioManager.MODE_NORMAL
+        audioManager.abandonAudioFocus(null)
+        tgApi?.onCallback?.remove(callItem.userId)
+        tgApi?.discardCall(callItem)
     }
 
+    fun destroyMe() {
+        CoroutineScope(Dispatchers.IO).launch {
+            Thread.sleep(2000)
+            finish()
+        }
+    }
+
+    fun updateCallDuration() {
+        CoroutineScope(Dispatchers.IO).launch {
+            while (true) {
+                Thread.sleep(1000)
+                callDuration.value += 1
+            }
+        }
+    }
+    // 检查并请求录音权限
     fun checkAndRequestAudioPermission(activity: Activity) {
         if (ContextCompat.checkSelfPermission(activity, RECORD_AUDIO_PERMISSION)
             != PackageManager.PERMISSION_GRANTED) {

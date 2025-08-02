@@ -10,7 +10,6 @@ package com.gohj99.tgwear
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
@@ -19,8 +18,9 @@ import com.gohj99.tgwear.ui.SplashChatInfoScreen
 import com.gohj99.tgwear.ui.main.ErrorScreen
 import com.gohj99.tgwear.ui.main.SplashLoadingScreen
 import com.gohj99.tgwear.ui.theme.TGwearTheme
-import com.gohj99.tgwear.utils.formatTimestampToDateAndTime
+import com.gohj99.tgwear.utils.formatTimestampToDateAndIntuitive
 import com.gohj99.tgwear.utils.telegram.TgApi
+import com.gohj99.tgwear.utils.telegram.createCall
 import com.gohj99.tgwear.utils.telegram.deleteChat
 import com.gohj99.tgwear.utils.telegram.getBasicGroup
 import com.gohj99.tgwear.utils.telegram.getBasicGroupFullInfo
@@ -122,7 +122,7 @@ class ChatInfoActivity : BaseActivity() {
                                     subtitle = getString(R.string.Last_month)
                                 is TdApi.UserStatusOffline ->
                                     if (status.wasOnline > 0) {
-                                        subtitle = "${getString(R.string.last_seen)} ${formatTimestampToDateAndTime(status.wasOnline)}"
+                                        subtitle = "${getString(R.string.last_seen)} ${formatTimestampToDateAndIntuitive(status.wasOnline.toLong())}"
                                     } else {
                                         subtitle = getString(R.string.Offline)
                                     }
@@ -221,6 +221,9 @@ class ChatInfoActivity : BaseActivity() {
                                         tgApi!!.deleteChat(safeChat.id)
                                         finish()
                                     }
+                                },
+                                onVoiceCall = {
+                                    tgApi!!.createCall(safeChat.id)
                                 }
                             )
                         }

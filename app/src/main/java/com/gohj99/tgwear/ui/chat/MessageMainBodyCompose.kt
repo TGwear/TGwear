@@ -57,7 +57,8 @@ fun MessageMainBodyCompose(
     onLinkClick: (String) -> Unit,
     press: (TdApi.Message) -> Unit,
     chatTopics: Map<Long, String>,
-    isCurrentUser: Boolean
+    isCurrentUser: Boolean,
+    onCall: () -> Unit
 ) {
     val forwardInfo = message.forwardInfo
     var authorSignature: String? = null
@@ -155,6 +156,7 @@ fun MessageMainBodyCompose(
                     textColor = textColor,
                     stateDownload = stateDownload,
                     stateDownloadDone = stateDownloadDone,
+                    onCall = onCall,
                     showUnknownMessageType = showUnknownMessageType
                 )
 

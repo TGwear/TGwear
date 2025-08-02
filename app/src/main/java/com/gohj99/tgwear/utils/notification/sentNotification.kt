@@ -8,6 +8,8 @@
 
 package com.gohj99.tgwear.utils.notification
 
+import android.app.Activity
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -15,6 +17,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.drawable.AdaptiveIconDrawable
 import android.graphics.drawable.BitmapDrawable
 import androidx.annotation.DrawableRes
@@ -228,4 +231,55 @@ fun drawableToBitmap(context: Context, @DrawableRes resId: Int): Bitmap? {
             bitmap
         }
     }
+}
+
+fun Context.showIncomingCallNotification(
+    callerName: String = "Unknown",
+    notificationId: Int = 1001,
+    targetActivity: Class<out Activity>,
+    chatIconBitmap: Bitmap
+) {
+    val channelId = "voip_channel_id"
+    // 创建通知渠道（只需要创建一次）
+    val channel = NotificationChannel(
+        channelId,
+        "VoIP Calls",
+        NotificationManager.IMPORTANCE_HIGH
+    ).apply {
+        description = "Notifications are used to display incoming VoIP calls"
+        enableLights(true)
+        lightColor = Color.GREEN
+        enableVibration(true)
+        lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+    }
+    val manager = getSystemService(NotificationManager::class.java)
+    manager.createNotificationChannel(channel)
+
+    // PendingIntent 用于跳转到来电接听界面
+    val intent = Intent(this, targetActivity).apply {
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    }
+    val pendingIntent = PendingIntent.getActivity(
+        this,
+        0,
+        intent,
+        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+    )
+
+    // 构建通知
+    val notification = NotificationCompat.Builder(this, channelId)
+        .setContentTitle(callerName)
+        .setLargeIcon(chatIconBitmap)
+        .setContentText(getString(R.string.Incoming_call))
+        .setSmallIcon(android.R.drawable.sym_call_incoming)
+        .setPriority(NotificationCompat.PRIORITY_HIGH)
+        .setCategory(NotificationCompat.CATEGORY_CALL)
+        .setFullScreenIntent(pendingIntent, true)
+        .setAutoCancel(false)
+        .setOngoing(true)
+        .build()
+
+    // 显示通知
+    val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    notificationManager.notify(notificationId, notification)
 }

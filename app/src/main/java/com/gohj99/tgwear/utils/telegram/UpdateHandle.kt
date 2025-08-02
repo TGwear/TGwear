@@ -837,10 +837,11 @@ internal fun TgApi.handleChatDraftMessageUpdate(update: TdApi.UpdateChatDraftMes
 internal fun TgApi.handleCallUpdate(update: TdApi.UpdateCall) {
     val call = update.call
     callItem = call
-    when (call.state) {
+    when (val state = call.state) {
         is TdApi.CallStateReady -> {
             // 呼叫已就绪
             println("Call is ready")
+            onCallback[call.userId]?.invoke(call, state.emojis.joinToString(""))
             val stateListener = object : ConnectionStateListener {
                 override fun onSignallingDataEmitted(data: ByteArray?) {
                     if (data == null) return
@@ -853,6 +854,7 @@ internal fun TgApi.handleCallUpdate(update: TdApi.UpdateCall) {
                 override fun onConnectionStateChanged(context: VoIPInstance, @CallState newState: Int) {
                     // newState 会是下面这些常量之一：
                     //  CallState.PENDING, EXCHANGING_KEYS, READY, HANGING_UP, DISCARDED, ERROR
+                    if (newState == CallState.RECONNECTING) onCallback[call.userId]?.invoke(callItem!!, null)
                     println("🔌 VoIP 连接状态变更: $newState")
                 }
 
@@ -890,22 +892,30 @@ internal fun TgApi.handleCallUpdate(update: TdApi.UpdateCall) {
         is TdApi.CallStatePending -> {
             // 被呼叫在等待
             println("Call is pending")
-            onCall.invoke(call)
+            onCallback[call.userId]?.invoke(call, null)
+            if (call.userId !in onCallback) onCall.invoke(call)
         }
         is TdApi.CallStateExchangingKeys -> {
             // 正在交换密钥
             println("Exchanging keys")
+            onCallback[call.userId]?.invoke(call, null)
             //voipItem?.initializeAndConnect()
         }
         is TdApi.CallStateHangingUp -> {
             // 呼叫已挂断
             println("Call is hanging up")
+            onCallback[call.userId]?.invoke(call, null)
+            voipItem?.performDestroy()
+            tgApi?.onCallback?.remove(callItem?.userId)
             voipItem = null
             callItem = null
         }
         is TdApi.CallStateDiscarded -> {
             // 呼叫已结束
             println("Call is discarded")
+            onCallback[call.userId]?.invoke(call, null)
+            tgApi?.onCallback?.remove(callItem?.userId)
+            voipItem?.performDestroy()
             voipItem = null
             callItem = null
         }
@@ -914,7 +924,6 @@ internal fun TgApi.handleCallUpdate(update: TdApi.UpdateCall) {
             println("Call state: ${call.state}")
         }
     }
-    onCallback.invoke(call)
 }
 
 internal fun TgApi.handleNewCallSignalingDataUpdate(update: TdApi.UpdateNewCallSignalingData) {

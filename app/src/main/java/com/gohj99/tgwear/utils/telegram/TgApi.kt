@@ -57,7 +57,7 @@ class TgApi(
     var testMode = mutableStateOf(false)
     var callItem: TdApi.Call? = null
     var voipItem: VoIPInstance? = null
-    var onCallback: (TdApi.Call) -> Unit = {}
+    var onCallback = mutableMapOf<Long, (TdApi.Call, String?) -> Unit>()
 
     init {
         // 获取应用外部数据目录

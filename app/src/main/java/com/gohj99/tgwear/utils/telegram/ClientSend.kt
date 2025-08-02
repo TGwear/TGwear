@@ -455,12 +455,30 @@ fun TgApi.acceptCall(callId: Int) {
     }
 }
 
-fun TgApi.discardCall(nowCallItem: TdApi.Call) {
-    client.send(TdApi.DiscardCall(nowCallItem.id, false, voipItem!!.callDuration.toInt(), false, voipItem!!.connectionId)) { result ->
-        if (result is TdApi.Ok) {
-            println("Call discarded successfully")
-        } else {
-            println("Failed to discard call: $result")
+// 拒绝通话
+fun TgApi.discardCall(nowCallItem: TdApi.Call, isDisconnected: Boolean = false) {
+    if (callItem != null) {
+        client.send(TdApi.DiscardCall(nowCallItem.id, isDisconnected, voipItem?.callDuration?.toInt() ?: 0, false, voipItem?.connectionId ?: 0)) { result ->
+            if (result is TdApi.Ok) {
+                voipItem?.performDestroy()
+                println("Call discarded successfully")
+            } else {
+                println("Failed to discard call: $result")
+            }
         }
     }
+}
+
+// 创建通话
+fun TgApi.createCall(userId: Long) {
+    if (voipItem == null) {
+        client.send(TdApi.CreateCall(userId, VoIP.getProtocol(), false)) { result ->
+            if (result is TdApi.CallId) {
+                println("Call created successfully")
+            } else {
+                println("Failed to create call: $result")
+            }
+        }
+    }
+
 }

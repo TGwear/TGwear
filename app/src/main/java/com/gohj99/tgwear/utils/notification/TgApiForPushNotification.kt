@@ -18,6 +18,7 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.util.Log
+import com.gohj99.tgwear.MainActivity
 import com.gohj99.tgwear.R
 import com.gohj99.tgwear.TgApiManager
 import com.gohj99.tgwear.getAppVersion
@@ -115,8 +116,47 @@ class TgApiForPushNotification(private val context: Context) {
         when (update.constructor) {
             TdApi.UpdateAuthorizationState.CONSTRUCTOR -> handleAuthorizationState(update as TdApi.UpdateAuthorizationState)
             TdApi.UpdateNewMessage.CONSTRUCTOR -> handleNewMessage(update as TdApi.UpdateNewMessage)
+            TdApi.UpdateCall.CONSTRUCTOR -> handleCallUpdate(update as TdApi.UpdateCall)
             else -> {
                 Log.d("TdApiUpdate","Received update: $update")
+            }
+        }
+    }
+
+    // 处理电话通知
+    fun handleCallUpdate(update: TdApi.UpdateCall) {
+        val call = update.call
+        if (call.state is TdApi.CallStatePending) {
+            // 异步获取聊天标题和聊天信息
+            CoroutineScope(Dispatchers.IO).launch {
+                val chatResult = sendRequest(TdApi.GetChat(call.userId))
+
+                // 获取聊天头像
+                var bmp = drawableToBitmap(context, R.mipmap.ic_launcher)!!
+                val photoFile = chatResult.photo?.small
+                if (photoFile?.local?.isDownloadingCompleted == true) {
+                    val filePath = photoFile.local.path
+                    val file = File(filePath)
+                    if (file.exists()) {
+                        // 这里可以处理图片文件，例如显示或使用
+                        loadBitmapFromUri(context.contentResolver, Uri.fromFile(file))?.let {
+                            bmp = it
+                        }
+                    }
+                } else {
+                    // 使用默认图标
+                    bmp = generateChatTitleIconBitmap(
+                        context,
+                        chatResult.title,
+                        chatResult.accentColorId
+                    )
+                }
+
+                context.showIncomingCallNotification(
+                    callerName = chatResult?.title ?: "Unknown",
+                    targetActivity = MainActivity::class.java,
+                    chatIconBitmap = bmp
+                )
             }
         }
     }
@@ -351,12 +391,20 @@ class TgApiForPushNotification(private val context: Context) {
                 if (text.length > maxText) text.take(maxText) + "..." else text
             }
             is TdApi.MessageAnimatedEmoji -> {
-                if (content.emoji.isEmpty()) context.getString(R.string.Unknown_Message)
-                else content.emoji
+                content.emoji.ifEmpty { context.getString(R.string.Unknown_Message) }
             }
             is TdApi.MessageSticker -> {
-                if (content.sticker.emoji.isEmpty()) context.getString(R.string.Unknown_Message)
-                else content.sticker.emoji
+                content.sticker.emoji.ifEmpty { context.getString(R.string.Unknown_Message) }
+            }
+            is TdApi.MessageCall -> {
+                 when (content.discardReason) {
+                    is TdApi.CallDiscardReasonMissed -> context.getString(R.string.Missed_call)
+                    is TdApi.CallDiscardReasonDeclined -> context.getString(R.string.Declined_call)
+                    is TdApi.CallDiscardReasonDisconnected -> context.getString(R.string.Disconnected_client)
+                    is TdApi.CallDiscardReasonEmpty -> context.getString(R.string.Failed_call)
+                    is TdApi.CallDiscardReasonHungUp -> context.getString(R.string.Hung_up)
+                    else -> context.getString(R.string.Call)
+                }
             }
             else -> context.getString(R.string.Unknown_Message)
         }

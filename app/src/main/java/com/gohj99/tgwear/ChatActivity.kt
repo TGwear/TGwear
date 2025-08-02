@@ -26,7 +26,6 @@ import android.os.Looper
 import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.mutableStateOf
@@ -39,6 +38,7 @@ import com.gohj99.tgwear.ui.main.ErrorScreen
 import com.gohj99.tgwear.ui.main.SplashLoadingScreen
 import com.gohj99.tgwear.ui.theme.TGwearTheme
 import com.gohj99.tgwear.utils.telegram.TgApi
+import com.gohj99.tgwear.utils.telegram.createCall
 import com.gohj99.tgwear.utils.telegram.createPrivateChat
 import com.gohj99.tgwear.utils.telegram.deleteMessageById
 import com.gohj99.tgwear.utils.telegram.getChat
@@ -496,7 +496,10 @@ class ChatActivity : BaseActivity() {
                                 },
                                 currentUserId = currentUserId,
                                 chatTopics = chatTopics,
-                                selectTopicId = selectTopicId
+                                selectTopicId = selectTopicId,
+                                onCall = {
+                                    tgApi!!.createCall(safeChat.id)
+                                }
                             )
                         }
                     }

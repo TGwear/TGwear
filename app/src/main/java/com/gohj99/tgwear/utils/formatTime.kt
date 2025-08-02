@@ -8,6 +8,8 @@
 
 package com.gohj99.tgwear.utils
 
+import android.content.Context
+import com.gohj99.tgwear.R
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -77,4 +79,43 @@ fun formatTimestampToDateAndTime(unixTimestamp: Int): String {
     )
 
     return SimpleDateFormat(pattern, Locale.getDefault()).format(date)
+}
+
+fun Context.formatTimestampToDateAndIntuitive(timestamp: Long): String {
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = timestamp * 1000 // 将时间戳转换为毫秒
+
+    val now = Calendar.getInstance()
+    val dateFormatter = SimpleDateFormat("HH:mm", Locale.getDefault())
+
+    // 获取时间差（单位：分钟）
+    val minutesAgo = (now.timeInMillis - calendar.timeInMillis) / (1000 * 60)
+
+    return when {
+        // 判断是否是刚刚
+        minutesAgo < 1 -> getString(R.string.last_seen_just_now)
+
+        // 判断是否是昨天
+        isYesterday(calendar, now) -> getString(R.string.last_seen_yesterday_at, dateFormatter.format(calendar.time))
+
+        // 判断是否在一小时以内
+        minutesAgo < 60 -> getString(R.string.last_seen_minutes_at, minutesAgo.toString())
+
+        // 判断是否是今天
+        isToday(calendar, now) -> dateFormatter.format(calendar.time)
+
+        else -> formatTimestampToDateAndTime(timestamp.toInt())
+    }
+}
+
+fun isToday(calendar: Calendar, now: Calendar): Boolean {
+    return calendar.get(Calendar.YEAR) == now.get(Calendar.YEAR) &&
+            calendar.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)
+}
+
+fun isYesterday(calendar: Calendar, now: Calendar): Boolean {
+    val yesterday = Calendar.getInstance()
+    yesterday.add(Calendar.DAY_OF_YEAR, -1)
+    return calendar.get(Calendar.YEAR) == yesterday.get(Calendar.YEAR) &&
+            calendar.get(Calendar.DAY_OF_YEAR) == yesterday.get(Calendar.DAY_OF_YEAR)
 }

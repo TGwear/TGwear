@@ -9,6 +9,7 @@
 package com.gohj99.tgwear
 
 import android.annotation.SuppressLint
+import android.app.NotificationManager
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -127,6 +128,10 @@ class MainActivity : BaseActivity() {
 
     private fun initializeApp() {
         topTitle.value = getString(R.string.HOME)
+
+        // 删除通话通知
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancel(1001)
 
         val loginSharedPref = getSharedPreferences("LoginPref", MODE_PRIVATE)
         isLoggedIn = loginSharedPref.getBoolean("isLoggedIn", false)

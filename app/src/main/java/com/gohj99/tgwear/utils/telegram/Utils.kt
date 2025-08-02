@@ -88,6 +88,20 @@ fun TgApi.handleAllMessages(
                 append(context.getString(R.string.joined_the_group))
             }
         }
+        is TdApi.MessageCall -> buildAnnotatedString {
+            val text = when (content.discardReason) {
+                is TdApi.CallDiscardReasonMissed -> context.getString(R.string.Missed_call)
+                is TdApi.CallDiscardReasonDeclined -> context.getString(R.string.Declined_call)
+                is TdApi.CallDiscardReasonDisconnected -> context.getString(R.string.Disconnected_client)
+                is TdApi.CallDiscardReasonEmpty -> context.getString(R.string.Failed_call)
+                is TdApi.CallDiscardReasonHungUp -> context.getString(R.string.Hung_up)
+                else -> context.getString(R.string.Call)
+            }
+
+            withStyle(style = SpanStyle(color = Color(context.getColor(R.color.blue)))) {
+                append(text)
+            }
+        }
         else -> buildAnnotatedString { append(context.getString(R.string.Unknown_Message)) }
     }
 }

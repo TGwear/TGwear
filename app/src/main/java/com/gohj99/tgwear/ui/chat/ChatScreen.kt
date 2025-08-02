@@ -112,7 +112,8 @@ fun SplashChatScreen(
     chatTitleClick: () -> Unit,
     currentUserId: MutableState<Long>,
     chatTopics: Map<Long, String>,
-    selectTopicId: MutableState<Long>
+    selectTopicId: MutableState<Long>,
+    onCall: () -> Unit
 ) {
     // 获取context
     val context = LocalContext.current
@@ -358,7 +359,8 @@ fun SplashChatScreen(
                                     lastReadInboxMessageId = lastReadInboxMessageId,
                                     onLinkClick = onLinkClick,
                                     goToChat = goToChat,
-                                    chatTopics = chatTopics
+                                    chatTopics = chatTopics,
+                                    onCall = onCall
                                 )
                             }
                         }
@@ -555,7 +557,8 @@ fun SplashChatScreenPreview() {
             chatTitleClick = {},
             currentUserId = mutableLongStateOf(-1L),
             chatTopics = mutableMapOf(),
-            selectTopicId = mutableLongStateOf(0L)
+            selectTopicId = mutableLongStateOf(0L),
+            onCall = {}
         )
     }
 }

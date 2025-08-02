@@ -235,4 +235,17 @@
     <string name="Hang_Up">Hang Up</string>
     <string name="Exchanging_Encryption_Keys">Exchanging Encryption Keys</string>
     <string name="Call_Ended">Call Ended</string>
+    <string name="Incoming_call">Incoming call</string>
+    <string name="Voice_call">Voice call</string>
+    <string name="Declined">Declined</string>
+    <string name="End_call">End call</string>
+    <string name="last_seen_minutes_at">last seen %s minutes ago</string>
+    <string name="last_seen_just_now">last seen just now</string>
+    <string name="last_seen_yesterday_at">last seen yesterday at %s</string>
+    <string name="Missed_call">Missed call</string>
+    <string name="Declined_call">Declined call</string>
+    <string name="Failed_call">Failed call</string>
+    <string name="Disconnected_client">Disconnected client</string>
+    <string name="Hung_up">Hung up</string>
+    <string name="Call">Call</string>
 </resources>

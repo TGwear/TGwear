@@ -41,6 +41,8 @@ const val VOIP_CONNECTION_MIN_LAYER = 65
 fun VoiceCallScreen(
     chat: Chat,
     state: MutableState<String>,
+    emoji: MutableState<String>,
+    callDuration: MutableState<Int>,
     acceptCall: () -> Unit,
     disCall: () -> Unit
 ) {
@@ -97,6 +99,17 @@ fun VoiceCallScreen(
             fontWeight = FontWeight.Bold
         )
 
+        Spacer(modifier = Modifier.height(4.dp)) // 添加间距
+
+        if (emoji.value.isNotBlank()) {
+            Text(
+                text = emoji.value,
+                color = Color.White,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+
         when (state.value) {
             "CallStatePending" -> {
                 Box(
@@ -105,6 +118,27 @@ fun VoiceCallScreen(
                     CustomButton(
                         onClick = acceptCall,
                         text = stringResource(id = R.string.Accept_Call)
+                    )
+                }
+                Box(
+                    contentAlignment = Alignment.Center
+                ) {
+                    CustomButton(
+                        onClick = disCall,
+                        color = Color(0xFFF44336),
+                        text = stringResource(id = R.string.Declined)
+                    )
+                }
+            }
+
+            "SelfCallStatePending" -> {
+                Box(
+                    contentAlignment = Alignment.Center
+                ) {
+                    CustomButton(
+                        onClick = disCall,
+                        color = Color(0xFFF44336),
+                        text = stringResource(id = R.string.End_call)
                     )
                 }
             }
@@ -118,6 +152,13 @@ fun VoiceCallScreen(
                         text = stringResource(id = R.string.Hang_Up)
                     )
                 }
+                Text(
+                    text = formatTime(callDuration.value),
+                    color = Color.White,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(horizontal = 32.dp)
+                )
             }
 
             "CallStateExchangingKeys" -> {
@@ -126,7 +167,7 @@ fun VoiceCallScreen(
                     color = Color.White,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier.padding(horizontal = 32.dp)
                 )
             }
 
@@ -136,9 +177,16 @@ fun VoiceCallScreen(
                     color = Color.White,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier.padding(4.dp)
                 )
             }
         }
     }
 }
+
+private fun formatTime(seconds: Int): String {
+    val minutes = seconds / 60
+    val secs = seconds % 60
+    return String.format("%02d:%02d", minutes, secs)
+}
+
