@@ -42,9 +42,8 @@
     <string name="edit">編集</string>  
     <string name="ReloadMessage">メッセージを再読み込み</string>  
     <string name="GetMessage">メッセージ情報を取得する</string>  
-    <string name="Same_name_image_exists">同じ写真を持っている</string>  
-    <string name="failling">失敗する</string>  
-    <string name="Read_failed">読み取りに失敗しました</string>  
+    <string name="Same_name_image_exists">同じ写真を持っている</string>
+    <string name="Read_failed">読み取りに失敗しました</string>
     <string name="Save_success">保存成功</string>  
     <string name="Select_player">プレイヤーを選択</string>  
     <string name="No_player">プレイヤーが見つかりません</string>  

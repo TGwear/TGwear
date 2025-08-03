@@ -42,9 +42,8 @@
     <string name="edit">편집하다</string>  
     <string name="ReloadMessage">메시지 다시 로드</string>  
     <string name="GetMessage">메시지 정보 받기</string>  
-    <string name="Same_name_image_exists">같은 그림을 가지고 있다</string>  
-    <string name="failling">실패하다</string>  
-    <string name="Read_failed">읽기 실패</string>  
+    <string name="Same_name_image_exists">같은 그림을 가지고 있다</string>
+    <string name="Read_failed">읽기 실패</string>
     <string name="Save_success">저장 성공</string>  
     <string name="Select_player">플레이어 선택</string>  
     <string name="No_player">플레이어가 없습니다</string>  

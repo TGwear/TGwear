@@ -42,9 +42,8 @@
     <string name="edit">изменено</string>  
     <string name="ReloadMessage">Обновить сообщение</string>  
     <string name="GetMessage">Получить информацию о сообщении</string>  
-    <string name="Same_name_image_exists">Изображение с таким именем уже есть</string>  
-    <string name="failling">неудача</string>  
-    <string name="Read_failed">Не удалось прочитать</string>  
+    <string name="Same_name_image_exists">Изображение с таким именем уже есть</string>
+    <string name="Read_failed">Не удалось прочитать</string>
     <string name="Save_success">Успешно сохранено</string>  
     <string name="Select_player">Выберите игрока</string>  
     <string name="No_player">Игрок не найден</string>  

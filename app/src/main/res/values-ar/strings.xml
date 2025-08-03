@@ -45,7 +45,6 @@
     <string name="ReloadMessage">إعادة تحميل الرسالة</string>
     <string name="GetMessage">الحصول على معلومات الرسالة</string>
     <string name="Same_name_image_exists">توجد نفس الصورة</string>
-    <string name="failling">فشل</string>
     <string name="Read_failed">فشل القراءة</string>
     <string name="Save_success">حفظ بنجاح</string>
     <string name="Select_player">اختر المشغل</string>

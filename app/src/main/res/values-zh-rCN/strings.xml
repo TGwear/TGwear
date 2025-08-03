@@ -42,9 +42,8 @@
     <string name="edit">已编辑</string>  
     <string name="ReloadMessage">重新加载消息</string>  
     <string name="GetMessage">获取消息信息</string>  
-    <string name="Same_name_image_exists">已经保存过</string>  
-    <string name="failling">失败</string>  
-    <string name="Read_failed">读取失败</string>  
+    <string name="Same_name_image_exists">已经保存过</string>
+    <string name="Read_failed">读取失败</string>
     <string name="Save_success">保存成功</string>  
     <string name="Select_player">选择播放器</string>  
     <string name="No_player">没有找到播放器</string>  

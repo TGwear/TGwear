@@ -45,7 +45,6 @@
     <string name="ReloadMessage">Mesajı yeniden yükle</string>
     <string name="GetMessage">Mesaj bilgisini al</string>
     <string name="Same_name_image_exists">Aynı resme sahip</string>
-    <string name="failling">Başarısız</string>
     <string name="Read_failed">Okuma başarısız</string>
     <string name="Save_success">Kaydetme başarılı</string>
     <string name="Select_player">Oynatıcı seçin</string>

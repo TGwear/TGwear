@@ -42,9 +42,8 @@
     <string name="edit">Modificare</string>  
     <string name="ReloadMessage">Ricarica messaggio</string>  
     <string name="GetMessage">Ottieni informazioni sul messaggio</string>  
-    <string name="Same_name_image_exists">Nome immagine già esistente</string>  
-    <string name="failling">Fallito</string>  
-    <string name="Read_failed">Lettura non riuscita</string>  
+    <string name="Same_name_image_exists">Nome immagine già esistente</string>
+    <string name="Read_failed">Lettura non riuscita</string>
     <string name="Save_success">Salvato con successo</string>  
     <string name="Select_player">Seleziona Player</string>  
     <string name="No_player">Nessun Player trovato</string>  

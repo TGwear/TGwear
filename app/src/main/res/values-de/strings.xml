@@ -42,9 +42,8 @@
     <string name="edit">Bearbeiten</string>  
     <string name="ReloadMessage">Nachricht neu laden</string>  
     <string name="GetMessage">Nachrichteninformationen abrufen</string>  
-    <string name="Same_name_image_exists">Habe das gleiche Bild</string>  
-    <string name="failling">versagen</string>  
-    <string name="Read_failed">Lesen fehlgeschlagen</string>  
+    <string name="Same_name_image_exists">Habe das gleiche Bild</string>
+    <string name="Read_failed">Lesen fehlgeschlagen</string>
     <string name="Save_success">Erfolg speichern</string>  
     <string name="Select_player">Spieler auswählen</string>  
     <string name="No_player">Kein Spieler gefunden</string>  

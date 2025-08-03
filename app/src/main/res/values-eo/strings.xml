@@ -42,9 +42,8 @@
     <string name="edit">Redakti</string>  
     <string name="ReloadMessage">Reŝargi mesaĝon</string>  
     <string name="GetMessage">Akiru mesaĝon informon</string>  
-    <string name="Same_name_image_exists">Havu la saman bildon</string>  
-    <string name="failling">malsukcesi</string>  
-    <string name="Read_failed">Legado malsukcesis</string>  
+    <string name="Same_name_image_exists">Havu la saman bildon</string>
+    <string name="Read_failed">Legado malsukcesis</string>
     <string name="Save_success">Savu sukceson</string>  
     <string name="Select_player">Elektu ludanton</string>  
     <string name="No_player">Neniu ludanto trovita</string>  
