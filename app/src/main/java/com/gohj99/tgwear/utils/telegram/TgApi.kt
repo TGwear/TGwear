@@ -34,10 +34,12 @@ class TgApi(
     internal val mainChatListPosition: MutableState<Int>,
     internal val onPaused: MutableState<Boolean>,
     internal val onCall: (TdApi.Call) -> Unit,
+    internal val onError: () -> Unit
 ) {
     var saveChatId = 0L
     var replyMessage = mutableStateOf<TdApi.Message?>(null)
     var updateFileCallBackList = mutableMapOf<Int, (TdApi.File) -> Unit>()
+    var errorSetTdlibParameters = false
     internal var saveChatMessagesList = mutableMapOf<Long, ChatMessagesSave>() //聊天在后台时更新
     internal var saveChatList = mutableStateOf(emptyList<TdApi.Message>()) // 保存的聊天列表，前台更新
     internal var saveChatIdList = mutableMapOf<Long, MutableList<Long>>()
@@ -58,6 +60,7 @@ class TgApi(
     var callItem: TdApi.Call? = null
     var voipItem: VoIPInstance? = null
     var onCallback = mutableMapOf<Long, (TdApi.Call, String?) -> Unit>()
+    var isIncomingCall = true
 
     init {
         // 获取应用外部数据目录
@@ -91,6 +94,9 @@ class TgApi(
         }) { result ->
             println("SetTdlibParameters result: $result")
             if (result is TdApi.Error) {
+                isAuthorized = false
+                errorSetTdlibParameters = true
+                onError()
                 throw IllegalStateException(result.message)
             }
         }
@@ -104,8 +110,15 @@ class TgApi(
         }
 
         if (!isAuthorized) {
-            close()
-            throw IllegalStateException("Failed to authorize")
+            if (errorSetTdlibParameters) {
+                onError()
+                throw IllegalStateException("SetTdlibParameters error")
+            } else {
+                close()
+                onError()
+                throw IllegalStateException("Failed to authorize")
+            }
+
         }
 
         client.send(TdApi.GetMe()) {

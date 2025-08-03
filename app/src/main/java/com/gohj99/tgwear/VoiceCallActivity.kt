@@ -14,6 +14,8 @@ import android.content.pm.PackageManager
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
+import android.os.PowerManager
+import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.app.ActivityCompat
@@ -42,13 +44,24 @@ class VoiceCallActivity : BaseActivity() {
     private lateinit var audioManager: AudioManager
     private val emoji = mutableStateOf("")
     private val callDuration = mutableStateOf(0)
+    private var isIncomingCall = true
+    private var updateCallDurationRunState = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             setShowWhenLocked(true)
             setTurnScreenOn(true)
+        } else {
+            @Suppress("DEPRECATION")
+            window.addFlags(
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
+                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON or
+                        WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
+                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
+            )
         }
+        wakeUpAndUnlock()
 
         // 获取 TgApi 实例
         if (tgApi == null) {
@@ -62,14 +75,23 @@ class VoiceCallActivity : BaseActivity() {
             return
         }
         callItem = tgApi.callItem!!
+        isIncomingCall = tgApi.isIncomingCall
 
         tgApi.onCallback[callItem.userId] = {update, str ->
-            state.value = when (update.state) {
+            state.value = when (val state = update.state) {
                 is TdApi.CallStatePending -> {
-                    if (callItem.isOutgoing) {
-                        "SelfCallStatePending"
-                    } else {
+                    if (isIncomingCall) {
                         "CallStatePending"
+                    } else {
+                        if (callItem.isOutgoing) {
+                            if (str != "first") {
+                                "SelfCallStatePending"
+                            } else {
+                                "SelfCallStatePendingWait"
+                            }
+                        } else {
+                            "SelfCallStatePendingWait"
+                        }
                     }
                 }
                 is TdApi.CallStateReady -> {
@@ -91,10 +113,16 @@ class VoiceCallActivity : BaseActivity() {
                     destroyMe()
                     "CallStateDiscarded"
                 }
+                is TdApi.CallStateError -> {
+                    destroyMe()
+                    if (state.error.code == 403) "CallStateError403"
+                    else state.error.message
+                }
                 is TdApi.CallStateExchangingKeys -> "CallStateExchangingKeys"
                 else -> "CallStateWaiting"
             }
         }
+        tgApi.onCallback[callItem.userId]?.invoke(callItem, "first")
 
         // 检测权限
         checkAndRequestAudioPermission(this)
@@ -113,6 +141,11 @@ class VoiceCallActivity : BaseActivity() {
         audioManager.mode = AudioManager.MODE_IN_COMMUNICATION // 设置通话模式
         audioManager.isMicrophoneMute = false                  // 打开麦克风
         audioManager.isSpeakerphoneOn = true                   // 使用扬声器
+        audioManager.requestAudioFocus(
+            { _: Int -> },  // 音频焦点变化监听器（可为空）
+            AudioManager.STREAM_VOICE_CALL,
+            AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
+        )
 
         setContent {
             TGwearTheme {
@@ -149,12 +182,29 @@ class VoiceCallActivity : BaseActivity() {
 
     fun updateCallDuration() {
         CoroutineScope(Dispatchers.IO).launch {
-            while (true) {
-                Thread.sleep(1000)
-                callDuration.value += 1
+            if (updateCallDurationRunState) {
+                Thread.sleep(600)
+                callDuration.value = 0
+            } else {
+                updateCallDurationRunState = true
+                Thread.sleep(600)
+                while (true) {
+                    Thread.sleep(1000)
+                    callDuration.value += 1
+                }
             }
         }
     }
+
+    private fun wakeUpAndUnlock() {
+        val powerManager = getSystemService(POWER_SERVICE) as PowerManager
+        val wakeLock = powerManager.newWakeLock(
+            PowerManager.FULL_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP or PowerManager.ON_AFTER_RELEASE,
+            "tgwear:VoiceCallWakeLock"
+        )
+        wakeLock.acquire(3000) // 保持 3 秒
+    }
+
     // 检查并请求录音权限
     fun checkAndRequestAudioPermission(activity: Activity) {
         if (ContextCompat.checkSelfPermission(activity, RECORD_AUDIO_PERMISSION)

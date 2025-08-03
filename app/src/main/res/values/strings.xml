@@ -53,7 +53,7 @@
     <string name="ReloadMessage">Reload message</string>
     <string name="GetMessage">Get message information</string>
     <string name="Same_name_image_exists">Have the same picture</string>
-    <string name="failling">failling</string>
+    <string name="failing">failing</string>
     <string name="Read_failed">Read failed</string>
     <string name="Save_success">Save success</string>
     <string name="Select_player">Select player</string>
@@ -248,4 +248,7 @@
     <string name="Disconnected_client">Disconnected client</string>
     <string name="Hung_up">Hung up</string>
     <string name="Call">Call</string>
+    <string name="User_Privacy_Restricted">Sorry, you can\'t contact this person due to their privacy settings.</string>
+    <string name="Waiting">Waiting…</string>
+    <string name="Ringing">Ringing…</string>
 </resources>

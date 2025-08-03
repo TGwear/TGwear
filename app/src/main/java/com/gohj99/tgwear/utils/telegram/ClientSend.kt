@@ -460,6 +460,7 @@ fun TgApi.discardCall(nowCallItem: TdApi.Call, isDisconnected: Boolean = false) 
     if (callItem != null) {
         client.send(TdApi.DiscardCall(nowCallItem.id, isDisconnected, voipItem?.callDuration?.toInt() ?: 0, false, voipItem?.connectionId ?: 0)) { result ->
             if (result is TdApi.Ok) {
+                isIncomingCall = true
                 voipItem?.performDestroy()
                 println("Call discarded successfully")
             } else {
@@ -474,6 +475,7 @@ fun TgApi.createCall(userId: Long) {
     if (voipItem == null) {
         client.send(TdApi.CreateCall(userId, VoIP.getProtocol(), false)) { result ->
             if (result is TdApi.CallId) {
+                isIncomingCall = false
                 println("Call created successfully")
             } else {
                 println("Failed to create call: $result")

@@ -184,7 +184,7 @@ class LoginActivity : BaseActivity() {
                                                     testMode = false
                                                     Toast.makeText(
                                                         this@LoginActivity,
-                                                        getString(R.string.failling),
+                                                        getString(R.string.failing),
                                                         Toast.LENGTH_SHORT
                                                     ).show()
                                                 }

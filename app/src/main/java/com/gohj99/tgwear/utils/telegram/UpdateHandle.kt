@@ -904,6 +904,7 @@ internal fun TgApi.handleCallUpdate(update: TdApi.UpdateCall) {
         is TdApi.CallStateHangingUp -> {
             // 呼叫已挂断
             println("Call is hanging up")
+            isIncomingCall = true
             onCallback[call.userId]?.invoke(call, null)
             voipItem?.performDestroy()
             tgApi?.onCallback?.remove(callItem?.userId)
@@ -913,6 +914,7 @@ internal fun TgApi.handleCallUpdate(update: TdApi.UpdateCall) {
         is TdApi.CallStateDiscarded -> {
             // 呼叫已结束
             println("Call is discarded")
+            isIncomingCall = true
             onCallback[call.userId]?.invoke(call, null)
             tgApi?.onCallback?.remove(callItem?.userId)
             voipItem?.performDestroy()
@@ -921,6 +923,7 @@ internal fun TgApi.handleCallUpdate(update: TdApi.UpdateCall) {
         }
         else -> {
             // 其他状态
+            onCallback[call.userId]?.invoke(call, null)
             println("Call state: ${call.state}")
         }
     }

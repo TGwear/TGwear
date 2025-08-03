@@ -120,6 +120,7 @@ fun VoiceCallScreen(
                         text = stringResource(id = R.string.Accept_Call)
                     )
                 }
+                Spacer(modifier = Modifier.height(4.dp)) // 添加间距
                 Box(
                     contentAlignment = Alignment.Center
                 ) {
@@ -132,6 +133,13 @@ fun VoiceCallScreen(
             }
 
             "SelfCallStatePending" -> {
+                Text(
+                    text = stringResource(id = R.string.Ringing),
+                    color = Color.White,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(4.dp)
+                )
                 Box(
                     contentAlignment = Alignment.Center
                 ) {
@@ -171,9 +179,48 @@ fun VoiceCallScreen(
                 )
             }
 
+            "CallStateError403" -> {
+                Text(
+                    text = stringResource(id = R.string.User_Privacy_Restricted),
+                    color = Color.White,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(4.dp)
+                )
+            }
+
+            "SelfCallStatePendingWait" -> {
+                Text(
+                    text = stringResource(id = R.string.Waiting),
+                    color = Color.White,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(4.dp)
+                )
+                Box(
+                    contentAlignment = Alignment.Center
+                ) {
+                    CustomButton(
+                        onClick = disCall,
+                        color = Color(0xFFF44336),
+                        text = stringResource(id = R.string.End_call)
+                    )
+                }
+            }
+
             "CallStateDiscarded", "CallStateHangingUp" -> {
                 Text(
                     text = stringResource(id = R.string.Call_Ended),
+                    color = Color.White,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(4.dp)
+                )
+            }
+
+            else -> {
+                Text(
+                    text = state.value,
                     color = Color.White,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,

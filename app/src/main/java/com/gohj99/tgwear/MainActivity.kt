@@ -44,7 +44,9 @@ import com.google.firebase.crashlytics.crashlytics
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import org.drinkless.tdlib.TdApi
 import java.io.File
@@ -174,7 +176,26 @@ class MainActivity : BaseActivity() {
                 )
             )
         }
-        lifecycleScope.launch(Dispatchers.IO) {
+        val exceptionHandler = CoroutineExceptionHandler { _, e ->
+            lifecycleScope.launch(Dispatchers.Main) {
+                launch(Dispatchers.Main) {
+                    setContent {
+                        TGwearTheme {
+                            ErrorScreen(
+                                onRetry = { retryInitialization() },
+                                onSetting = {
+                                    startActivity(
+                                        Intent(this@MainActivity, SettingActivity::class.java)
+                                    )
+                                },
+                                cause = e.message ?: ""
+                            )
+                        }
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch(Dispatchers.IO + exceptionHandler) {
             try {
                 if (TgApiForPushNotificationManager.tgApi != null) {
                     println("MainActivity close TgApiForPushNotification sever")
@@ -193,7 +214,8 @@ class MainActivity : BaseActivity() {
                         chatsFoldersList = chatsFoldersList,
                         mainChatListPosition = mainChatListPosition,
                         onPaused = onPaused,
-                        onCall = {}
+                        onCall = {},
+                        onError = {}
                     )
 
                     // 调用重试机制来获取用户信息
@@ -352,6 +374,9 @@ class MainActivity : BaseActivity() {
                                 VoiceCallActivity::class.java
                             )
                         )
+                    },
+                    onError = {
+                        cancel("Error") // 终止协程
                     }
                 )
                 ChatsListManager.chatsList = chatsList
@@ -447,7 +472,6 @@ class MainActivity : BaseActivity() {
                                 println("Failed to delete: ${file.absolutePath}")
                             }
                         }
-                        cacheDir.deleteRecursively()
                         // 清空 SharedPreferences
                         getSharedPreferences("LoginPref", MODE_PRIVATE).edit().clear()
                             .apply()

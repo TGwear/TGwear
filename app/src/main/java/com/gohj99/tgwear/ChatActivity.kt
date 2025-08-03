@@ -564,7 +564,7 @@ class ChatActivity : BaseActivity() {
                 MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
                 contentValues
             )
-                ?: return context.getString(R.string.failling)
+                ?: return context.getString(R.string.failing)
 
             try {
                 context.contentResolver.openOutputStream(uri)?.use { outputStream ->
@@ -574,7 +574,7 @@ class ChatActivity : BaseActivity() {
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
-                return context.getString(R.string.failling)
+                return context.getString(R.string.failing)
             }
 
             // 更新IS_PENDING状态
@@ -648,7 +648,7 @@ class ChatActivity : BaseActivity() {
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 contentValues
             )
-                ?: return context.getString(R.string.failling)
+                ?: return context.getString(R.string.failing)
 
             context.contentResolver.openOutputStream(uri)?.use { outputStream ->
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
