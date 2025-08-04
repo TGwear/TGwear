@@ -499,7 +499,7 @@ class MainActivity : BaseActivity() {
                         setContent {
                             TGwearTheme {
                                 ErrorScreen(
-                                    onRetry = { retryInitialization() },
+                                    onRetry = { restartSelf() },
                                     onSetting = {
                                         startActivity(
                                             Intent(this@MainActivity, SettingActivity::class.java)

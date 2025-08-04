@@ -69,7 +69,7 @@ class VoiceCallActivity : BaseActivity() {
         wakeUpAndUnlock()
         audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
 
-        println("调试0")
+        //println("调试0")
 
         // 获取 TgApi 实例
         if (tgApi == null && pushTgApi == null) {
@@ -121,12 +121,6 @@ class VoiceCallActivity : BaseActivity() {
                         // 通知系统进入通话状态
                         audioManager.mode = AudioManager.MODE_IN_COMMUNICATION // 设置通话模式
                         audioManager.isMicrophoneMute = false // 打开麦克风
-                        audioManager.isSpeakerphoneOn = false // 不强制扬声器，交给系统路由
-                        audioManager.requestAudioFocus(
-                            { _: Int -> },  // 音频焦点变化监听器（可为空）
-                            AudioManager.STREAM_VOICE_CALL,
-                            AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
-                        )
 
                         "CallStateReady"
                     } else {
@@ -159,7 +153,7 @@ class VoiceCallActivity : BaseActivity() {
         // 检测权限
         checkAndRequestAudioPermission(this)
 
-        println("调试1")
+        //println("调试1")
         chatItem = tgApi?.chatsList?.value?.firstOrNull { it.id == callItem.userId } ?: runBlocking {
             if (tgApi != null) {
                 val chatObject = tgApi.getChat(callItem.userId)  // 在 runBlocking 中赋值
@@ -177,7 +171,7 @@ class VoiceCallActivity : BaseActivity() {
                 )
             }
         }
-        println("调试2")
+        //println("调试2")
 
         setContent {
             TGwearTheme {

@@ -9,6 +9,7 @@
 package com.gohj99.tgwear
 
 import android.annotation.SuppressLint
+import android.app.NotificationManager
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.ContentValues
@@ -158,6 +159,12 @@ class ChatActivity : BaseActivity() {
                 SplashLoadingScreen(modifier = Modifier.fillMaxSize())
             }
         }
+
+        // 删除通知和通知记录
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancel(chat!!.id.toString().hashCode())
+        val prefs = getSharedPreferences("chat_prefs", Context.MODE_PRIVATE)
+        prefs.edit().remove(chat!!.id.toString()).apply()
 
         Handler(Looper.getMainLooper()).postDelayed({
             lifecycleScope.launch(Dispatchers.IO) {

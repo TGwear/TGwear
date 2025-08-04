@@ -78,6 +78,9 @@ class TdFirebaseMessagingService : FirebaseMessagingService() {
                                 }
                                 //sendNotification("测试通知2", id.toString())
                             }*/
+                            /*remoteMessage.data["p"]?.let { p ->
+                                tgApi.processPushNotification(p)
+                            }*/
                             tgApi.processPushNotification(JSONObject(remoteMessage.data).toString())
                             Thread.sleep(10 * 1000)
                             if (tgApi.close()) TgApiForPushNotificationManager.tgApi = null
