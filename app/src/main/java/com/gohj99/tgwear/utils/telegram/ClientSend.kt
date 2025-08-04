@@ -434,6 +434,10 @@ fun TgApi.setFCMToken(token: String = "", callback: (Long) -> Unit = {}) {
     ) { result ->
         if (result is TdApi.PushReceiverId) {
             println("FCM token set successfully")
+            setOption(
+                name = "notification_group_count_max",
+                value = TdApi.OptionValueInteger(15)
+            )
             sharedPref.edit(commit = false) {
                 putLong("userPushReceiverId", result.id)
             }
@@ -483,4 +487,14 @@ fun TgApi.createCall(userId: Long) {
         }
     }
 
+}
+
+fun TgApi.setOption(name: String, value: TdApi.OptionValue) {
+    client.send(TdApi.SetOption(name, value)) { result ->
+        if (result is TdApi.Ok) {
+            println("Option set successfully")
+        } else {
+            println("Failed to set option: $result")
+        }
+    }
 }

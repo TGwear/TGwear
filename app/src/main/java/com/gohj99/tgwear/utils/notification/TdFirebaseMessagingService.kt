@@ -82,8 +82,8 @@ class TdFirebaseMessagingService : FirebaseMessagingService() {
                                 tgApi.processPushNotification(p)
                             }*/
                             tgApi.processPushNotification(JSONObject(remoteMessage.data).toString())
-                            Thread.sleep(10 * 1000)
-                            if (tgApi.close()) TgApiForPushNotificationManager.tgApi = null
+                            //Thread.sleep(10 * 1000)
+                            //if (tgApi.close()) TgApiForPushNotificationManager.tgApi = null
                         } catch (e: Exception) {
                             println(e)
                             e.printStackTrace()

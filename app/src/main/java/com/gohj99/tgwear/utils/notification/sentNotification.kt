@@ -187,7 +187,7 @@ fun Context.sendChatMessageNotification(
         .setPriority(NotificationCompat.PRIORITY_HIGH)
         .setCategory(NotificationCompat.CATEGORY_MESSAGE)
         .setColor(getColor(android.R.color.holo_blue_bright)) // 设置强调颜色 (可选)
-        .setOnlyAlertOnce(true) // 同一个会话的新消息只响铃/震动一次 (直到通知被取消)
+        .setOnlyAlertOnce(false) // 同一个会话的新消息只响铃/震动多次
         .setContentIntent(openChatPendingIntent) // 设置点击通知的操作
 
         // 添加 Actions

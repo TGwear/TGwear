@@ -177,7 +177,7 @@ class TgApi(
             TdApi.UpdateChatDraftMessage.CONSTRUCTOR -> handleChatDraftMessageUpdate(update as TdApi.UpdateChatDraftMessage)
             TdApi.UpdateCall.CONSTRUCTOR -> handleCallUpdate(update as TdApi.UpdateCall)
             TdApi.UpdateNewCallSignalingData.CONSTRUCTOR -> handleNewCallSignalingDataUpdate(update as TdApi.UpdateNewCallSignalingData)
-            TdApi.UpdateNotification.CONSTRUCTOR -> handleNotification(update as TdApi.UpdateNotification)
+            TdApi.UpdateNotificationGroup.CONSTRUCTOR -> handleNotificationGroupUpdate(update as TdApi.UpdateNotificationGroup)
             // 其他更新
             else -> {
                 Log.d("TdApiUpdate","Received update: $update")

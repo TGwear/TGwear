@@ -130,18 +130,199 @@ class TgApiForPushNotification(private val context: Context) {
     private fun handleUpdate(update: TdApi.Object) {
         when (update.constructor) {
             TdApi.UpdateAuthorizationState.CONSTRUCTOR -> handleAuthorizationState(update as TdApi.UpdateAuthorizationState)
-            TdApi.UpdateNewMessage.CONSTRUCTOR -> handleNewMessage(update as TdApi.UpdateNewMessage)
+            //TdApi.UpdateNewMessage.CONSTRUCTOR -> handleNewMessage(update as TdApi.UpdateNewMessage)
             TdApi.UpdateCall.CONSTRUCTOR -> handleCallUpdate(update as TdApi.UpdateCall)
-            TdApi.UpdateNotification.CONSTRUCTOR -> handleNotification(update as TdApi.UpdateNotification)
+            //TdApi.UpdateNotification.CONSTRUCTOR -> handleNotification(update as TdApi.UpdateNotification)
             TdApi.UpdateNewCallSignalingData.CONSTRUCTOR -> handleNewCallSignalingDataUpdate(update as TdApi.UpdateNewCallSignalingData)
+            TdApi.UpdateNotificationGroup.CONSTRUCTOR -> handleNotificationGroupUpdate(update as TdApi.UpdateNotificationGroup)
             else -> {
                 Log.d("TdApiUpdate","Received update: $update")
             }
         }
     }
 
-    // 处理消息通知
-    fun handleNotification(update: TdApi.UpdateNotification) {
+    fun handleNotificationGroupUpdate(update: TdApi.UpdateNotificationGroup) {
+        //println("Received notification group update: $update")
+        val addedNotifications = update.addedNotifications
+        val chatId = update.chatId
+        addedNotifications.forEach { notification ->
+            when (val type = notification.type) {
+                is TdApi.NotificationTypeNewMessage -> {
+                    val message = type.message
+                    //val chatId = message.chatId
+                    // 异步获取聊天标题和聊天信息
+                    CoroutineScope(Dispatchers.IO).launch {
+                        try {
+                            val chatResult = getChat(chatId)
+                            if (chatResult.constructor == TdApi.Chat.CONSTRUCTOR) {
+
+                                // 判断是否是群组
+                                var isGroup = false
+                                when (chatResult.type) {
+                                    is TdApi.ChatTypeSupergroup -> {
+                                        isGroup = true
+                                    }
+                                    is TdApi.ChatTypeBasicGroup -> {
+                                        isGroup = true
+                                    }
+                                }
+
+                                // 获取聊天图片
+                                var bmp = drawableToBitmap(context, R.mipmap.ic_launcher)!!
+                                val photoFile = chatResult.photo?.small
+                                if (photoFile?.local?.isDownloadingCompleted == true) {
+                                    val filePath = photoFile.local.path
+                                    val file = File(filePath)
+                                    if (file.exists()) {
+                                        // 这里可以处理图片文件，例如显示或使用
+                                        loadBitmapFromUri(context.contentResolver, Uri.fromFile(file))?.let {
+                                            bmp = it
+                                        }
+                                    }
+                                } else {
+                                    // 使用默认图标
+                                    bmp = generateChatTitleIconBitmap(
+                                        context,
+                                        chatResult.title,
+                                        chatResult.accentColorId
+                                    )
+                                }
+
+                                //val accentColorId = chatResult.accentColorId
+                                val needNotification = chatResult.notificationSettings.muteFor == 0
+                                val chatTitle = chatResult.title
+
+                                // 获取发送者名称
+                                var senderName = chatTitle
+                                if (isGroup) {
+                                    when (val senderId = message.senderId) {
+                                        is TdApi.MessageSenderUser -> {
+                                            val userId = senderId.userId
+                                            val userResult = sendRequest(TdApi.GetUser(userId))
+                                            if (userResult is TdApi.User) {
+                                                senderName = "${userResult.firstName} ${userResult.lastName}"
+                                            }
+                                        }
+                                        is TdApi.MessageSenderChat -> {
+                                            // 处理群组消息的发送者
+                                            if (senderId.chatId == chatId) {
+                                                senderName = chatTitle
+                                            } else {
+                                                val itChat = tgApi?.getChat(senderId.chatId)
+                                                itChat.let {
+                                                    senderName = it!!.title
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                if (needNotification) {
+                                    context.sendChatMessageNotification(
+                                        title = chatTitle,
+                                        message = handleAllMessages(message),
+                                        senderName = senderName,
+                                        conversationId = chatId.toString(),
+                                        timestamp = message.date * 1000L,
+                                        isGroupChat = isGroup,
+                                        chatIconBitmap = bmp // 这里可以传入群组图标的 Uri
+                                    )
+                                }
+                            }
+                        } catch (e: Exception) {
+                            println("handleNotification failed: ${e.message}")
+                        }
+                    }
+                }
+                is TdApi.NotificationTypeNewPushMessage -> {
+                    //println("Received push message: $type")
+                    val content = type.content
+                    val senderName = type.senderName
+                    val senderId = when (type.senderId) {
+                        is TdApi.MessageSenderUser -> (type.senderId as TdApi.MessageSenderUser).userId
+                        is TdApi.MessageSenderChat -> (type.senderId as TdApi.MessageSenderChat).chatId
+                        else -> 0
+                    }
+
+                    if (!type.isOutgoing) {
+                        // 异步获取聊天标题和聊天信息
+                        CoroutineScope(Dispatchers.IO).launch {
+                            try {
+                                val chatResult = getChat(chatId)
+                                if (chatResult.constructor == TdApi.Chat.CONSTRUCTOR) {
+                                    // 获取群组名字
+                                    val chatTitle = chatResult.title
+
+                                    // 判断是否是群组
+                                    var isGroup = false
+                                    when (chatResult.type) {
+                                        is TdApi.ChatTypeSupergroup -> {
+                                            isGroup = true
+                                        }
+                                        is TdApi.ChatTypeBasicGroup -> {
+                                            isGroup = true
+                                        }
+                                    }
+
+                                    // 获取聊天图片
+                                    var bmp = drawableToBitmap(context, R.mipmap.ic_launcher)!!
+                                    val photoFile = chatResult.photo?.small
+                                    if (photoFile?.local?.isDownloadingCompleted == true) {
+                                        val filePath = photoFile.local.path
+                                        val file = File(filePath)
+                                        if (file.exists()) {
+                                            // 这里可以处理图片文件，例如显示或使用
+                                            loadBitmapFromUri(context.contentResolver, Uri.fromFile(file))?.let {
+                                                bmp = it
+                                            }
+                                        }
+                                    } else {
+                                        // 使用默认图标
+                                        bmp = generateChatTitleIconBitmap(
+                                            context,
+                                            chatResult.title,
+                                            chatResult.accentColorId
+                                        )
+                                    }
+                                    context.sendChatMessageNotification(
+                                        title = chatTitle,
+                                        message = handleAllPushMessages(content),
+                                        senderName = senderName,
+                                        conversationId = chatId.toString(),
+                                        timestamp = notification.date * 1000L,
+                                        isGroupChat = isGroup,
+                                        chatIconBitmap = bmp // 这里可以传入群组图标的 Uri
+                                    )
+                                } else {
+                                    val bmp = generateChatTitleIconBitmap(
+                                        context,
+                                        chatResult.title,
+                                        chatResult.accentColorId
+                                    )
+                                    val isGroup = senderId == chatId
+                                    context.sendChatMessageNotification(
+                                        title = senderName,
+                                        message = handleAllPushMessages(content),
+                                        senderName = senderName,
+                                        conversationId = chatId.toString(),
+                                        timestamp = notification.date * 1000L,
+                                        isGroupChat = isGroup,
+                                        chatIconBitmap = bmp // 这里可以传入群组图标的 Uri
+                                    )
+                                }
+                            } catch (e: Exception) {
+                                println("handleNotification failed: ${e.message}")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // 处理消息变动通知
+    /*fun handleNotification(update: TdApi.UpdateNotification) {
+        println("Received notification: $update")
         val notification = update.notification
         when (val type = notification.type) {
             is TdApi.NotificationTypeNewMessage -> {
@@ -152,7 +333,6 @@ class TgApiForPushNotification(private val context: Context) {
                     try {
                         val chatResult = getChat(chatId)
                         if (chatResult.constructor == TdApi.Chat.CONSTRUCTOR) {
-
                             // 判断是否是群组
                             var isGroup = false
                             when (chatResult.type) {
@@ -232,6 +412,7 @@ class TgApiForPushNotification(private val context: Context) {
                 }
             }
             is TdApi.NotificationTypeNewPushMessage -> {
+                println("Received push message: $type")
                 val content = type.content
                 val senderName = type.senderName
                 val senderId = type.senderId
@@ -241,39 +422,70 @@ class TgApiForPushNotification(private val context: Context) {
                     else -> 0
                 }
 
-                if (type.isOutgoing) {
+                if (!type.isOutgoing) {
                     // 异步获取聊天标题和聊天信息
                     CoroutineScope(Dispatchers.IO).launch {
                         try {
                             val chatResult = getChat(chatId)
-                            // 获取聊天图片
-                            var bmp = drawableToBitmap(context, R.mipmap.ic_launcher)!!
-                            val photoFile = chatResult.photo?.small
-                            if (photoFile?.local?.isDownloadingCompleted == true) {
-                                val filePath = photoFile.local.path
-                                val file = File(filePath)
-                                if (file.exists()) {
-                                    // 这里可以处理图片文件，例如显示或使用
-                                    loadBitmapFromUri(context.contentResolver, Uri.fromFile(file))?.let {
-                                        bmp = it
+                            if (chatResult.constructor == TdApi.Chat.CONSTRUCTOR) {
+                                // 获取群组名字
+                                val chatTitle = chatResult.title
+
+                                // 判断是否是群组
+                                var isGroup = false
+                                when (chatResult.type) {
+                                    is TdApi.ChatTypeSupergroup -> {
+                                        isGroup = true
+                                    }
+                                    is TdApi.ChatTypeBasicGroup -> {
+                                        isGroup = true
                                     }
                                 }
+
+                                // 获取聊天图片
+                                var bmp = drawableToBitmap(context, R.mipmap.ic_launcher)!!
+                                val photoFile = chatResult.photo?.small
+                                if (photoFile?.local?.isDownloadingCompleted == true) {
+                                    val filePath = photoFile.local.path
+                                    val file = File(filePath)
+                                    if (file.exists()) {
+                                        // 这里可以处理图片文件，例如显示或使用
+                                        loadBitmapFromUri(context.contentResolver, Uri.fromFile(file))?.let {
+                                            bmp = it
+                                        }
+                                    }
+                                } else {
+                                    // 使用默认图标
+                                    bmp = generateChatTitleIconBitmap(
+                                        context,
+                                        chatResult.title,
+                                        chatResult.accentColorId
+                                    )
+                                }
+                                context.sendChatMessageNotification(
+                                    title = chatTitle,
+                                    message = handleAllPushMessages(content),
+                                    senderName = senderName,
+                                    conversationId = chatId.toString(),
+                                    timestamp = notification.date * 1000L,
+                                    isGroupChat = isGroup,
+                                    chatIconBitmap = bmp // 这里可以传入群组图标的 Uri
+                                )
                             } else {
-                                // 使用默认图标
-                                bmp = generateChatTitleIconBitmap(
+                                val bmp = generateChatTitleIconBitmap(
                                     context,
                                     chatResult.title,
                                     chatResult.accentColorId
                                 )
+                                context.sendChatMessageNotification(
+                                    title = senderName,
+                                    message = handleAllPushMessages(content),
+                                    senderName = senderName,
+                                    conversationId = chatId.toString(),
+                                    timestamp = notification.date * 1000L,
+                                    chatIconBitmap = bmp // 这里可以传入群组图标的 Uri
+                                )
                             }
-                            context.sendChatMessageNotification(
-                                title = senderName,
-                                message = handleAllPushMessages(content),
-                                senderName = senderName,
-                                timestamp = notification.date * 1000L,
-                                conversationId = chatId.toString(),
-                                chatIconBitmap = bmp // 这里可以传入群组图标的 Uri
-                            )
                         } catch (e: Exception) {
                             println("handleNotification failed: ${e.message}")
                         }
@@ -281,7 +493,7 @@ class TgApiForPushNotification(private val context: Context) {
                 }
             }
         }
-    }
+    }*/
 
     // 获取聊天信息
     suspend fun getChat(chatId: Long): TdApi.Chat {
@@ -499,7 +711,7 @@ class TgApiForPushNotification(private val context: Context) {
     }
 
     // 处理获取到的新消息
-    private fun handleNewMessage(update: TdApi.UpdateNewMessage) {
+    /*private fun handleNewMessage(update: TdApi.UpdateNewMessage) {
         val message = update.message
         val chatId = message.chatId
 
@@ -589,7 +801,7 @@ class TgApiForPushNotification(private val context: Context) {
                 println("HandleNewChat failed: ${e.message}")
             }
         }
-    }
+    }*/
 
     private fun loadBitmapFromUri(contentResolver: ContentResolver, uri: Uri): Bitmap? {
         return try {
