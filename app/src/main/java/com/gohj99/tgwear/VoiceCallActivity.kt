@@ -121,6 +121,10 @@ class VoiceCallActivity : BaseActivity() {
                         // 通知系统进入通话状态
                         audioManager.mode = AudioManager.MODE_IN_COMMUNICATION // 设置通话模式
                         audioManager.isMicrophoneMute = false // 打开麦克风
+                        if (audioManager.isBluetoothScoAvailableOffCall) {
+                            audioManager.startBluetoothSco()
+                            audioManager.isBluetoothScoOn = true
+                        }
 
                         "CallStateReady"
                     } else {
@@ -199,7 +203,7 @@ class VoiceCallActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         audioManager.mode = AudioManager.MODE_NORMAL
-        audioManager.abandonAudioFocus(null)
+        audioManager.stopBluetoothSco()
         tgApi?.onCallback?.remove(callItem.userId)
         tgApi?.discardCall(callItem)
         pushTgApi?.onCallback?.remove(callItem.userId)
