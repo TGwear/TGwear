@@ -34,7 +34,7 @@ class TgApi(
     internal val mainChatListPosition: MutableState<Int>,
     internal val onPaused: MutableState<Boolean>,
     internal val onCall: (TdApi.Call) -> Unit,
-    internal val onError: () -> Unit
+    internal val onError: (String) -> Unit
 ) {
     var saveChatId = 0L
     var replyMessage = mutableStateOf<TdApi.Message?>(null)
@@ -96,7 +96,7 @@ class TgApi(
             if (result is TdApi.Error) {
                 isAuthorized = false
                 errorSetTdlibParameters = true
-                onError()
+                onError("result.message")
                 throw IllegalStateException(result.message)
             }
         }
@@ -111,14 +111,13 @@ class TgApi(
 
         if (!isAuthorized) {
             if (errorSetTdlibParameters) {
-                onError()
+                onError("SetTdlibParameters error")
                 throw IllegalStateException("SetTdlibParameters error")
             } else {
                 close()
-                onError()
+                onError("Failed to authorize")
                 throw IllegalStateException("Failed to authorize")
             }
-
         }
 
         client.send(TdApi.GetMe()) {
@@ -152,23 +151,6 @@ class TgApi(
                 )
             )
         }
-        /*
-        (context as? androidx.appcompat.app.AppCompatActivity)?.lifecycleScope?.launch {
-            val tdChat1 = getChat(7162555493L)
-            println(tdChat1)
-
-            tdChat1?.let { c ->
-                val newChat = Chat(
-                    id = c.id,
-                    title = c.title.toString() // 假设 title 是 String 类型
-                )
-                chatsList.value = chatsList.value.toMutableList().apply {
-                    add(newChat)
-                }
-            }
-        } ?: run {
-            Log.e("TgApi", "Cannot launch coroutine: context is not an Activity")
-        }*/
     }
 
     // 处理 TDLib 更新的函数
@@ -195,6 +177,7 @@ class TgApi(
             TdApi.UpdateChatDraftMessage.CONSTRUCTOR -> handleChatDraftMessageUpdate(update as TdApi.UpdateChatDraftMessage)
             TdApi.UpdateCall.CONSTRUCTOR -> handleCallUpdate(update as TdApi.UpdateCall)
             TdApi.UpdateNewCallSignalingData.CONSTRUCTOR -> handleNewCallSignalingDataUpdate(update as TdApi.UpdateNewCallSignalingData)
+            TdApi.UpdateNotification.CONSTRUCTOR -> handleNotification(update as TdApi.UpdateNotification)
             // 其他更新
             else -> {
                 Log.d("TdApiUpdate","Received update: $update")

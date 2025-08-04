@@ -18,12 +18,16 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+
 
     <uses-feature
         android:name="android.hardware.type.watch"
         android:required="true" />
-
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -40,9 +44,14 @@
         tools:targetApi="31">
         <activity
             android:name=".VoiceCallActivity"
-            android:exported="false"
             android:label="@string/Voice_call_activity"
+            android:noHistory="true"
             android:taskAffinity=""
+            android:launchMode="singleTop"
+            android:exported="true"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:excludeFromRecents="true"
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".AddProxyActivity"
@@ -182,6 +191,10 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <service
+            android:name=".StartVoiceCallActivityForegroundService"
+            android:exported="false"
+            android:foregroundServiceType="microphone" />
         <service
             android:name=".utils.notification.TdFirebaseMessagingService"
             android:exported="false">

@@ -112,19 +112,6 @@ class MainActivity : BaseActivity() {
             }
 
             initializeApp()
-            /*
-            // 显示启动页面
-            setContent {
-                TGwearTheme {
-                    SplashScreen()
-                }
-            }
-
-            // 使用 Handler 延迟启动主逻辑
-            Handler(Looper.getMainLooper()).postDelayed({
-                initializeApp()
-            }, 600) // 延迟
-            */
         }
     }
 
@@ -182,7 +169,7 @@ class MainActivity : BaseActivity() {
                     setContent {
                         TGwearTheme {
                             ErrorScreen(
-                                onRetry = { retryInitialization() },
+                                onRetry = { restartSelf() },
                                 onSetting = {
                                     startActivity(
                                         Intent(this@MainActivity, SettingActivity::class.java)
@@ -198,6 +185,14 @@ class MainActivity : BaseActivity() {
         lifecycleScope.launch(Dispatchers.IO + exceptionHandler) {
             try {
                 if (TgApiForPushNotificationManager.tgApi != null) {
+                    println("MainActivity mandatory forced termination TgApiForPushNotification sever")
+                    /*val tdThread = Thread.getAllStackTraces().keys.firstOrNull {
+                        it.name == "TDLib thread"
+                    }
+                    tdThread?.let {
+                        println("强制停止 TDLib thread: ${it.name}")
+                        it.stop()  // 💀 危险操作，慎用
+                    }*/
                     println("MainActivity close TgApiForPushNotification sever")
                     TgApiForPushNotificationManager.tgApi?.closeSuspend()
                     TgApiForPushNotificationManager.tgApi = null
@@ -375,8 +370,8 @@ class MainActivity : BaseActivity() {
                             )
                         )
                     },
-                    onError = {
-                        cancel("Error") // 终止协程
+                    onError = { message ->
+                        cancel(message) // 终止协程
                     }
                 )
                 ChatsListManager.chatsList = chatsList
@@ -448,6 +443,9 @@ class MainActivity : BaseActivity() {
                         )
                     }
                 }
+
+                // 获取是否传递通话id
+
             } catch (e: Exception) {
                 exceptionState = e
                 Log.e("MainActivity", "Error initializing app: ${e.message}")
@@ -533,6 +531,15 @@ class MainActivity : BaseActivity() {
     private fun retryInitialization() {
         exceptionState = null
         initMain()
+    }
+
+    private fun restartSelf() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            val intent = packageManager.getLaunchIntentForPackage(packageName)
+            intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(intent)
+            android.os.Process.killProcess(android.os.Process.myPid())
+        }, 1000)
     }
 }
 

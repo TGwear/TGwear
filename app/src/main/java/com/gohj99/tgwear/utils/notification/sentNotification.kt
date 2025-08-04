@@ -29,6 +29,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import com.gohj99.tgwear.ChatActivity
 import com.gohj99.tgwear.R
+import com.gohj99.tgwear.VoiceCallActivity
 import com.gohj99.tgwear.model.Chat
 import com.gohj99.tgwear.model.NotificationMessage
 import com.google.gson.Gson
@@ -50,7 +51,7 @@ fun Context.sendChatMessageNotification(
     message: String,
     senderName: String,
     conversationId: String,
-    timestamp: Long,
+    timestamp: Long = System.currentTimeMillis(),
     isGroupChat: Boolean = false,
     chatIconBitmap: Bitmap
 ) {
@@ -235,10 +236,11 @@ fun drawableToBitmap(context: Context, @DrawableRes resId: Int): Bitmap? {
 
 fun Context.showIncomingCallNotification(
     callerName: String = "Unknown",
-    notificationId: Int = 1001,
+    notificationId: Int? = null,
     targetActivity: Class<out Activity>,
+    callId: Int,
     chatIconBitmap: Bitmap
-) {
+): Notification {
     val channelId = "voip_channel_id"
     // 创建通知渠道（只需要创建一次）
     val channel = NotificationChannel(
@@ -258,11 +260,25 @@ fun Context.showIncomingCallNotification(
     // PendingIntent 用于跳转到来电接听界面
     val intent = Intent(this, targetActivity).apply {
         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-    }
+    }.putExtra("CallId", callId)
     val pendingIntent = PendingIntent.getActivity(
         this,
         0,
         intent,
+        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+    )
+    val answerIntent = Intent(this, VoiceCallActivity::class.java).apply {
+        action = "com.gohj99.tgwear.ACTION_ANSWER"
+    }
+    val declineIntent = Intent(this, VoiceCallActivity::class.java).apply {
+        action = "com.gohj99.tgwear.ACTION_DECLINE"
+    }
+    val answerPi = PendingIntent.getBroadcast(
+        this, 0, answerIntent,
+        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+    )
+    val declinePi = PendingIntent.getBroadcast(
+        this, 1, declineIntent,
         PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
     )
 
@@ -275,11 +291,19 @@ fun Context.showIncomingCallNotification(
         .setPriority(NotificationCompat.PRIORITY_HIGH)
         .setCategory(NotificationCompat.CATEGORY_CALL)
         .setFullScreenIntent(pendingIntent, true)
+        .addAction(android.R.drawable.sym_call_outgoing, "Open", pendingIntent)
+        //.addAction(android.R.drawable.sym_call_outgoing, "接听", answerPi)
+        //.addAction(android.R.drawable.sym_call_missed, "挂断", declinePi)
         .setAutoCancel(false)
+        .setTimeoutAfter(60_000L)
         .setOngoing(true)
         .build()
 
     // 显示通知
-    val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    notificationManager.notify(notificationId, notification)
+    notificationId?.let {
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.notify(it, notification)
+    }
+
+    return notification
 }

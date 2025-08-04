@@ -10,6 +10,8 @@ package com.gohj99.tgwear
 
 import android.Manifest
 import android.app.Activity
+import android.app.NotificationManager
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.AudioManager
 import android.os.Build
@@ -23,6 +25,8 @@ import androidx.core.content.ContextCompat
 import com.gohj99.tgwear.model.Chat
 import com.gohj99.tgwear.ui.VoiceCallScreen
 import com.gohj99.tgwear.ui.theme.TGwearTheme
+import com.gohj99.tgwear.utils.notification.TgApiForPushNotification
+import com.gohj99.tgwear.utils.notification.TgApiForPushNotificationManager
 import com.gohj99.tgwear.utils.telegram.TgApi
 import com.gohj99.tgwear.utils.telegram.acceptCall
 import com.gohj99.tgwear.utils.telegram.discardCall
@@ -38,6 +42,7 @@ private const val REQUEST_CODE_AUDIO = 1001
 
 class VoiceCallActivity : BaseActivity() {
     private val tgApi: TgApi? = TgApiManager.tgApi
+    private val pushTgApi: TgApiForPushNotification? = TgApiForPushNotificationManager.tgApi
     private lateinit var callItem: TdApi.Call
     private lateinit var chatItem: Chat
     private val state = mutableStateOf("CallStatePending")
@@ -62,22 +67,36 @@ class VoiceCallActivity : BaseActivity() {
             )
         }
         wakeUpAndUnlock()
+        audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
+
+        println("调试0")
 
         // 获取 TgApi 实例
-        if (tgApi == null) {
+        if (tgApi == null && pushTgApi == null) {
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
             return
         }
 
         // 获取call对象
-        if (tgApi.callItem == null) {
+        if (tgApi?.callItem != null) {
+            callItem = tgApi.callItem!!
+            isIncomingCall = tgApi.isIncomingCall
+        }
+        else if (pushTgApi?.callItem != null) {
+            callItem = pushTgApi.callItem!!
+            isIncomingCall = true
+        }
+        else {
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
             return
         }
-        callItem = tgApi.callItem!!
-        isIncomingCall = tgApi.isIncomingCall
 
-        tgApi.onCallback[callItem.userId] = {update, str ->
+        fun updateState (update: TdApi.Call, str: String?) {
+            // 删除通话通知
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.cancel(1001)
             state.value = when (val state = update.state) {
                 is TdApi.CallStatePending -> {
                     if (isIncomingCall) {
@@ -98,6 +117,17 @@ class VoiceCallActivity : BaseActivity() {
                     if (str == null) {
                         // 交换密钥阶段完成
                         updateCallDuration()
+
+                        // 通知系统进入通话状态
+                        audioManager.mode = AudioManager.MODE_IN_COMMUNICATION // 设置通话模式
+                        audioManager.isMicrophoneMute = false // 打开麦克风
+                        audioManager.isSpeakerphoneOn = false // 不强制扬声器，交给系统路由
+                        audioManager.requestAudioFocus(
+                            { _: Int -> },  // 音频焦点变化监听器（可为空）
+                            AudioManager.STREAM_VOICE_CALL,
+                            AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
+                        )
+
                         "CallStateReady"
                     } else {
                         // 交换密钥中
@@ -122,30 +152,32 @@ class VoiceCallActivity : BaseActivity() {
                 else -> "CallStateWaiting"
             }
         }
-        tgApi.onCallback[callItem.userId]?.invoke(callItem, "first")
+        tgApi?.onCallback[callItem.userId] = ::updateState
+        pushTgApi?.onCallback[callItem.userId] = ::updateState
+        tgApi?.onCallback[callItem.userId]?.invoke(callItem, "first")
 
         // 检测权限
         checkAndRequestAudioPermission(this)
 
-        audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
-
-        chatItem = tgApi.chatsList.value.firstOrNull { it.id == callItem.userId } ?: runBlocking {
-            val chatObject = tgApi.getChat(callItem.userId)  // 在 runBlocking 中赋值
-            Chat(
-                id = callItem.userId,
-                title = chatObject?.title ?: "",
-                chatPhoto = chatObject?.photo?.small
-            )
+        println("调试1")
+        chatItem = tgApi?.chatsList?.value?.firstOrNull { it.id == callItem.userId } ?: runBlocking {
+            if (tgApi != null) {
+                val chatObject = tgApi.getChat(callItem.userId)  // 在 runBlocking 中赋值
+                Chat(
+                    id = callItem.userId,
+                    title = chatObject?.title ?: "",
+                    chatPhoto = chatObject?.photo?.small
+                )
+            } else {
+                val chatObject = pushTgApi!!.getChat(callItem.userId)  // 在 runBlocking 中赋值
+                Chat(
+                    id = callItem.userId,
+                    title = chatObject.title ?: "",
+                    chatPhoto = chatObject.photo?.small
+                )
+            }
         }
-
-        audioManager.mode = AudioManager.MODE_IN_COMMUNICATION // 设置通话模式
-        audioManager.isMicrophoneMute = false                  // 打开麦克风
-        audioManager.isSpeakerphoneOn = true                   // 使用扬声器
-        audioManager.requestAudioFocus(
-            { _: Int -> },  // 音频焦点变化监听器（可为空）
-            AudioManager.STREAM_VOICE_CALL,
-            AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
-        )
+        println("调试2")
 
         setContent {
             TGwearTheme {
@@ -155,10 +187,15 @@ class VoiceCallActivity : BaseActivity() {
                     emoji = emoji,
                     callDuration = callDuration,
                     acceptCall = {
-                        tgApi.acceptCall(callItem.id)
+                        pushTgApi?.acceptCall(callItem.id)
+                        tgApi?.acceptCall(callItem.id)
                     },
                     disCall = {
-                        tgApi.discardCall(callItem)
+                        pushTgApi?.discardCall(callItem)
+                        tgApi?.discardCall(callItem)
+                    },
+                    onMute = {
+                        audioManager.isMicrophoneMute = it
                     }
                 )
             }
@@ -171,6 +208,8 @@ class VoiceCallActivity : BaseActivity() {
         audioManager.abandonAudioFocus(null)
         tgApi?.onCallback?.remove(callItem.userId)
         tgApi?.discardCall(callItem)
+        pushTgApi?.onCallback?.remove(callItem.userId)
+        pushTgApi?.discardCall(callItem)
     }
 
     fun destroyMe() {

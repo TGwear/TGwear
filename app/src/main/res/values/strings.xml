@@ -251,4 +251,6 @@
     <string name="User_Privacy_Restricted">Sorry, you can\'t contact this person due to their privacy settings.</string>
     <string name="Waiting">Waiting…</string>
     <string name="Ringing">Ringing…</string>
+    <string name="Mute">Mute</string>
+    <string name="Unmute">Unmute</string>
 </resources>

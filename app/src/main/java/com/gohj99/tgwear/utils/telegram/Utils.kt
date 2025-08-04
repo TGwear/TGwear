@@ -20,6 +20,24 @@ import org.drinkless.tdlib.TdApi
 import java.io.IOException
 import java.util.Properties
 
+fun TgApi.handleAllPushMessages(content: TdApi.PushMessageContent): String {
+    fun limit(text: String, max: Int = 64): String {
+        val singleLine = text.replace('\n', ' ')
+        return if (singleLine.length > max) singleLine.take(max) + "..." else singleLine
+    }
+
+    return when (content) {
+        is TdApi.PushMessageContentText -> limit(content.text)
+        is TdApi.PushMessageContentPhoto -> context.getString(R.string.Photo) + " " + limit(content.caption)
+        is TdApi.PushMessageContentVoiceNote -> context.getString(R.string.Voice)
+        is TdApi.PushMessageContentVideo -> context.getString(R.string.Video) + " " + limit(content.caption)
+        is TdApi.PushMessageContentAnimation -> context.getString(R.string.Animation) + " " + limit(content.caption)
+        is TdApi.PushMessageContentSticker -> content.emoji.ifEmpty { context.getString(R.string.Unknown_Message) }
+        is TdApi.PushMessageContentDocument -> context.getString(R.string.File)
+        else -> context.getString(R.string.Unknown_Message)
+    }
+}
+
 // 处理和简化消息
 fun TgApi.handleAllMessages(
     message: TdApi.Message? = null,
