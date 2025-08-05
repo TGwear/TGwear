@@ -121,10 +121,11 @@ class VoiceCallActivity : BaseActivity() {
                         // 通知系统进入通话状态
                         audioManager.mode = AudioManager.MODE_IN_COMMUNICATION // 设置通话模式
                         audioManager.isMicrophoneMute = false // 打开麦克风
-                        if (audioManager.isBluetoothScoAvailableOffCall) {
+                        // 蓝牙通话（有点问题）
+                        /*if (audioManager.isBluetoothScoAvailableOffCall) {
                             audioManager.startBluetoothSco()
                             audioManager.isBluetoothScoOn = true
-                        }
+                        }*/
 
                         "CallStateReady"
                     } else {

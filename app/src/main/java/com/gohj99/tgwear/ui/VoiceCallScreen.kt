@@ -8,6 +8,11 @@
 
 package com.gohj99.tgwear.ui
 
+import android.content.Context
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,6 +28,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,6 +37,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -52,7 +59,16 @@ fun VoiceCallScreen(
     disCall: () -> Unit,
     onMute: (Boolean) -> Unit,
 ) {
+    val context = LocalContext.current
     var isMute by remember { mutableStateOf(false) }
+
+    LaunchedEffect(state.value) {
+        when (state.value) {
+            "CallStatePending" -> context.startVibration()
+            else -> context.stopVibration()
+        }
+    }
+
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -123,6 +139,7 @@ fun VoiceCallScreen(
         }
 
         when (state.value) {
+            // 对方来电等待接听
             "CallStatePending" -> {
                 Box(
                     contentAlignment = Alignment.Center
@@ -144,6 +161,7 @@ fun VoiceCallScreen(
                 }
             }
 
+            // 去电等待对方接听
             "SelfCallStatePending" -> {
                 Text(
                     text = stringResource(id = R.string.Ringing),
@@ -163,6 +181,7 @@ fun VoiceCallScreen(
                 }
             }
 
+            // 通话中
             "CallStateReady" -> {
                 if (isMute) {
                     Box(
@@ -210,6 +229,7 @@ fun VoiceCallScreen(
                 )
             }
 
+            // 交换密钥
             "CallStateExchangingKeys" -> {
                 Text(
                     text = stringResource(id = R.string.Exchanging_Encryption_Keys),
@@ -259,6 +279,7 @@ fun VoiceCallScreen(
                 )
             }
 
+            // 未知错误
             else -> {
                 Text(
                     text = state.value,
@@ -278,3 +299,26 @@ private fun formatTime(seconds: Int): String {
     return String.format("%02d:%02d", minutes, secs)
 }
 
+private fun Context.startVibration() {
+    val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        val vm = getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+        vm.defaultVibrator
+    } else {
+        @Suppress("DEPRECATION")
+        getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    }
+
+    val effect = VibrationEffect.createWaveform(longArrayOf(0, 500, 1000), 0)
+    vibrator.vibrate(effect)
+}
+
+private fun Context.stopVibration() {
+    val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        val vm = getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+        vm.defaultVibrator
+    } else {
+        @Suppress("DEPRECATION")
+        getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    }
+    vibrator.cancel()
+}
