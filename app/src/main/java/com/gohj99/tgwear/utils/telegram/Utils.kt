@@ -8,7 +8,12 @@
 
 package com.gohj99.tgwear.utils.telegram
 
+import android.content.ContentResolver
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.os.Build
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
@@ -233,3 +238,19 @@ fun TdApi.Message.copy(
     content,
     replyMarkup
 )
+
+fun loadBitmapFromUri(contentResolver: ContentResolver, uri: Uri): Bitmap? {
+    return try {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            val source = android.graphics.ImageDecoder.createSource(contentResolver, uri)
+            android.graphics.ImageDecoder.decodeBitmap(source)
+        } else {
+            contentResolver.openInputStream(uri)?.use { inputStream ->
+                BitmapFactory.decodeStream(inputStream)
+            }
+        }
+    } catch (e: IOException) {
+        e.printStackTrace()
+        null
+    }
+}

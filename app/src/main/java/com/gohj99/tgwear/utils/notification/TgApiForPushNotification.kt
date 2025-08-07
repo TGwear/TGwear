@@ -130,7 +130,7 @@ class TgApiForPushNotification(private val context: Context) {
     private fun handleUpdate(update: TdApi.Object) {
         when (update.constructor) {
             TdApi.UpdateAuthorizationState.CONSTRUCTOR -> handleAuthorizationState(update as TdApi.UpdateAuthorizationState)
-            //TdApi.UpdateNewMessage.CONSTRUCTOR -> handleNewMessage(update as TdApi.UpdateNewMessage)
+            TdApi.UpdateNewMessage.CONSTRUCTOR -> handleNewMessage(update as TdApi.UpdateNewMessage)
             TdApi.UpdateCall.CONSTRUCTOR -> handleCallUpdate(update as TdApi.UpdateCall)
             //TdApi.UpdateNotification.CONSTRUCTOR -> handleNotification(update as TdApi.UpdateNotification)
             TdApi.UpdateNewCallSignalingData.CONSTRUCTOR -> handleNewCallSignalingDataUpdate(update as TdApi.UpdateNewCallSignalingData)
@@ -711,7 +711,7 @@ class TgApiForPushNotification(private val context: Context) {
     }
 
     // 处理获取到的新消息
-    /*private fun handleNewMessage(update: TdApi.UpdateNewMessage) {
+    private fun handleNewMessage(update: TdApi.UpdateNewMessage) {
         val message = update.message
         val chatId = message.chatId
 
@@ -801,7 +801,7 @@ class TgApiForPushNotification(private val context: Context) {
                 println("HandleNewChat failed: ${e.message}")
             }
         }
-    }*/
+    }
 
     private fun loadBitmapFromUri(contentResolver: ContentResolver, uri: Uri): Bitmap? {
         return try {

@@ -8,11 +8,7 @@
 
 package com.gohj99.tgwear.utils.telegram
 
-import android.content.ContentResolver
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.Build
 import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
@@ -42,7 +38,6 @@ import org.thunderdog.challegram.voip.annotation.AudioState
 import org.thunderdog.challegram.voip.annotation.CallState
 import org.thunderdog.challegram.voip.annotation.VideoState
 import java.io.File
-import java.io.IOException
 
 /*
  * 更新函数功能注释区：
@@ -151,7 +146,7 @@ internal fun TgApi.handleNewMessage(update: TdApi.UpdateNewMessage) {
     }
 
     // 消息通知
-    /*if (onPaused.value) {
+    if (onPaused.value) {
         // 如果是已经打开的聊天，则不处理
         CoroutineScope(Dispatchers.IO).launch {
             if (chatId != saveChatId) {
@@ -224,7 +219,7 @@ internal fun TgApi.handleNewMessage(update: TdApi.UpdateNewMessage) {
                 }
             }
         }
-    }*/
+    }
 }
 
 // 处理消息内容更新
@@ -933,21 +928,6 @@ fun TgApi.handleNotificationGroupUpdate(update: TdApi.UpdateNotificationGroup) {
     //println("Received notification group update: $update")
     val addedNotifications = update.addedNotifications
     val chatId = update.chatId
-    fun loadBitmapFromUri(contentResolver: ContentResolver, uri: Uri): Bitmap? {
-        return try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                val source = android.graphics.ImageDecoder.createSource(contentResolver, uri)
-                android.graphics.ImageDecoder.decodeBitmap(source)
-            } else {
-                contentResolver.openInputStream(uri)?.use { inputStream ->
-                    BitmapFactory.decodeStream(inputStream)
-                }
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-            null
-        }
-    }
     addedNotifications.forEach { notification ->
         when (val type = notification.type) {
             is TdApi.NotificationTypeNewMessage -> {
