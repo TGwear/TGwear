@@ -118,10 +118,6 @@ class MainActivity : BaseActivity() {
     private fun initializeApp() {
         topTitle.value = getString(R.string.HOME)
 
-        // 删除通话通知
-        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.cancel(1001)
-
         val loginSharedPref = getSharedPreferences("LoginPref", MODE_PRIVATE)
         isLoggedIn = loginSharedPref.getBoolean("isLoggedIn", false)
 
@@ -185,18 +181,24 @@ class MainActivity : BaseActivity() {
         lifecycleScope.launch(Dispatchers.IO + exceptionHandler) {
             try {
                 if (TgApiForPushNotificationManager.tgApi != null) {
-                    println("MainActivity mandatory forced termination TgApiForPushNotification sever")
-                    /*val tdThread = Thread.getAllStackTraces().keys.firstOrNull {
-                        it.name == "TDLib thread"
+                    if (TgApiForPushNotificationManager.tgApi?.callItem != null) {
+                        startActivity(
+                            Intent(
+                                this@MainActivity,
+                                VoiceCallActivity::class.java
+                            )
+                        )
+                        finish()
+                        throw Exception("Calling")
+                    } else {
+                        println("MainActivity close TgApiForPushNotification sever")
+                        TgApiForPushNotificationManager.tgApi?.closeSuspend()
+                        TgApiForPushNotificationManager.tgApi = null
                     }
-                    tdThread?.let {
-                        println("强制停止 TDLib thread: ${it.name}")
-                        it.stop()  // 💀 危险操作，慎用
-                    }*/
-                    println("MainActivity close TgApiForPushNotification sever")
-                    TgApiForPushNotificationManager.tgApi?.closeSuspend()
-                    TgApiForPushNotificationManager.tgApi = null
                 }
+                // 删除通话通知
+                val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+                notificationManager.cancel(1001)
                 val gson = Gson()
                 val sharedPref = getSharedPreferences("LoginPref", MODE_PRIVATE)
                 var userList = sharedPref.getString("userList", "")
