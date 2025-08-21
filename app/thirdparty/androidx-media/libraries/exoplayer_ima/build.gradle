@@ -1,0 +1,44 @@
+/*
+ * Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+apply from: "$gradle.ext.androidxMediaSettingsDir/common_library_config.gradle"
+
+android {
+    namespace 'androidx.media3.exoplayer.ima'
+
+    sourceSets {
+        androidTest.assets.srcDir '../test_data/src/test/assets'
+    }
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
+}
+
+dependencies {
+    api 'com.google.ads.interactivemedia.v3:interactivemedia:3.35.1'
+    api project(modulePrefix + 'lib-exoplayer')
+    implementation 'androidx.annotation:annotation:' + androidxAnnotationVersion
+    compileOnly 'com.google.errorprone:error_prone_annotations:' + errorProneVersion
+    compileOnly 'org.checkerframework:checker-qual:' + checkerframeworkVersion
+    compileOnly 'org.jetbrains.kotlin:kotlin-annotations-jvm:' + kotlinAnnotationsVersion
+    androidTestImplementation project(modulePrefix + 'test-utils')
+    androidTestImplementation 'androidx.test:rules:' + androidxTestRulesVersion
+    androidTestImplementation 'androidx.test:runner:' + androidxTestRunnerVersion
+    androidTestCompileOnly 'org.checkerframework:checker-qual:' + checkerframeworkVersion
+    testImplementation project(modulePrefix + 'test-utils')
+    testImplementation project(modulePrefix + 'test-utils-robolectric')
+    testImplementation 'org.robolectric:robolectric:' + robolectricVersion
+}
+
+ext {
+    releaseArtifactId = 'media3-exoplayer-ima'
+    releaseName = 'Media3 ExoPlayer IMA module'
+}
+apply from: '../../publish.gradle'

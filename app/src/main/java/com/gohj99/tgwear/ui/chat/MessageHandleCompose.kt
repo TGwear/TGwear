@@ -52,6 +52,7 @@ fun MessageHandleCompose(
     onLinkClick: (String) -> Unit,
     goToChat: (Chat) -> Unit,
     chatTopics: Map<Long, String>,
+    onCall:  () -> Unit
 ) {
     Column {
         // 绘制日期
@@ -142,7 +143,8 @@ fun MessageHandleCompose(
                     onLinkClick = onLinkClick,
                     press = press,
                     chatTopics = chatTopics,
-                    isCurrentUser = isCurrentUser
+                    isCurrentUser = isCurrentUser,
+                    onCall = onCall
                 )
 
                 // 消息交互信息

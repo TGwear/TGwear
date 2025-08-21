@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+<resources>
+    <!-- LINT.IfChange -->
+    <string-array name="input_options">
+        <item>Search</item>
+        <item>Media ID</item>
+        <item>URI</item>
+        <item>No Input</item>
+    </string-array>
+    <!-- LINT.ThenChange(../../java/androidx/media3/testapp/controller/PreparePlayHelper.kt) -->
+
+    <!-- LINT.IfChange -->
+    <string-array name="audio_focus_types">
+        <item>GAIN</item>
+        <item>GAIN_TRANSIENT</item>
+        <item>GAIN_TRANSIENT_MAY_DUCK</item>
+    </string-array>
+    <!-- LINT.ThenChange(../../java/androidx/media3/testapp/controller/AudioFocusHelper.kt) -->
+
+    <!-- LINT.IfChange -->
+    <string-array name="repeat_modes">
+        <item>None</item>
+        <item>One</item>
+        <item>All</item>
+    </string-array>
+    <!-- LINT.ThenChange(../../java/androidx/media3/testapp/controller/RepeatModeHelper.kt) -->
+</resources>

@@ -1,0 +1,142 @@
+/*
+ * Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+package androidx.media3.common.audio;
+
+import static androidx.media3.test.utils.TestUtil.getPeriodicSamplesBuffer;
+import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.fail;
+
+import androidx.media3.common.C;
+import androidx.media3.common.audio.AudioProcessor.AudioFormat;
+import androidx.media3.common.audio.AudioProcessor.UnhandledAudioFormatException;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+/** Unit test for {@link SonicAudioProcessor}. */
+@RunWith(AndroidJUnit4.class)
+public final class SonicAudioProcessorTest {
+
+  private static final AudioFormat AUDIO_FORMAT_22050_HZ =
+      new AudioFormat(
+          /* sampleRate= */ 22050, /* channelCount= */ 2, /* encoding= */ C.ENCODING_PCM_16BIT);
+  private static final AudioFormat AUDIO_FORMAT_44100_HZ =
+      new AudioFormat(
+          /* sampleRate= */ 44100, /* channelCount= */ 2, /* encoding= */ C.ENCODING_PCM_16BIT);
+  private static final AudioFormat AUDIO_FORMAT_48000_HZ =
+      new AudioFormat(
+          /* sampleRate= */ 48000, /* channelCount= */ 2, /* encoding= */ C.ENCODING_PCM_16BIT);
+
+  private SonicAudioProcessor sonicAudioProcessor;
+
+  @Before
+  public void setUp() {
+    sonicAudioProcessor = new SonicAudioProcessor();
+  }
+
+  @Test
+  public void reconfigureWithSameSampleRate() throws Exception {
+    // When configured for resampling from 44.1 kHz to 48 kHz, the output sample rate is correct.
+    sonicAudioProcessor.setOutputSampleRateHz(48000);
+    AudioFormat outputAudioFormat = sonicAudioProcessor.configure(AUDIO_FORMAT_44100_HZ);
+    assertThat(sonicAudioProcessor.isActive()).isTrue();
+    assertThat(outputAudioFormat.sampleRate).isEqualTo(48000);
+    // When reconfigured with 48 kHz input, there is no resampling.
+    outputAudioFormat = sonicAudioProcessor.configure(AUDIO_FORMAT_48000_HZ);
+    assertThat(sonicAudioProcessor.isActive()).isFalse();
+    assertThat(outputAudioFormat.sampleRate).isEqualTo(48000);
+    // When reconfigure with 44.1 kHz input, resampling is enabled again.
+    outputAudioFormat = sonicAudioProcessor.configure(AUDIO_FORMAT_44100_HZ);
+    assertThat(sonicAudioProcessor.isActive()).isTrue();
+    assertThat(outputAudioFormat.sampleRate).isEqualTo(48000);
+  }
+
+  @Test
+  public void noSampleRateChange() throws Exception {
+    // Configure for resampling 44.1 kHz to 48 kHz.
+    sonicAudioProcessor.setOutputSampleRateHz(48000);
+    sonicAudioProcessor.configure(AUDIO_FORMAT_44100_HZ);
+    assertThat(sonicAudioProcessor.isActive()).isTrue();
+    // Reconfigure to not modify the sample rate.
+    sonicAudioProcessor.setOutputSampleRateHz(SonicAudioProcessor.SAMPLE_RATE_NO_CHANGE);
+    sonicAudioProcessor.configure(AUDIO_FORMAT_22050_HZ);
+    // The sample rate is unmodified, and the audio processor is not active.
+    assertThat(sonicAudioProcessor.isActive()).isFalse();
+  }
+
+  @Test
+  public void isActiveWithSpeedChange() throws Exception {
+    sonicAudioProcessor.setSpeed(1.5f);
+    sonicAudioProcessor.configure(AUDIO_FORMAT_44100_HZ);
+    sonicAudioProcessor.flush();
+    assertThat(sonicAudioProcessor.isActive()).isTrue();
+  }
+
+  @Test
+  public void isActive_withDefaultParameters_returnsFalse() throws Exception {
+    sonicAudioProcessor.configure(AUDIO_FORMAT_44100_HZ);
+    assertThat(sonicAudioProcessor.isActive()).isFalse();
+  }
+
+  @Test
+  public void isActive_keepActiveWithDefaultParameters_returnsTrue() throws Exception {
+    SonicAudioProcessor processor =
+        new SonicAudioProcessor(/* keepActiveWithDefaultParameters= */ true);
+    processor.configure(AUDIO_FORMAT_44100_HZ);
+    assertThat(processor.isActive()).isTrue();
+  }
+
+  @Test
+  public void queueEndOfStream_withOutputFrameCountUnderflow_setsIsEndedToTrue() throws Exception {
+    sonicAudioProcessor.setSpeed(0.95f);
+    sonicAudioProcessor.configure(AUDIO_FORMAT_48000_HZ);
+    sonicAudioProcessor.flush();
+
+    // Multiply by channel count.
+    sonicAudioProcessor.queueInput(
+        getPeriodicSamplesBuffer(/* sampleCount= */ 1700 * 2, /* period= */ 192 * 2));
+    // Drain output, so that pending output frame count is 0.
+    assertThat(sonicAudioProcessor.getOutput().hasRemaining()).isTrue();
+    sonicAudioProcessor.queueEndOfStream();
+
+    assertThat(sonicAudioProcessor.isEnded()).isTrue();
+  }
+
+  @Test
+  public void doesNotSupportNon16BitInput() throws Exception {
+    try {
+      sonicAudioProcessor.configure(
+          new AudioFormat(
+              /* sampleRate= */ 44100, /* channelCount= */ 2, /* encoding= */ C.ENCODING_PCM_8BIT));
+      fail();
+    } catch (UnhandledAudioFormatException e) {
+      // Expected.
+    }
+    try {
+      sonicAudioProcessor.configure(
+          new AudioFormat(
+              /* sampleRate= */ 44100,
+              /* channelCount= */ 2,
+              /* encoding= */ C.ENCODING_PCM_24BIT));
+      fail();
+    } catch (UnhandledAudioFormatException e) {
+      // Expected.
+    }
+    try {
+      sonicAudioProcessor.configure(
+          new AudioFormat(
+              /* sampleRate= */ 44100,
+              /* channelCount= */ 2,
+              /* encoding= */ C.ENCODING_PCM_32BIT));
+      fail();
+    } catch (UnhandledAudioFormatException e) {
+      // Expected.
+    }
+  }
+}

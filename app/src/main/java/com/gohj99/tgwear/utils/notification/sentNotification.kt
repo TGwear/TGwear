@@ -8,6 +8,8 @@
 
 package com.gohj99.tgwear.utils.notification
 
+import android.app.Activity
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -15,6 +17,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.drawable.AdaptiveIconDrawable
 import android.graphics.drawable.BitmapDrawable
 import androidx.annotation.DrawableRes
@@ -26,6 +29,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import com.gohj99.tgwear.ChatActivity
 import com.gohj99.tgwear.R
+import com.gohj99.tgwear.VoiceCallActivity
 import com.gohj99.tgwear.model.Chat
 import com.gohj99.tgwear.model.NotificationMessage
 import com.google.gson.Gson
@@ -47,7 +51,7 @@ fun Context.sendChatMessageNotification(
     message: String,
     senderName: String,
     conversationId: String,
-    timestamp: Long,
+    timestamp: Long = System.currentTimeMillis(),
     isGroupChat: Boolean = false,
     chatIconBitmap: Bitmap
 ) {
@@ -183,7 +187,7 @@ fun Context.sendChatMessageNotification(
         .setPriority(NotificationCompat.PRIORITY_HIGH)
         .setCategory(NotificationCompat.CATEGORY_MESSAGE)
         .setColor(getColor(android.R.color.holo_blue_bright)) // 设置强调颜色 (可选)
-        .setOnlyAlertOnce(true) // 同一个会话的新消息只响铃/震动一次 (直到通知被取消)
+        .setOnlyAlertOnce(false) // 同一个会话的新消息只响铃/震动多次
         .setContentIntent(openChatPendingIntent) // 设置点击通知的操作
 
         // 添加 Actions
@@ -228,4 +232,78 @@ fun drawableToBitmap(context: Context, @DrawableRes resId: Int): Bitmap? {
             bitmap
         }
     }
+}
+
+fun Context.showIncomingCallNotification(
+    callerName: String = "Unknown",
+    notificationId: Int? = null,
+    targetActivity: Class<out Activity>,
+    callId: Int,
+    chatIconBitmap: Bitmap
+): Notification {
+    val channelId = "voip_channel_id"
+    // 创建通知渠道（只需要创建一次）
+    val channel = NotificationChannel(
+        channelId,
+        "VoIP Calls",
+        NotificationManager.IMPORTANCE_HIGH
+    ).apply {
+        description = "Notifications are used to display incoming VoIP calls"
+        enableLights(true)
+        lightColor = Color.GREEN
+        enableVibration(true)
+        lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+    }
+    val manager = getSystemService(NotificationManager::class.java)
+    manager.createNotificationChannel(channel)
+
+    // PendingIntent 用于跳转到来电接听界面
+    val intent = Intent(this, targetActivity).apply {
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    }.putExtra("CallId", callId)
+    val pendingIntent = PendingIntent.getActivity(
+        this,
+        0,
+        intent,
+        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+    )
+    val answerIntent = Intent(this, VoiceCallActivity::class.java).apply {
+        action = "com.gohj99.tgwear.ACTION_ANSWER"
+    }
+    val declineIntent = Intent(this, VoiceCallActivity::class.java).apply {
+        action = "com.gohj99.tgwear.ACTION_DECLINE"
+    }
+    val answerPi = PendingIntent.getBroadcast(
+        this, 0, answerIntent,
+        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+    )
+    val declinePi = PendingIntent.getBroadcast(
+        this, 1, declineIntent,
+        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+    )
+
+    // 构建通知
+    val notification = NotificationCompat.Builder(this, channelId)
+        .setContentTitle(callerName)
+        .setLargeIcon(chatIconBitmap)
+        .setContentText(getString(R.string.Incoming_call))
+        .setSmallIcon(android.R.drawable.sym_call_incoming)
+        .setPriority(NotificationCompat.PRIORITY_HIGH)
+        .setCategory(NotificationCompat.CATEGORY_CALL)
+        .setFullScreenIntent(pendingIntent, true)
+        .addAction(android.R.drawable.sym_call_outgoing, "Open", pendingIntent)
+        //.addAction(android.R.drawable.sym_call_outgoing, "接听", answerPi)
+        //.addAction(android.R.drawable.sym_call_missed, "挂断", declinePi)
+        .setAutoCancel(false)
+        .setTimeoutAfter(60_000L)
+        .setOngoing(true)
+        .build()
+
+    // 显示通知
+    notificationId?.let {
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.notify(it, notification)
+    }
+
+    return notification
 }

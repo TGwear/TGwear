@@ -19,6 +19,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import org.drinkless.tdlib.TdApi
 import org.drinkless.tdlib.TdApi.InputMessageContent
+import org.thunderdog.challegram.voip.VoIP
 import java.io.File
 import kotlin.coroutines.resume
 
@@ -433,12 +434,67 @@ fun TgApi.setFCMToken(token: String = "", callback: (Long) -> Unit = {}) {
     ) { result ->
         if (result is TdApi.PushReceiverId) {
             println("FCM token set successfully")
+            setOption(
+                name = "notification_group_count_max",
+                value = TdApi.OptionValueInteger(15)
+            )
             sharedPref.edit(commit = false) {
                 putLong("userPushReceiverId", result.id)
             }
             callback(result.id)
         } else {
             println("Failed to set FCM token: $result")
+        }
+    }
+}
+
+// 接受通话
+fun TgApi.acceptCall(callId: Int) {
+    client.send(TdApi.AcceptCall(callId, VoIP.getProtocol())) { result ->
+        if (result is TdApi.Ok) {
+            println("Call accepted successfully")
+        } else {
+            println("Failed to accept call: $result")
+        }
+    }
+}
+
+// 拒绝通话
+fun TgApi.discardCall(nowCallItem: TdApi.Call, isDisconnected: Boolean = false) {
+    if (callItem != null) {
+        client.send(TdApi.DiscardCall(nowCallItem.id, isDisconnected, voipItem?.callDuration?.toInt() ?: 0, false, voipItem?.connectionId ?: 0)) { result ->
+            if (result is TdApi.Ok) {
+                isIncomingCall = true
+                voipItem?.performDestroy()
+                println("Call discarded successfully")
+            } else {
+                println("Failed to discard call: $result")
+            }
+        }
+    }
+}
+
+// 创建通话
+fun TgApi.createCall(userId: Long) {
+    if (voipItem == null) {
+        client.send(TdApi.CreateCall(userId, VoIP.getProtocol(), false)) { result ->
+            if (result is TdApi.CallId) {
+                isIncomingCall = false
+                println("Call created successfully")
+            } else {
+                println("Failed to create call: $result")
+            }
+        }
+    }
+
+}
+
+fun TgApi.setOption(name: String, value: TdApi.OptionValue) {
+    client.send(TdApi.SetOption(name, value)) { result ->
+        if (result is TdApi.Ok) {
+            println("Option set successfully")
+        } else {
+            println("Failed to set option: $result")
         }
     }
 }

@@ -8,7 +8,12 @@
 
 package com.gohj99.tgwear.utils.telegram
 
+import android.content.ContentResolver
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.os.Build
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
@@ -19,6 +24,24 @@ import com.gohj99.tgwear.R
 import org.drinkless.tdlib.TdApi
 import java.io.IOException
 import java.util.Properties
+
+fun TgApi.handleAllPushMessages(content: TdApi.PushMessageContent): String {
+    fun limit(text: String, max: Int = 64): String {
+        val singleLine = text.replace('\n', ' ')
+        return if (singleLine.length > max) singleLine.take(max) + "..." else singleLine
+    }
+
+    return when (content) {
+        is TdApi.PushMessageContentText -> limit(content.text)
+        is TdApi.PushMessageContentPhoto -> context.getString(R.string.Photo) + " " + limit(content.caption)
+        is TdApi.PushMessageContentVoiceNote -> context.getString(R.string.Voice)
+        is TdApi.PushMessageContentVideo -> context.getString(R.string.Video) + " " + limit(content.caption)
+        is TdApi.PushMessageContentAnimation -> context.getString(R.string.Animation) + " " + limit(content.caption)
+        is TdApi.PushMessageContentSticker -> content.emoji.ifEmpty { context.getString(R.string.Unknown_Message) }
+        is TdApi.PushMessageContentDocument -> context.getString(R.string.File)
+        else -> context.getString(R.string.Unknown_Message)
+    }
+}
 
 // 处理和简化消息
 fun TgApi.handleAllMessages(
@@ -86,6 +109,20 @@ fun TgApi.handleAllMessages(
         is TdApi.MessageChatAddMembers -> buildAnnotatedString {
             withStyle(style = SpanStyle(color = Color(context.getColor(R.color.blue)))) {
                 append(context.getString(R.string.joined_the_group))
+            }
+        }
+        is TdApi.MessageCall -> buildAnnotatedString {
+            val text = when (content.discardReason) {
+                is TdApi.CallDiscardReasonMissed -> context.getString(R.string.Missed_call)
+                is TdApi.CallDiscardReasonDeclined -> context.getString(R.string.Declined_call)
+                is TdApi.CallDiscardReasonDisconnected -> context.getString(R.string.Disconnected_client)
+                is TdApi.CallDiscardReasonEmpty -> context.getString(R.string.Failed_call)
+                is TdApi.CallDiscardReasonHungUp -> context.getString(R.string.Hung_up)
+                else -> context.getString(R.string.Call)
+            }
+
+            withStyle(style = SpanStyle(color = Color(context.getColor(R.color.blue)))) {
+                append(text)
             }
         }
         else -> buildAnnotatedString { append(context.getString(R.string.Unknown_Message)) }
@@ -201,3 +238,19 @@ fun TdApi.Message.copy(
     content,
     replyMarkup
 )
+
+fun loadBitmapFromUri(contentResolver: ContentResolver, uri: Uri): Bitmap? {
+    return try {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            val source = android.graphics.ImageDecoder.createSource(contentResolver, uri)
+            android.graphics.ImageDecoder.decodeBitmap(source)
+        } else {
+            contentResolver.openInputStream(uri)?.use { inputStream ->
+                BitmapFactory.decodeStream(inputStream)
+            }
+        }
+    } catch (e: IOException) {
+        e.printStackTrace()
+        null
+    }
+}

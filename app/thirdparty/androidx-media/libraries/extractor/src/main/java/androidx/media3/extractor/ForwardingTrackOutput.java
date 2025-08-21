@@ -1,0 +1,72 @@
+/*
+ * Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+package androidx.media3.extractor;
+
+import androidx.annotation.Nullable;
+import androidx.media3.common.C;
+import androidx.media3.common.DataReader;
+import androidx.media3.common.Format;
+import androidx.media3.common.util.ParsableByteArray;
+import androidx.media3.common.util.UnstableApi;
+import java.io.IOException;
+
+/**
+ * An overridable {@link TrackOutput} implementation forwarding all methods to another track output.
+ */
+@UnstableApi
+public class ForwardingTrackOutput implements TrackOutput {
+
+  private final TrackOutput trackOutput;
+
+  /** Creates a new instance that forwards all operations to {@code trackOutput}. */
+  public ForwardingTrackOutput(TrackOutput trackOutput) {
+    this.trackOutput = trackOutput;
+  }
+
+  @Override
+  public void durationUs(long durationUs) {
+    trackOutput.durationUs(durationUs);
+  }
+
+  @Override
+  public void format(Format format) {
+    trackOutput.format(format);
+  }
+
+  @Override
+  public int sampleData(DataReader input, int length, boolean allowEndOfInput) throws IOException {
+    return trackOutput.sampleData(input, length, allowEndOfInput);
+  }
+
+  @Override
+  public void sampleData(ParsableByteArray data, int length) {
+    trackOutput.sampleData(data, length);
+  }
+
+  @Override
+  public int sampleData(
+      DataReader input, int length, boolean allowEndOfInput, @SampleDataPart int sampleDataPart)
+      throws IOException {
+    return trackOutput.sampleData(input, length, allowEndOfInput, sampleDataPart);
+  }
+
+  @Override
+  public void sampleData(ParsableByteArray data, int length, @SampleDataPart int sampleDataPart) {
+    trackOutput.sampleData(data, length, sampleDataPart);
+  }
+
+  @Override
+  public void sampleMetadata(
+      long timeUs,
+      @C.BufferFlags int flags,
+      int size,
+      int offset,
+      @Nullable CryptoData cryptoData) {
+    trackOutput.sampleMetadata(timeUs, flags, size, offset, cryptoData);
+  }
+}

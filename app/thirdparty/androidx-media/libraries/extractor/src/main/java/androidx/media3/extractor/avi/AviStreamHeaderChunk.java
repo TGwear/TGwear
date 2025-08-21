@@ -1,0 +1,89 @@
+/*
+ * Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+package androidx.media3.extractor.avi;
+
+import androidx.media3.common.C;
+import androidx.media3.common.util.Log;
+import androidx.media3.common.util.ParsableByteArray;
+import androidx.media3.common.util.Util;
+
+/** Parses and holds information from the AVISTREAMHEADER structure. */
+/* package */ final class AviStreamHeaderChunk implements AviChunk {
+  private static final String TAG = "AviStreamHeaderChunk";
+
+  public static AviStreamHeaderChunk parseFrom(ParsableByteArray body) {
+    int streamType = body.readLittleEndianInt();
+    body.skipBytes(12); // fccHandler (4 bytes), dwFlags (4 bytes), wPriority (2 bytes),
+    // wLanguage (2 bytes).
+    int initialFrames = body.readLittleEndianInt();
+    int scale = body.readLittleEndianInt();
+    int rate = body.readLittleEndianInt();
+    body.skipBytes(4); // dwStart (4 bytes).
+    int length = body.readLittleEndianInt();
+    int suggestedBufferSize = body.readLittleEndianInt();
+    body.skipBytes(4); // dwQuality (4 bytes).
+    int sampleSize = body.readLittleEndianInt();
+    return new AviStreamHeaderChunk(
+        streamType, initialFrames, scale, rate, length, suggestedBufferSize, sampleSize);
+  }
+
+  public final int streamType;
+  public final int initialFrames;
+  public final int scale;
+  public final int rate;
+  public final int length;
+  public final int suggestedBufferSize;
+  public final int sampleSize;
+
+  private AviStreamHeaderChunk(
+      int streamType,
+      int initialFrames,
+      int scale,
+      int rate,
+      int length,
+      int suggestedBufferSize,
+      int sampleSize) {
+    this.streamType = streamType;
+    this.initialFrames = initialFrames;
+    this.scale = scale;
+    this.rate = rate;
+    this.length = length;
+    this.suggestedBufferSize = suggestedBufferSize;
+    this.sampleSize = sampleSize;
+  }
+
+  @Override
+  public int getType() {
+    return AviExtractor.FOURCC_strh;
+  }
+
+  public @C.TrackType int getTrackType() {
+    switch (streamType) {
+      case AviExtractor.FOURCC_auds:
+        return C.TRACK_TYPE_AUDIO;
+      case AviExtractor.FOURCC_vids:
+        return C.TRACK_TYPE_VIDEO;
+      case AviExtractor.FOURCC_txts:
+        return C.TRACK_TYPE_TEXT;
+      default:
+        Log.w(TAG, "Found unsupported streamType fourCC: " + Integer.toHexString(streamType));
+        return C.TRACK_TYPE_UNKNOWN;
+    }
+  }
+
+  public float getFrameRate() {
+    return rate / (float) scale;
+  }
+
+  public long getDurationUs() {
+    return Util.scaleLargeTimestamp(
+        /* timestamp= */ length,
+        /* multiplier= */ C.MICROS_PER_SECOND * scale,
+        /* divisor= */ rate);
+  }
+}

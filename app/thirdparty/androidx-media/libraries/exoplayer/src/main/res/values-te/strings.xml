@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="exo_download_description">డౌన్‌లోడ్ చేయి</string>
+    <string name="exo_download_notification_channel_name">డౌన్‌లోడ్‌లు</string>
+    <string name="exo_download_downloading">డౌన్‌లోడ్ చేస్తోంది</string>
+    <string name="exo_download_completed">డౌన్‌లోడ్ పూర్తయింది</string>
+    <string name="exo_download_failed">డౌన్‌లోడ్ విఫలమైంది</string>
+    <string name="exo_download_removing">డౌన్‌లోడ్‌లను తీసివేస్తోంది</string>
+    <string name="exo_download_paused">డౌన్‌లోడ్‌లు పాజ్ చేయబడ్డాయి</string>
+    <string name="exo_download_paused_for_network">డౌన్‌లోడ్స్ నెట్‌వర్క్ కోసం చూస్తున్నాయి</string>
+    <string name="exo_download_paused_for_wifi">డౌన్‌లోడ్‌లు WiFi కోసం చూస్తున్నాయి</string>
+</resources>

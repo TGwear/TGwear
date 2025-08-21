@@ -1,0 +1,45 @@
+/*
+ * Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+apply from: "$gradle.ext.androidxMediaSettingsDir/common_library_config.gradle"
+
+android {
+    namespace 'androidx.media3.test.utils'
+
+    sourceSets {
+        test.assets.srcDir '../test_data/src/test/assets/'
+    }
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
+}
+
+dependencies {
+    api 'org.mockito:mockito-core:' + mockitoVersion
+    api 'androidx.test:core:' + androidxTestCoreVersion
+    api 'androidx.test.ext:junit:' + androidxTestJUnitVersion
+    api 'androidx.test.ext:truth:' + androidxTestTruthVersion
+    api 'junit:junit:' + junitVersion
+    api 'com.google.truth:truth:' + truthVersion
+    api 'com.google.truth.extensions:truth-java8-extension:' + truthVersion
+    compileOnly 'org.checkerframework:checker-qual:' + checkerframeworkVersion
+    compileOnly 'org.jetbrains.kotlin:kotlin-annotations-jvm:' + kotlinAnnotationsVersion
+    implementation 'androidx.annotation:annotation:' + androidxAnnotationVersion
+    implementation 'com.squareup.okhttp3:mockwebserver:' + okhttpVersion
+    api project(modulePrefix + 'lib-exoplayer')
+    testImplementation 'androidx.test.espresso:espresso-core:' + androidxTestEspressoVersion
+    testImplementation 'org.robolectric:robolectric:' + robolectricVersion
+}
+
+ext {
+    releaseArtifactId = 'media3-test-utils'
+    releaseName = 'Media3 test utils module'
+}
+apply from: '../../publish.gradle'

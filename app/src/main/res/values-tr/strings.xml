@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+<resources> 
+    <!--土耳其语-->  
+    <string name="Start_messaging">Mesajlaşmaya başlayın</string>  
+    <string name="Welcome_to_app">TGwear uygulamasına hoş geldiniz</string>  
+    <string name="Network">Ağ</string>  
+    <string name="Settings">Ayarlar</string>  
+    <string name="Clearing_cache">Önbellek temizleniyor</string>  
+    <string name="Reset_self">Kendini sıfırla (Yeniden başlat)</string>  
+    <string name="Successful">Başarılı</string>  
+    <string name="Password">Parola</string>  
+    <string name="Password_Error">Parola hatası</string>  
+    <string name="Done">Tamam</string>  
+    <string name="scan_qr">Telegram’dan tara</string>  
+    <string name="loading">Yükleniyor…</string>  
+    <string name="Request_error">İstek hatası</string>  
+    <string name="HOME">Ana ekran</string>  
+    <string name="Login_Successful">Giriş başarılı</string>  
+    <string name="Retry">Yeniden dene</string>  
+    <string name="Error">Bir hata oluştu\nLütfen tekrar deneyin</string>  
+    <string name="Unknown_Message">Desteklenmeyen mesaj</string>  
+    <string name="Contacts">Kişiler</string>  
+    <string name="setting_all">Tüm ayarlar</string>  
+    <string name="About">Hakkında</string>  
+    <string name="little_jelly">little jelly</string>  
+    <string name="Version">Sürüm</string>  
+    <string name="Build_Date">Derleme tarihi:</string>  
+    <string name="Photo">Resim</string>  
+    <string name="Unknown_Photo">Bilinmeyen Resim</string>  
+    <string name="Restart">Yeniden başlat</string>  
+    <string name="No_thumbnail_available">Küçük resim mevcut değil</string>  
+    <string name="Video">Video</string>  
+    <string name="Voice">Ses</string>  
+    <string name="Animation">GIF</string>  
+    <string name="Error_ImgView">Resim değil veya resmi indiremiyorsunuz</string>  
+    <string name="edit">Düzenle</string>  
+    <string name="ReloadMessage">Mesajı yeniden yükle</string>  
+    <string name="GetMessage">Mesaj bilgisini al</string>  
+    <string name="Same_name_image_exists">Aynı resme sahip</string>  
+    <string name="Read_failed">Okuma başarısız</string>  
+    <string name="Save_success">Kaydetme başarılı</string>  
+    <string name="Select_player">Oynatıcı seçin</string>  
+    <string name="No_player">Oynatıcı bulunamadı</string>  
+    <string name="Save">Kaydet</string>  
+    <string name="Download_first">Önce indirin</string>  
+    <string name="Same_name_video_exists">Aynı videoya sahip</string>  
+    <string name="No_need_to_save">Kaydetmeye gerek yok</string>  
+    <string name="Download">İndir</string>  
+    <string name="Play">Oynat</string>  
+    <string name="Clear_cache">Önbelleği temizle</string>  
+    <string name="Clear_thumbnails">Küçük resimleri temizle</string>  
+    <string name="Clear_photos">Resimleri temizle</string>  
+    <string name="Clear_videos">Videoları temizle</string>  
+    <string name="error_activity_view">Hata sayfası</string>  
+    <string name="allow_data_Collection">Veri toplamaya izin ver</string>  
+    <string name="data_collection_title">Kimliksiz istatistikler\nHata bildirme</string>  
+    <string name="disagree">Hayır</string>  
+    <string name="agree">EVET</string>  
+    <string name="data_Collection">Veri toplama</string>  
+    <string name="UI_Edit">Arayüz düzenleme</string>  
+    <string name="App_setting">Uygulama ayarları</string>  
+    <string name="Add_Account">Hesap ekle</string>  
+    <string name="Switch_Account">Hesap değiştir</string>  
+    <string name="switch_account_sure">%s isimli hesaba geçmek istediğinizden emin misiniz?</string>  
+    <string name="title_medium_font_size">Ana sayfa sohbet sayfası başlığı boyutu</string>  
+    <string name="body_medium_font_size">Sohbet sayfası içeriği yazı tipi boyutu</string>  
+    <string name="body_small_font_size">Ana sayfa sohbet içeriği yazı tipi boyutu</string>  
+    <string name="size">Boyut</string>  
+    <string name="pre_release">önizleme sürümü</string>  
+    <string name="release">kararlı</string>  
+    <string name="Check_Update">Güncellemeleri kontrol et</string>  
+    <string name="already_latest">Zaten güncelsiniz</string>  
+    <string name="New_version">Yeni sürüm</string>  
+    <string name="version">Sürüm</string>  
+    <string name="Release_type">Sürüm türü</string>  
+    <string name="Release_time">Yayınlama tarihi</string>  
+    <string name="downloads">İndirmeler</string>  
+    <string name="install">Yükle</string>  
+    <string name="unknown_apps_install_permission_denied">Güncellemeleri yüklemeye devam etmek için bilinmeyen kaynaklardan yüklemelere izin vermeniz gerekiyor</string>  
+    <string name="Connecting">Bağlanıyor</string>  
+    <string name="Update">Güncelliyor</string>  
+    <string name="Offline">Çevrimdışı</string>  
+    <string name="Reset_libtd">libtd\'yi sıfırlamak (Yeni hesapları veya eski hesaptan kalma giriş yapılmamış kalıntıları temizlemek) istediğinizden emin misiniz?</string>  
+    <string name="Duplicate_account">Hesabı kopyala</string>  
+    <string name="Log_out">Oturumu kapat</string>  
+    <string name="Confirm_Logout">Oturumu kapatmayı onayla</string>  
+    <string name="Confirm_logout_sure">Oturumu kapatmak istediğinizden emin misiniz?</string>  
+    <string name="Update_tips">İpucu: Güncelleme indirdikten sonra sisteminizin İndirilenler klasöründe yer alacak.</string>  
+    <string name="Install_Apk">APK\'yi yükle</string>  
+    <string name="Search">Ara</string>  
+    <string name="Network_setting">Ağ ayarları</string>  
+    <string name="Unknown_chat">Bilinmeyen sohbet</string>  
+    <string name="author">Yaratıcı</string>  
+    <string name="Famous_Quotes">Ünlü sözler</string>  
+    <string name="notice">Uyarı</string>  
+    <string name="notice_about_1">Bu yazılım açık kaynak kodlu ve ücretsizdir.</string>  
+    <string name="notice_about_2">Bu yazılımı bir yerden satın aldıysanız, lütfen şikayette bulunun ve geri iade edin.</string>  
+    <string name="DeleteMessage">Mesajı sil</string>  
+    <string name="gohj99_description">Baş geliştirici</string>  
+    <string name="jelly_description">Arayüz tasarımı</string>  
+    <string name="Beta_title">Deneme sürümü</string>  
+    <string name="Beta_description">Sürümü deneme sürümüne geçirmek istediğinizden emin misiniz?\nBirtakım hataları olabilir</string>  
+    <string name="is_home_page_pin">En baştaki mesajı ana ekranda al (hatalı olabilir)</string>  
+    <string name="show_unknown_message_type">Desteklenmeyen mesaj türlerini göster</string>  
+    <string name="GoToCheckUpdateActivity_title">Güncelleme kontrol uyarısı</string>  
+    <string name="GoToCheckUpdateActivity_description">Resmi GitHub deposundan güncellemeleri kontrol edeceğiz.\nUygulamayı IzzyOnDroid/F-Droid\'den yüklediyseniz onların ek kontrolleri çalışmayacak.</string>  
+    <string name="don_remind_me_again">Tekrar hatırlatma</string>  
+    <string name="announcement_title">Duyuru</string>  
+    <string name="No_app_to_handle_this_url">Bu URL\'yi karşılayacak uygulama yok</string>  
+    <string name="Global_Search">Küresel arama</string>  
+    <string name="GoToAnnouncementActivity_title">Duyuru Görüntüleme Hatırlatıcısı</string>  
+    <string name="GoToAnnouncementActivity_description">Bu özellik yaratıcının API sunucusuna erişim gerektirir.</string>  
+    <string name="join_in">Katıl</string>  
+    <string name="Unable_get_username">Kullanıcı adı alınamadı</string>  
+    <string name="Chat_Info">Sohbet bilgisi</string>  
+    <string name="Online">Çevrimiçi</string>  
+    <string name="Unknown">Bilinmiyor</string>  
+    <string name="Lately">Yakın zamanda</string>  
+    <string name="Last_week">Geçen hafta</string>  
+    <string name="Last_month">Geçen ay</string>  
+    <string name="Show_more">Daha fazla göster</string>  
+    <string name="Private_Chat">Özel sohbet</string>  
+    <string name="Group_Chat">Grup sohbeti</string>  
+    <string name="Member">Üye</string>  
+    <string name="Supergroup_Chat">Süpergrup sohbeti</string>  
+    <string name="Channel">Kanal</string>  
+    <string name="Subscribers">Abone</string>  
+    <string name="username">Kullanıcı adı</string>  
+    <string name="Information">Bilgi</string>  
+    <string name="phoneNumber">Telefon numarası</string>  
+    <string name="Description">Açıklama</string>  
+    <string name="Invite_Link">Davet linki</string>  
+    <string name="url">URL</string>  
+    <string name="Same_Chat">Aynı sohbet</string>  
+    <string name="empty_message">Boş mesaj</string>  
+    <string name="notice_about_3">Lütfen, sonuçlarından yalnızca siz sorumlu olacağınız için, bu yazılımı herhangi bir uyarlanabilir yasayı çiğnemek için kullanmayın.</string>  
+    <string name="Audio_Error">Ses\nHata</string>  
+    <string name="remind_activity">Hatırlatma etkinliği</string>  
+    <string name="Remind">Hatırlatma</string>  
+    <string name="donate_activity">Bağış etkinliği</string>  
+    <string name="Donate">Bağışta bulun</string>  
+    <string name="Telegram_not_connected">Bağlı değil (Belki oturumunuz açık değil)</string>  
+    <string name="DonateL">TGwear\'ın geliştiriciliğinin sürekliliği bağışınızı gerektirir (Genişletmek için bana dokunun)</string>  
+    <string name="Donate1">TGwear\'ın devam eden geliştiriciliğini desteklemek için cömert bağışınızı istiyoruz. Katkınız herkes için özellikleri ve genel deneyimi iyileştirmemize yardımcı olacak. Desteğiniz için teşekkürler!</string>  
+    <string name="Donate2">azz: https://azz.ee/gohj99</string>  
+    <string name="Unable_open_url">URL\'yi açmak başarısız oldu</string>  
+    <string name="Clear_voice">Sesi temizle</string>  
+    <string name="set_proxy_activity">Proxy etkinliğini belirle</string>  
+    <string name="Proxy">Proxy</string>  
+    <string name="AddProxy">Proxy ekle</string>  
+    <string name="add_proxy_activity">Proxy etkinliği ekle</string>  
+    <string name="Server">Sunucu</string>  
+    <string name="Port">Port</string>  
+    <string name="Add">Ekle</string>  
+    <string name="Key">Anahtar</string>  
+    <string name="password">Parola</string>  
+    <string name="Optional">İsteğe bağlı</string>  
+    <string name="Connecting_Proxy">Proxy\'ye bağlanıyor</string>  
+    <string name="View_Tips">İpuçlarını görüntüle</string>  
+    <string name="Delete_Chat">Sohbeti sil</string>  
+    <string name="Deleted_User">Silinmiş hesap</string>  
+    <string name="Add_Proxy">Proxy ekle</string>  
+    <string name="Saved_Messages">Kaydedilen Mesajlar</string>  
+    <string name="last_seen">son görülme</string>  
+    <string name="Bot">bot</string>  
+    <string name="Bio">Hakkında</string>  
+    <string name="Deleted_message">Mesaj silindi</string>  
+    <string name="Write_message">Mesaj yaz…</string>  
+    <string name="Forward">Yönlendir</string>  
+    <string name="Archived_Chats">Arşivlenmiş sohbetler</string>  
+    <string name="Reply">Yanıtla</string>  
+    <string name="Line_spacing">Satır boşluğu</string>  
+    <string name="File">Dosya</string>  
+    <string name="copy_link">Linki kopyala</string>  
+    <string name="copy_success_public">Kopyalandı</string>  
+    <string name="copy_success_privacy">Kopyalandı (Erişmek için izin gerekli)</string>  
+    <string name="Failed_request">İstek başarısız</string>  
+    <string name="Message_preload_quantity">Önden yüklenecek mesaj sayısı (mesajların normal bir şekilde yüklenmesi için bu değer cep telefonlarında yükseltilmeli)</string>  
+    <string name="Edit">Düzenle</string>  
+    <string name="Unable_edit">Mesaj düzenlenemedi</string>  
+    <string name="Draft">Taslak</string>  
+    <string name="Down_Button_Offset">Aşağı butonunun sol üste göre boşluğu</string>  
+    <string name="Notification">Bildirimler</string>  
+    <string name="already_agreed">Zaten izin verildi</string>  
+    <string name="Apply_notification_permissions">Bildirimler için izin iste</string>  
+    <string name="global_scale_factor">Küresel ölçek</string>  
+    <string name="ui_test">Arayüz testi</string>  
+    <string name="test_notification">Test bildirimi</string>  
+    <string name="FCM_state">FCM durumu</string>  
+    <string name="mark_as_read">Okundu işaretle</string>  
+    <string name="view_activity">Etkinliği göster</string>  
+    <string name="Login">Giriş yap</string>  
+    <string name="Phone_Number">Telefon numarası</string>  
+    <string name="Verify_Code">Kodu doğrula</string>  
+    <string name="Send_Verify_Code">Kod gönder</string>  
+    <string name="Login_With_QR">Karekodla giriş yap</string>  
+    <string name="Connecting_Telegram_Sever">Telegram sunucusuna bağlanılıyor</string>  
+    <string name="Topic">Konu</string>  
+    <string name="Remind5"><![CDATA[
+Merhaba!
+TGwear uygulamasına hoş geldiniz!
+
+Gereksiz sorunları bertaraf etmek için talimatları baştan sona okumanızı tavsiye ederiz.
+
+İlk olarak, destek için resmi Telegram grubumuza katılmanızı tavsiye ederiz.
+Aşağıdaki linke tıklayarak katılabilirsiniz (İngilizce):
+https://t.me/teleTGwear
+
+Başlamanıza yardımcı olmak için işte hızlı bir kılavuz:
+- İlk kullanımda en iyi görüntüleme için arayüz ayarlarında görüntü ölçeklemesini elle ayarlayın.
+- Mesaj kenarlıklarına veya gönderen adına basılı tutarak ek seçeneklere erişin.
+- Sohbet ekranında mesaj yazma arayüzüne erişmek için sola kaydırım; sohbet hakkında detaylı bilgileri görüntülemek için başlığa dokunun.
+- Uyumlu ekranlarda metin seçmek ve kopyalamak için basılı tutun ve sürükleyin.
+- Resim görüntüleyicide bir resmi cihazınızın galerisine kaydetmek için resme basılı tutun.
+
+Proxy sayfasında bir proxy’yi kaldırmak için o girdiye basılı tutun.
+Yanıtlama veya yönlendirme modunda çıkmak için başlığa dokunun.
+
+TGwear açık kaynaktır ve kaynak koduna GitHub’dan erişebilirsiniz.
+]]></string>  
+    <string name="joined_the_group">gruba katıldı</string>  
+    <string name="data_collection_description">Çökme bildirilerini toplamak, en sık kullanılan özellikleri takip etmek ve TGwear\'ı daha kullanıcı dostu yapmak için kullanım kalıbı verisini toplamak için Firebase Crashlytics kullanırız. Bu özelliği istediğiniz zaman ayarlardan devre dışı bırakabilirsiniz.</string>  
+    <string name="Donation_version">Bağış sürümü</string>  
+    <string name="Free_Version">Ücretsiz sürüm</string>  
+    <string name="notice_about_4">Bu yazılım açık kaynaktır.</string>  
+    <string name="notice_about_5">Eğer kullanışlı bulduysanız, lütfen Google Play\'den satın almayı ya da bağış sayfasındaki yönergelerle bağışta bulunmayı göz önünde bulundurun.</string>  
+    <string name="notice_about_6">Bu bağış sürümüdür.</string>  
+    <string name="notice_about_7">Desteğinizi içtenlikle takdir ederiz.</string>  
+    <string name="Language">Dil</string>  
+    <string name="Maximum_preload_messages">Baştan yüklenen azami mesaj sayısı (bu değer daha büyük oldukça oturumu yüklemek o kadar çok zaman alır)</string>  
+    <string name="Delay_read_session_time">Okundu bilgisini geciktirme süresi</string>  
+    <string name="Donation_version_features">Bağış sürümü özellikleri</string>  
+    <string name="Download_Complete">İndirme tamamlandı</string>  
+    <string name="Clear_documents">Belgeleri temizle</string>  
+    <string name="failing">başarısız</string>
+    <string name="Voice_call_activity">Sesli arama etkinliği</string>
+    <string name="Calling">Çağrı</string>
+    <string name="Accept_Call">Çağrıyı kabul et</string>
+    <string name="Hang_Up">Telefonu kapatmak</string>
+    <string name="Exchanging_Encryption_Keys">Şifreleme anahtarları alışverişi</string>
+    <string name="Call_Ended">Arama sona erdi</string>
+    <string name="Incoming_call">Gelen Çağrı</string>
+    <string name="Voice_call">Sesli arama</string>
+    <string name="Declined">Reddetti</string>
+    <string name="End_call">Son çağrı</string>
+    <string name="last_seen_minutes_at">son görülen %s dakikalar önce</string>
+    <string name="last_seen_just_now">En son şu anda görüldü</string>
+    <string name="last_seen_yesterday_at">En son dün %s\'de görüldü</string>
+    <string name="Missed_call">Kaçırılan çağrı</string>
+    <string name="Declined_call">Çağrı reddetti</string>
+    <string name="Failed_call">Başarısız Çağrı</string>
+    <string name="Disconnected_client">Bağlantısı Kesilmiş Müşteri</string>
+    <string name="Hung_up">Asmak</string>
+    <string name="Call">Arama</string>
+    <string name="User_Privacy_Restricted">Üzgünüm, gizlilik ayarları nedeniyle bu kişiyle iletişime geçemezsiniz.</string>
+    <string name="Waiting">Beklemek…</string>
+    <string name="Ringing">Zil…</string>
+    <string name="Mute">Sesini kapatmak</string>
+    <string name="Unmute">İvme</string>
+</resources>

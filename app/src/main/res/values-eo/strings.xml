@@ -6,8 +6,8 @@
   ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
   ~ Vestibulum commodo. Ut rhoncus gravida arcu.
   -->
-<resources>
-    <string name="Start_messaging">Komencu mesaĝadon</string>
+<resources> 
+    <string name="Start_messaging">Komencu mesaĝadon</string>  
     <string name="Welcome_to_app">Bonvenon al TGwear-apliko</string>  
     <string name="Network">Reto</string>  
     <string name="Settings">Agordo</string>  
@@ -15,8 +15,8 @@
     <string name="Reset_self">Restarigi mem(Rekomenci)</string>  
     <string name="Successful">Sukcesa</string>  
     <string name="Password">Pasvorto</string>  
-    <string name="Password_Error">Pasvorta Eraro</string>
-    <string name="Done">Farita</string>
+    <string name="Password_Error">Pasvorta Eraro</string>  
+    <string name="Done">Farita</string>  
     <string name="scan_qr">Skani Formularon Telegramon</string>  
     <string name="loading">ŝarĝante…</string>  
     <string name="Request_error">Peti eraron</string>  
@@ -43,7 +43,6 @@
     <string name="ReloadMessage">Reŝargi mesaĝon</string>  
     <string name="GetMessage">Akiru mesaĝon informon</string>  
     <string name="Same_name_image_exists">Havu la saman bildon</string>  
-    <string name="failling">malsukcesi</string>  
     <string name="Read_failed">Legado malsukcesis</string>  
     <string name="Save_success">Savu sukceson</string>  
     <string name="Select_player">Elektu ludanton</string>  
@@ -216,5 +215,31 @@
     <string name="Maximum_preload_messages">Maksimuma nombro da mesaĝoj por ŝarĝi anticipe (ju pli granda estas la valoro, des pli longe ĝi bezonas por ŝarĝi la kunsidon)</string>  
     <string name="Delay_read_session_time">Prokrasto Legu Sesio -Tempo (s).</string>  
     <string name="Donation_version_features">Donacaj versiaj funkcioj</string>  
-    <string name="Download_Complete">Elŝutu Kompleta</string>
+    <string name="Download_Complete">Elŝutu Kompleta</string>  
+    <string name="Clear_documents">Klaraj dokumentoj</string>  
+    <string name="failing">Malsukcesante</string>
+    <string name="Voice_call_activity">Voĉvoka agado</string>
+    <string name="Calling">Vokante</string>
+    <string name="Accept_Call">Akceptu Vokon</string>
+    <string name="Hang_Up">Pendigu</string>
+    <string name="Exchanging_Encryption_Keys">Interŝanĝante ĉifradajn ŝlosilojn</string>
+    <string name="Call_Ended">Voko finiĝis</string>
+    <string name="Incoming_call">Alvenanta Voko</string>
+    <string name="Voice_call">Voĉvoko</string>
+    <string name="Declined">Malkreskis</string>
+    <string name="End_call">Fina Voko</string>
+    <string name="last_seen_minutes_at">Laste vidita %s antaŭ minutoj</string>
+    <string name="last_seen_just_now">Laste vidita ĝuste nun</string>
+    <string name="last_seen_yesterday_at">laste vidita hieraŭ ĉe %s</string>
+    <string name="Missed_call">Maltrafita alvoko</string>
+    <string name="Declined_call">Malkreskis alvoko</string>
+    <string name="Failed_call">Malsukcesa alvoko</string>
+    <string name="Disconnected_client">Malkonektita kliento</string>
+    <string name="Hung_up">Pendis</string>
+    <string name="Call">Voku</string>
+    <string name="User_Privacy_Restricted">Pardonu, vi ne povas kontakti ĉi tiun personon pro iliaj privatecaj agordoj.</string>
+    <string name="Waiting">Atendante ...</string>
+    <string name="Ringing">Sonori ...</string>
+    <string name="Mute">MUTE</string>
+    <string name="Unmute">Senmova</string>
 </resources>

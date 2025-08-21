@@ -12,8 +12,14 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -21,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -38,6 +45,7 @@ fun messageDrawer(
     stateDownloadDone: MutableState<Boolean>,
     textColor: Color,
     showUnknownMessageType: Boolean,
+    onCall: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -329,6 +337,97 @@ fun messageDrawer(
                         style = MaterialTheme.typography.bodyMedium,
                         onEntityClick = onEntityClick
                     )
+                }
+            }
+        }
+        is TdApi.MessageCall -> {
+            val callDuration = content.duration
+            val discardReason = content.discardReason
+            val callDurationText = if (callDuration > 0) {
+                val minutes = callDuration / 60
+                val secs = callDuration % 60
+                String.format("%02d:%02d", minutes, secs)
+            } else {
+                ""
+            }
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Image(
+                    painter = painterResource(id = R.drawable.call_icon),
+                    contentDescription = "call",
+                    modifier = Modifier
+                        .size(width = 32.dp, height = 32.dp)
+                        .clip(CircleShape)
+                        .clickable {
+                            onCall.invoke()
+                        }
+                )
+
+                Spacer(modifier = Modifier.width(14.dp))
+
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    when (discardReason) {
+                        is TdApi.CallDiscardReasonMissed -> {
+                            Text(
+                                text = stringResource(id = R.string.Missed_call),
+                                color = textColor,
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = modifier
+                            )
+                        }
+
+                        is TdApi.CallDiscardReasonDeclined -> {
+                            Text(
+                                text = stringResource(id = R.string.Declined_call),
+                                color = textColor,
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = modifier
+                            )
+                        }
+
+                        is TdApi.CallDiscardReasonDisconnected -> {
+                            Text(
+                                text = stringResource(id = R.string.Disconnected_client),
+                                color = textColor,
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = modifier
+                            )
+                        }
+
+                        is TdApi.CallDiscardReasonEmpty -> {
+                            Text(
+                                text = stringResource(id = R.string.Failed_call),
+                                color = textColor,
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = modifier
+                            )
+                        }
+
+                        is TdApi.CallDiscardReasonHungUp -> {
+                            Text(
+                                text = stringResource(id = R.string.Hung_up),
+                                color = textColor,
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = modifier
+                            )
+                        }
+
+                        else -> {
+                            Text(
+                                text = stringResource(id = R.string.Unknown),
+                                color = textColor,
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = modifier
+                            )
+                        }
+                    }
+                    if (callDurationText.isNotBlank()) {
+                        Text(
+                            text = callDurationText,
+                            color = textColor,
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = modifier
+                        )
+                    }
                 }
             }
         }

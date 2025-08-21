@@ -1,0 +1,36 @@
+/*
+ * Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+apply from: "$gradle.ext.androidxMediaSettingsDir/common_library_config.gradle"
+
+android {
+    namespace 'androidx.media3.datasource.rtmp'
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
+}
+
+dependencies {
+    api project(modulePrefix + 'lib-common')
+    api project(modulePrefix + 'lib-datasource')
+    implementation 'io.antmedia:rtmp-client:3.2.0'
+    implementation 'androidx.annotation:annotation:' + androidxAnnotationVersion
+    compileOnly 'com.google.errorprone:error_prone_annotations:' + errorProneVersion
+    compileOnly 'org.jetbrains.kotlin:kotlin-annotations-jvm:' + kotlinAnnotationsVersion
+    testImplementation project(modulePrefix + 'lib-exoplayer')
+    testImplementation project(modulePrefix + 'test-utils')
+    testImplementation 'org.robolectric:robolectric:' + robolectricVersion
+}
+
+ext {
+    releaseArtifactId = 'media3-datasource-rtmp'
+    releaseName = 'Media3 RTMP DataSource module'
+}
+apply from: '../../publish.gradle'

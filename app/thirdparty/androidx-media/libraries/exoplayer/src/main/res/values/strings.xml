@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Description for a button that downloads a piece of media content onto the device. [CHAR LIMIT=20] -->
+    <string name="exo_download_description">Download</string>
+    <!-- Default name for a notification channel corresponding to media downloads. [CHAR LIMIT=40] -->
+    <string name="exo_download_notification_channel_name">Downloads</string>
+    <!-- Shown in a notification or UI component to indicate a download is currently downloading. [CHAR LIMIT=40] -->
+    <string name="exo_download_downloading">Downloading</string>
+    <!-- Shown in a notification or UI component to indicate a download has finished downloading. [CHAR LIMIT=40] -->
+    <string name="exo_download_completed">Download completed</string>
+    <!-- Shown in a notification or UI component to indicate a download has failed. [CHAR LIMIT=40] -->
+    <string name="exo_download_failed">Download failed</string>
+    <!-- Shown in a notification or UI component to indicate downloads are being removed from the device. [CHAR LIMIT=40] -->
+    <string name="exo_download_removing">Removing downloads</string>
+    <!-- Shown in a notification or UI component to indicate downloads are paused. [CHAR LIMIT=40] -->
+    <string name="exo_download_paused">Downloads paused</string>
+    <!-- Shown in a notification or UI component to indicate downloads are paused waiting for network connectivity. [CHAR LIMIT=40] -->
+    <string name="exo_download_paused_for_network">Downloads waiting for network</string>
+    <!-- Shown in a notification or UI component to indicate downloads are paused waiting for WiFi connectivity. [CHAR LIMIT=40] -->
+    <string name="exo_download_paused_for_wifi">Downloads waiting for WiFi</string>
+</resources>

@@ -10,14 +10,13 @@ package com.gohj99.tgwear.ui.setting
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -33,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material3.ScrollIndicator
 import com.gohj99.tgwear.R
 import com.gohj99.tgwear.model.SettingItem
+import com.gohj99.tgwear.ui.AutoScrollingText
 import com.gohj99.tgwear.ui.theme.TGwearTheme
 
 @Composable
@@ -48,23 +48,17 @@ fun SplashSettingScreen(
     ) {
         // 包含 Row 的 Box
         Box(
+            contentAlignment = Alignment.Center,
             modifier = Modifier
-                .fillMaxWidth() // 只填充宽度
-                .padding(top = 14.dp) // 添加顶部填充
+                .fillMaxWidth()
+                .padding(start = 48.dp, end = 48.dp, top = 14.dp) // 添加顶部填充
         ) {
-            Row(
-                modifier = Modifier
-                    .align(Alignment.TopCenter) // 将 Row 对齐到顶部中央
-                    .padding(horizontal = 20.dp),
-                verticalAlignment = Alignment.CenterVertically // 垂直方向居中对齐
-            ) {
-                Text(
-                    text = title,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
-                )
-            }
+            AutoScrollingText(
+                text = title,
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp)
+            )
         }
 
         Spacer(modifier = Modifier.height(4.dp)) // 添加间距

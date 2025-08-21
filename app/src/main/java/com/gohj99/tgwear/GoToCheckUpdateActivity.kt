@@ -17,7 +17,6 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -61,12 +60,12 @@ class GoToCheckUpdateActivity : BaseActivity() {
                     startActivity(intent)
                 } else {
                     // 处理没有可用浏览器的情况
-                    Toast.makeText(this, this.getString(R.string.failling), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, this.getString(R.string.failing), Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
                 Handler(Looper.getMainLooper()).post {
-                    Toast.makeText(this, this.getString(R.string.failling), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, this.getString(R.string.failing), Toast.LENGTH_SHORT).show()
                 }
             }
             finish()

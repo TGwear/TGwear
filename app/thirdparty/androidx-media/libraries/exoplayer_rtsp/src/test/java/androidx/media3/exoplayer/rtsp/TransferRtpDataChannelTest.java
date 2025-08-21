@@ -1,0 +1,164 @@
+/*
+ * Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+package androidx.media3.exoplayer.rtsp;
+
+import static androidx.media3.test.utils.TestUtil.buildTestData;
+import static com.google.common.truth.Truth.assertThat;
+
+import androidx.media3.common.C;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import com.google.common.primitives.Bytes;
+import java.util.Arrays;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+/** Unit test for {@link TransferRtpDataChannel}. */
+@RunWith(AndroidJUnit4.class)
+public class TransferRtpDataChannelTest {
+
+  private static final long POLL_TIMEOUT_MS = 8000;
+
+  @Test
+  public void getInterleavedBinaryDataListener_returnsAnInterleavedBinaryDataListener() {
+    TransferRtpDataChannel transferRtpDataChannel = new TransferRtpDataChannel(POLL_TIMEOUT_MS);
+
+    assertThat(transferRtpDataChannel.getInterleavedBinaryDataListener())
+        .isEqualTo(transferRtpDataChannel);
+  }
+
+  @Test
+  public void read_withoutReceivingInterleavedData_returnsEndOfInput() {
+    TransferRtpDataChannel transferRtpDataChannel = new TransferRtpDataChannel(POLL_TIMEOUT_MS);
+    byte[] buffer = new byte[1];
+
+    assertThat(transferRtpDataChannel.read(buffer, /* offset= */ 0, buffer.length))
+        .isEqualTo(C.RESULT_END_OF_INPUT);
+  }
+
+  @Test
+  public void read_withLargeEnoughBuffer_reads() {
+    byte[] randomBytes = buildTestData(20);
+    byte[] buffer = new byte[40];
+    TransferRtpDataChannel transferRtpDataChannel = new TransferRtpDataChannel(POLL_TIMEOUT_MS);
+    transferRtpDataChannel.onInterleavedBinaryDataReceived(randomBytes);
+
+    transferRtpDataChannel.read(buffer, /* offset= */ 0, buffer.length);
+
+    assertThat(Arrays.copyOfRange(buffer, /* from= */ 0, /* to= */ 20)).isEqualTo(randomBytes);
+  }
+
+  @Test
+  public void read_withSmallBufferEnoughBuffer_readsThreeTimes() {
+    byte[] randomBytes = buildTestData(20);
+    byte[] buffer = new byte[8];
+    TransferRtpDataChannel transferRtpDataChannel = new TransferRtpDataChannel(POLL_TIMEOUT_MS);
+    transferRtpDataChannel.onInterleavedBinaryDataReceived(randomBytes);
+
+    transferRtpDataChannel.read(buffer, /* offset= */ 0, buffer.length);
+    assertThat(buffer).isEqualTo(Arrays.copyOfRange(randomBytes, /* from= */ 0, /* to= */ 8));
+    transferRtpDataChannel.read(buffer, /* offset= */ 0, buffer.length);
+    assertThat(buffer).isEqualTo(Arrays.copyOfRange(randomBytes, /* from= */ 8, /* to= */ 16));
+    transferRtpDataChannel.read(buffer, /* offset= */ 0, /* length= */ 4);
+    assertThat(Arrays.copyOfRange(buffer, /* from= */ 0, /* to= */ 4))
+        .isEqualTo(Arrays.copyOfRange(randomBytes, /* from= */ 16, /* to= */ 20));
+  }
+
+  @Test
+  public void read_withSmallBuffer_reads() {
+    byte[] randomBytes = buildTestData(40);
+    byte[] buffer = new byte[20];
+    TransferRtpDataChannel transferRtpDataChannel = new TransferRtpDataChannel(POLL_TIMEOUT_MS);
+    transferRtpDataChannel.onInterleavedBinaryDataReceived(randomBytes);
+
+    transferRtpDataChannel.read(buffer, /* offset= */ 0, buffer.length);
+    assertThat(buffer).isEqualTo(Arrays.copyOfRange(randomBytes, /* from= */ 0, /* to= */ 20));
+
+    transferRtpDataChannel.read(buffer, /* offset= */ 0, buffer.length);
+    assertThat(buffer).isEqualTo(Arrays.copyOfRange(randomBytes, /* from= */ 20, /* to= */ 40));
+  }
+
+  @Test
+  public void read_withSmallAndModerateBufferAndSubsequentProducerWrite_reads() {
+    byte[] randomBytes1 = buildTestData(40);
+    byte[] randomBytes2 = buildTestData(40);
+    byte[] smallBuffer = new byte[20];
+    byte[] bigBuffer = new byte[40];
+    TransferRtpDataChannel transferRtpDataChannel = new TransferRtpDataChannel(POLL_TIMEOUT_MS);
+    transferRtpDataChannel.onInterleavedBinaryDataReceived(randomBytes1);
+
+    transferRtpDataChannel.read(smallBuffer, /* offset= */ 0, smallBuffer.length);
+    assertThat(smallBuffer)
+        .isEqualTo(Arrays.copyOfRange(randomBytes1, /* from= */ 0, /* to= */ 20));
+
+    transferRtpDataChannel.onInterleavedBinaryDataReceived(randomBytes2);
+
+    // Read the remaining 20 bytes in randomBytes1, and 20 bytes from randomBytes2.
+    transferRtpDataChannel.read(bigBuffer, /* offset= */ 0, bigBuffer.length);
+    assertThat(bigBuffer)
+        .isEqualTo(
+            Bytes.concat(
+                Arrays.copyOfRange(randomBytes1, /* from= */ 20, /* to= */ 40),
+                Arrays.copyOfRange(randomBytes2, /* from= */ 0, /* to= */ 20)));
+
+    // Read the remaining 20 bytes in randomBytes2.
+    transferRtpDataChannel.read(smallBuffer, /* offset= */ 0, smallBuffer.length);
+    assertThat(smallBuffer)
+        .isEqualTo(Arrays.copyOfRange(randomBytes2, /* from= */ 20, /* to= */ 40));
+  }
+
+  @Test
+  public void read_withSmallAndBigBufferWithPartialReadAndSubsequentProducerWrite_reads() {
+    byte[] randomBytes1 = buildTestData(40);
+    byte[] randomBytes2 = buildTestData(40);
+    byte[] smallBuffer = new byte[30];
+    byte[] bigBuffer = new byte[30];
+    TransferRtpDataChannel transferRtpDataChannel = new TransferRtpDataChannel(POLL_TIMEOUT_MS);
+    transferRtpDataChannel.onInterleavedBinaryDataReceived(randomBytes1);
+
+    transferRtpDataChannel.read(smallBuffer, /* offset= */ 0, smallBuffer.length);
+    assertThat(smallBuffer)
+        .isEqualTo(Arrays.copyOfRange(randomBytes1, /* from= */ 0, /* to= */ 30));
+
+    transferRtpDataChannel.onInterleavedBinaryDataReceived(randomBytes2);
+
+    // Read 30 bytes to big buffer.
+    transferRtpDataChannel.read(bigBuffer, /* offset= */ 0, bigBuffer.length);
+    assertThat(bigBuffer)
+        .isEqualTo(
+            Bytes.concat(
+                Arrays.copyOfRange(randomBytes1, /* from= */ 30, /* to= */ 40),
+                Arrays.copyOfRange(randomBytes1, /* from= */ 0, /* to= */ 20)));
+
+    // Read the remaining 20 bytes to big buffer.
+    transferRtpDataChannel.read(bigBuffer, /* offset= */ 0, /* length= */ 20);
+    assertThat(Arrays.copyOfRange(bigBuffer, /* from= */ 0, /* to= */ 20))
+        .isEqualTo(Arrays.copyOfRange(randomBytes2, /* from= */ 20, /* to= */ 40));
+  }
+
+  @Test
+  public void read_withSmallAndBigBufferAndSubsequentProducerWrite_reads() {
+    byte[] randomBytes1 = buildTestData(40);
+    byte[] randomBytes2 = buildTestData(40);
+    byte[] smallBuffer = new byte[20];
+    byte[] bigBuffer = new byte[70];
+    TransferRtpDataChannel transferRtpDataChannel = new TransferRtpDataChannel(POLL_TIMEOUT_MS);
+    transferRtpDataChannel.onInterleavedBinaryDataReceived(randomBytes1);
+
+    transferRtpDataChannel.read(smallBuffer, /* offset= */ 0, smallBuffer.length);
+    assertThat(smallBuffer)
+        .isEqualTo(Arrays.copyOfRange(randomBytes1, /* from= */ 0, /* to= */ 20));
+
+    transferRtpDataChannel.onInterleavedBinaryDataReceived(randomBytes2);
+
+    transferRtpDataChannel.read(bigBuffer, /* offset= */ 0, bigBuffer.length);
+    assertThat(Arrays.copyOfRange(bigBuffer, /* from= */ 0, /* to= */ 60))
+        .isEqualTo(
+            Bytes.concat(
+                Arrays.copyOfRange(randomBytes1, /* from= */ 20, /* to= */ 40), randomBytes2));
+  }
+}

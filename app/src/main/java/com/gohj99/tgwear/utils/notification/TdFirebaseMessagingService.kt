@@ -72,15 +72,18 @@ class TdFirebaseMessagingService : FirebaseMessagingService() {
                         try {
                             val tgApi = TgApiForPushNotification(this)
                             TgApiForPushNotificationManager.tgApi = tgApi
-                            tgApi.getPushReceiverId(JSONObject(remoteMessage.data).toString()) { id->
+                            /*tgApi.getPushReceiverId(JSONObject(remoteMessage.data).toString()) { id->
                                 if (id == settingsSharedPref.getLong("userPushReceiverId", 0L)) {
                                     tgApi.processPushNotification(JSONObject(remoteMessage.data).toString())
                                 }
                                 //sendNotification("测试通知2", id.toString())
-                            }
-                            Thread.sleep(10 * 1000)
-                            TgApiForPushNotificationManager.tgApi = null
-                            tgApi.close()
+                            }*/
+                            /*remoteMessage.data["p"]?.let { p ->
+                                tgApi.processPushNotification(p)
+                            }*/
+                            tgApi.processPushNotification(JSONObject(remoteMessage.data).toString())
+                            //Thread.sleep(10 * 1000)
+                            //if (tgApi.close()) TgApiForPushNotificationManager.tgApi = null
                         } catch (e: Exception) {
                             println(e)
                             e.printStackTrace()

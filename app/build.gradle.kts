@@ -17,19 +17,45 @@ plugins {
 
 android {
     namespace = "com.gohj99.tgwear"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.gohj99.tgwear"
         minSdk = 26
         //noinspection OldTargetApi
         targetSdk = 34
-        versionCode = 45
-        versionName = "3.1.3"
+        versionCode = 47
+        versionName = "3.1.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+    }
+
+    sourceSets.getByName("main") {
+        /*java.srcDirs("./src/google/java") // TODO: Huawei & FOSS editions
+        java.srcDirs(
+            "./jni/third_party/webrtc/rtc_base/java/src",
+            "./jni/third_party/webrtc/modules/audio_device/android/java/src",
+            "./jni/third_party/webrtc/sdk/android/api",
+            "./jni/third_party/webrtc/sdk/android/src/java",
+            "../thirdparty/WebRTC/src/java"
+        )*/
+        java.srcDirs(
+            "./jni/third_party/webrtc/rtc_base/java/src",
+            "./jni/third_party/webrtc/modules/audio_device/android/java/src",
+            "./jni/third_party/webrtc/sdk/android/api",
+            "./jni/third_party/webrtc/sdk/android/src/java",
+            "thirdparty/WebRTC/src/java"
+        )
+        for (extension in arrayOf(
+            "decoder_ffmpeg",
+            "decoder_flac",
+            "decoder_opus",
+            "decoder_vp9"
+        )) {
+            java.srcDirs("thirdparty/androidx-media/libraries/${extension}/src/main/java")
         }
     }
 
@@ -41,6 +67,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            ndk {
+                debugSymbolLevel = "FULL"
+            }
             configure<CrashlyticsExtension> {
                 // Enable processing and uploading of native symbols to Firebase servers.
                 // By default, this is disabled to improve build speeds.
@@ -135,6 +164,7 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.crashlytics.ndk)
+    implementation(libs.relinker)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

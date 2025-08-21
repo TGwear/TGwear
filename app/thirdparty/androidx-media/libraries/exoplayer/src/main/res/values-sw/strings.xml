@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="exo_download_description">Pakua</string>
+    <string name="exo_download_notification_channel_name">Vipakuliwa</string>
+    <string name="exo_download_downloading">Inapakua</string>
+    <string name="exo_download_completed">Imepakuliwa</string>
+    <string name="exo_download_failed">Imeshindwa kupakua</string>
+    <string name="exo_download_removing">Inaondoa vipakuliwa</string>
+    <string name="exo_download_paused">Imesimamisha shughuli ya kupakua</string>
+    <string name="exo_download_paused_for_network">Upakuaji unasubiri mtandao</string>
+    <string name="exo_download_paused_for_wifi">Upakuaji unasubiri Wi-Fi</string>
+</resources>

@@ -67,10 +67,11 @@ import org.drinkless.tdlib.TdApi
 
 @Composable
 fun SplashChatInfoScreen(
-chatObject: TdApi.Chat,
-subtitle: String,
-info: String,
-deleteChat: (() -> Unit)? = null
+    chatObject: TdApi.Chat,
+    subtitle: String,
+    info: String,
+    deleteChat: (() -> Unit)? = null,
+    onVoiceCall: (() -> Unit)? = null
 ) {
     val gson = Gson()
     var messageJson = ""
@@ -218,8 +219,58 @@ deleteChat: (() -> Unit)? = null
                 }
             }
             item {
-                // 其他json信息
+                // 间距
                 Spacer(modifier = Modifier.height(35.dp))
+            }
+            if (onVoiceCall != null) {
+                item {
+                    // 语音通话
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight()
+                            .background(
+                                Color.Black.copy(alpha = 0.8f),
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                            .padding(7.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CustomButton(
+                            text = stringResource(R.string.Voice_call),
+                            onClick = {
+                                onVoiceCall()
+                            }
+                        )
+                    }
+                }
+            }
+            if (deleteChat != null) {
+                item {
+                    // 删除聊天
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight()
+                            .background(
+                                Color.Black.copy(alpha = 0.8f),
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                            .padding(7.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CustomButton(
+                            text = stringResource(R.string.Delete_Chat),
+                            color = Color(0xFFF44336),
+                            onClick = {
+                                deleteChat()
+                            }
+                        )
+                    }
+                }
+            }
+            item {
+                // 其他json信息
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -260,30 +311,6 @@ deleteChat: (() -> Unit)? = null
                                 messageJson = formatJson(gson.toJson(chatObject))
                                 println(messageJson)
                                 isExpanded = true
-                            }
-                        )
-                    }
-                }
-            }
-            if (deleteChat != null) {
-                item {
-                    // 删除聊天
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight()
-                            .background(
-                                Color.Black.copy(alpha = 0.8f),
-                                shape = RoundedCornerShape(8.dp)
-                            )
-                            .padding(7.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CustomButton(
-                            text = stringResource(R.string.Delete_Chat),
-                            color = Color(0xFFF44336),
-                            onClick = {
-                                deleteChat()
                             }
                         )
                     }

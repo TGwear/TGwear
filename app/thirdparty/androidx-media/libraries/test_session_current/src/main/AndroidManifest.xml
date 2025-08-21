@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="androidx.media3.test.session">
+
+    <uses-sdk />
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+
+    <queries>
+        <package android:name="androidx.media3.test.session.test" />
+    </queries>
+
+    <application android:allowBackup="false">
+        <activity
+            android:name="androidx.media3.test.session.common.SurfaceActivity"
+            android:exported="false" />
+
+        <receiver
+            android:name="androidx.media3.session.MediaButtonReceiver"
+            android:exported="true"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="androidx.media3.session.MediaControllerProviderService"
+            android:exported="true"
+            android:process=":remote">
+            <intent-filter>
+                <!-- Keep sync with CommonConstants.java -->
+                <action android:name="androidx.media3.test.session.action.MEDIA3_CONTROLLER" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="androidx.media3.session.MediaControllerCompatProviderService"
+            android:exported="true"
+            android:process=":remote">
+            <intent-filter>
+                <!-- Keep sync with CommonConstants.java -->
+                <action android:name="androidx.media3.test.session.action.MEDIA_CONTROLLER_COMPAT" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="androidx.media3.session.MediaBrowserCompatProviderService"
+            android:exported="true"
+            android:process=":remote">
+            <intent-filter>
+                <!-- Keep sync with CommonConstants.java -->
+                <action android:name="androidx.media3.test.session.action.MEDIA_BROWSER_COMPAT" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="androidx.media3.session.MediaSessionProviderService"
+            android:exported="true"
+            android:process=":remote">
+            <intent-filter>
+                <!-- Keep sync with CommonConstants.java -->
+                <action android:name="androidx.media3.test.session.action.MEDIA3_SESSION" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="androidx.media3.session.MediaSessionCompatProviderService"
+            android:exported="true"
+            android:process=":remote">
+            <intent-filter>
+                <!-- Keep sync with CommonConstants.java -->
+                <action android:name="androidx.media3.test.session.action.MEDIA_SESSION_COMPAT" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="androidx.media3.session.MockMediaSessionService"
+            android:foregroundServiceType="mediaPlayback"
+            android:exported="true"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="androidx.media3.session.MediaSessionService" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="androidx.media3.session.LocalMockMediaSessionService"
+            android:foregroundServiceType="mediaPlayback"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="androidx.media3.session.MediaSessionService" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="androidx.media3.session.MockMediaLibraryService"
+            android:foregroundServiceType="mediaPlayback"
+            android:exported="true"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="androidx.media3.session.MediaLibraryService" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="androidx.media3.session.LocalMockMediaLibraryService"
+            android:foregroundServiceType="mediaPlayback"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="androidx.media3.session.MediaLibraryService" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="androidx.media3.session.MockMediaBrowserServiceCompat"
+            android:exported="true"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="android.media.browse.MediaBrowserService" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="androidx.media3.session.LocalMockMediaBrowserServiceCompat"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.media.browse.MediaBrowserService" />
+            </intent-filter>
+        </service>
+    </application>
+</manifest>

@@ -1,0 +1,31 @@
+/*
+ * Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+apply from: "$gradle.ext.androidxMediaSettingsDir/common_library_config.gradle"
+
+android {
+    namespace 'androidx.media3.ui.leanback'
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
+}
+
+dependencies {
+    api project(modulePrefix + 'lib-common')
+    implementation 'androidx.annotation:annotation:' + androidxAnnotationVersion
+    implementation 'androidx.leanback:leanback:1.0.0'
+    compileOnly 'org.jetbrains.kotlin:kotlin-annotations-jvm:' + kotlinAnnotationsVersion
+}
+
+ext {
+    releaseArtifactId = 'media3-ui-leanback'
+    releaseName = 'Media3 Leanback UI module'
+}
+apply from: '../../publish.gradle'

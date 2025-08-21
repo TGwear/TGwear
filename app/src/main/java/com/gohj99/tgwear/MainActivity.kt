@@ -9,6 +9,7 @@
 package com.gohj99.tgwear
 
 import android.annotation.SuppressLint
+import android.app.NotificationManager
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -16,7 +17,6 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -44,7 +44,9 @@ import com.google.firebase.crashlytics.crashlytics
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import org.drinkless.tdlib.TdApi
 import java.io.File
@@ -110,19 +112,6 @@ class MainActivity : BaseActivity() {
             }
 
             initializeApp()
-            /*
-            // 显示启动页面
-            setContent {
-                TGwearTheme {
-                    SplashScreen()
-                }
-            }
-
-            // 使用 Handler 延迟启动主逻辑
-            Handler(Looper.getMainLooper()).postDelayed({
-                initializeApp()
-            }, 600) // 延迟
-            */
         }
     }
 
@@ -170,13 +159,46 @@ class MainActivity : BaseActivity() {
                 )
             )
         }
-        lifecycleScope.launch(Dispatchers.IO) {
+        val exceptionHandler = CoroutineExceptionHandler { _, e ->
+            lifecycleScope.launch(Dispatchers.Main) {
+                launch(Dispatchers.Main) {
+                    setContent {
+                        TGwearTheme {
+                            ErrorScreen(
+                                onRetry = { restartSelf() },
+                                onSetting = {
+                                    startActivity(
+                                        Intent(this@MainActivity, SettingActivity::class.java)
+                                    )
+                                },
+                                cause = e.message ?: ""
+                            )
+                        }
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch(Dispatchers.IO + exceptionHandler) {
             try {
                 if (TgApiForPushNotificationManager.tgApi != null) {
-                    println("MainActivity close TgApiForPushNotification sever")
-                    TgApiForPushNotificationManager.tgApi?.closeSuspend()
-                    TgApiForPushNotificationManager.tgApi = null
+                    if (TgApiForPushNotificationManager.tgApi?.callItem != null) {
+                        startActivity(
+                            Intent(
+                                this@MainActivity,
+                                VoiceCallActivity::class.java
+                            )
+                        )
+                        finish()
+                        throw Exception("Calling")
+                    } else {
+                        println("MainActivity close TgApiForPushNotification sever")
+                        TgApiForPushNotificationManager.tgApi?.closeSuspend()
+                        TgApiForPushNotificationManager.tgApi = null
+                    }
                 }
+                // 删除通话通知
+                val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+                notificationManager.cancel(1001)
                 val gson = Gson()
                 val sharedPref = getSharedPreferences("LoginPref", MODE_PRIVATE)
                 var userList = sharedPref.getString("userList", "")
@@ -188,7 +210,9 @@ class MainActivity : BaseActivity() {
                         topTitle = topTitle,
                         chatsFoldersList = chatsFoldersList,
                         mainChatListPosition = mainChatListPosition,
-                        onPaused = onPaused
+                        onPaused = onPaused,
+                        onCall = {},
+                        onError = {}
                     )
 
                     // 调用重试机制来获取用户信息
@@ -339,7 +363,18 @@ class MainActivity : BaseActivity() {
                     topTitle = topTitle,
                     chatsFoldersList = chatsFoldersList,
                     mainChatListPosition = mainChatListPosition,
-                    onPaused = onPaused
+                    onPaused = onPaused,
+                    onCall = { call ->
+                        startActivity(
+                            Intent(
+                                this@MainActivity,
+                                VoiceCallActivity::class.java
+                            )
+                        )
+                    },
+                    onError = { message ->
+                        cancel(message) // 终止协程
+                    }
                 )
                 ChatsListManager.chatsList = chatsList
                 // 异步获取当前用户 ID
@@ -410,6 +445,9 @@ class MainActivity : BaseActivity() {
                         )
                     }
                 }
+
+                // 获取是否传递通话id
+
             } catch (e: Exception) {
                 exceptionState = e
                 Log.e("MainActivity", "Error initializing app: ${e.message}")
@@ -434,7 +472,6 @@ class MainActivity : BaseActivity() {
                                 println("Failed to delete: ${file.absolutePath}")
                             }
                         }
-                        cacheDir.deleteRecursively()
                         // 清空 SharedPreferences
                         getSharedPreferences("LoginPref", MODE_PRIVATE).edit().clear()
                             .apply()
@@ -464,7 +501,7 @@ class MainActivity : BaseActivity() {
                         setContent {
                             TGwearTheme {
                                 ErrorScreen(
-                                    onRetry = { retryInitialization() },
+                                    onRetry = { restartSelf() },
                                     onSetting = {
                                         startActivity(
                                             Intent(this@MainActivity, SettingActivity::class.java)
@@ -496,6 +533,15 @@ class MainActivity : BaseActivity() {
     private fun retryInitialization() {
         exceptionState = null
         initMain()
+    }
+
+    private fun restartSelf() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            val intent = packageManager.getLaunchIntentForPackage(packageName)
+            intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(intent)
+            android.os.Process.killProcess(android.os.Process.myPid())
+        }, 1000)
     }
 }
 

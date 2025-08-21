@@ -21,6 +21,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.drinkless.tdlib.Client
 import org.drinkless.tdlib.TdApi
+import org.thunderdog.challegram.voip.VoIPInstance
 import java.io.File
 import java.util.concurrent.CountDownLatch
 
@@ -31,11 +32,14 @@ class TgApi(
     internal val topTitle: MutableState<String>,
     internal val chatsFoldersList: MutableState<List<TdApi.ChatFolder>>,
     internal val mainChatListPosition: MutableState<Int>,
-    internal val onPaused: MutableState<Boolean>
+    internal val onPaused: MutableState<Boolean>,
+    internal val onCall: (TdApi.Call) -> Unit,
+    internal val onError: (String) -> Unit
 ) {
     var saveChatId = 0L
     var replyMessage = mutableStateOf<TdApi.Message?>(null)
     var updateFileCallBackList = mutableMapOf<Int, (TdApi.File) -> Unit>()
+    var errorSetTdlibParameters = false
     internal var saveChatMessagesList = mutableMapOf<Long, ChatMessagesSave>() //聊天在后台时更新
     internal var saveChatList = mutableStateOf(emptyList<TdApi.Message>()) // 保存的聊天列表，前台更新
     internal var saveChatIdList = mutableMapOf<Long, MutableList<Long>>()
@@ -53,7 +57,10 @@ class TgApi(
     var forwardMessage: MutableState<TdApi.Message?> = mutableStateOf(null)
     var chatReadList = mutableStateMapOf<Long, Int>()
     var testMode = mutableStateOf(false)
-
+    var callItem: TdApi.Call? = null
+    var voipItem: VoIPInstance? = null
+    var onCallback = mutableMapOf<Long, (TdApi.Call, String?) -> Unit>()
+    var isIncomingCall = true
 
     init {
         // 获取应用外部数据目录
@@ -80,13 +87,16 @@ class TgApi(
             useChatInfoDatabase = true
             useFileDatabase = false
             useTestDc = isUseTestDc
-            filesDirectory = externalDir.absolutePath + "/files"
+            filesDirectory = externalDir.absolutePath
             databaseEncryptionKey = encryptionKeyString?.chunked(2)?.map { it.toInt(16).toByte() }
                 ?.toByteArray()
                 ?: throw IllegalStateException("Encryption key not found")
         }) { result ->
             println("SetTdlibParameters result: $result")
             if (result is TdApi.Error) {
+                isAuthorized = false
+                errorSetTdlibParameters = true
+                onError("result.message")
                 throw IllegalStateException(result.message)
             }
         }
@@ -100,8 +110,14 @@ class TgApi(
         }
 
         if (!isAuthorized) {
-            close()
-            throw IllegalStateException("Failed to authorize")
+            if (errorSetTdlibParameters) {
+                onError("SetTdlibParameters error")
+                throw IllegalStateException("SetTdlibParameters error")
+            } else {
+                close()
+                onError("Failed to authorize")
+                throw IllegalStateException("Failed to authorize")
+            }
         }
 
         client.send(TdApi.GetMe()) {
@@ -135,23 +151,6 @@ class TgApi(
                 )
             )
         }
-        /*
-        (context as? androidx.appcompat.app.AppCompatActivity)?.lifecycleScope?.launch {
-            val tdChat1 = getChat(7162555493L)
-            println(tdChat1)
-
-            tdChat1?.let { c ->
-                val newChat = Chat(
-                    id = c.id,
-                    title = c.title.toString() // 假设 title 是 String 类型
-                )
-                chatsList.value = chatsList.value.toMutableList().apply {
-                    add(newChat)
-                }
-            }
-        } ?: run {
-            Log.e("TgApi", "Cannot launch coroutine: context is not an Activity")
-        }*/
     }
 
     // 处理 TDLib 更新的函数
@@ -176,6 +175,9 @@ class TgApi(
             TdApi.UpdateChatPhoto.CONSTRUCTOR -> handleChatPhotoUpdate(update as TdApi.UpdateChatPhoto)
             TdApi.UpdateChatNotificationSettings.CONSTRUCTOR -> handleChatNotificationSettingsUpdate(update as TdApi.UpdateChatNotificationSettings)
             TdApi.UpdateChatDraftMessage.CONSTRUCTOR -> handleChatDraftMessageUpdate(update as TdApi.UpdateChatDraftMessage)
+            TdApi.UpdateCall.CONSTRUCTOR -> handleCallUpdate(update as TdApi.UpdateCall)
+            TdApi.UpdateNewCallSignalingData.CONSTRUCTOR -> handleNewCallSignalingDataUpdate(update as TdApi.UpdateNewCallSignalingData)
+            TdApi.UpdateNotificationGroup.CONSTRUCTOR -> handleNotificationGroupUpdate(update as TdApi.UpdateNotificationGroup)
             // 其他更新
             else -> {
                 Log.d("TdApiUpdate","Received update: $update")

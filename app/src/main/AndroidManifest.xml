@@ -16,117 +16,155 @@
     <uses-permission android:name="com.google.android.wearable.permission.URI_REDIRECT_TO_REMOTE" />
     <uses-permission android:name="android.permission.CLIPBOARD_MANAGER" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+
 
     <uses-feature
         android:name="android.hardware.type.watch"
         android:required="true" />
 
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:gwpAsanMode="always"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:name=".Application"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TGwear"
         tools:ignore="WearStandaloneAppFlag"
         tools:targetApi="31">
         <activity
-            android:name=".AddProxyActivity"
+            android:name=".VoiceCallActivity"
+            android:label="@string/Voice_call_activity"
+            android:noHistory="true"
+            android:taskAffinity=""
+            android:launchMode="singleTop"
             android:exported="true"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.TGwear" />
+        <activity
+            android:name=".AddProxyActivity"
+            android:exported="false"
             android:label="@string/add_proxy_activity"
+            android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".SetProxyActivity"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/set_proxy_activity"
+            android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".DonateActivity"
             android:exported="true"
             android:label="@string/donate_activity"
+            android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".RemindActivity"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/remind_activity"
+            android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".ChatInfoActivity"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/chat_info_activity_main"
+            android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".GoToCheckUpdateActivity"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/Beta_title"
+            android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".IsBetaActivity"
             android:exported="false"
             android:label="@string/Beta_title"
+            android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".InstallApkActivity"
             android:exported="false"
             android:label="@string/Install_Apk"
+            android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".ConfirmLogoutActivity"
             android:exported="false"
             android:label="@string/Confirm_Logout"
+            android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".CheckUpdateActivity"
             android:exported="false"
             android:label="@string/Check_Update"
+            android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".SwitchAccountActivity"
             android:exported="false"
             android:label="@string/Switch_Account"
+            android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".AllowDataCollectionActivity"
             android:exported="false"
             android:label="@string/allow_data_Collection"
+            android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".ViewActivity"
             android:exported="false"
             android:label="@string/view_activity"
+            android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".AboutActivity"
             android:exported="true"
             android:label="@string/about_activity_setting"
+            android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".ChatActivity"
             android:exported="false"
             android:label="@string/chat_activity_main"
+            android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".SettingActivity"
             android:exported="false"
             android:label="@string/title_activity_setting"
+            android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".LoginActivity"
             android:exported="false"
             android:label="@string/title_activity_login"
+            android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".WelcomeActivity"
             android:exported="false"
             android:label="@string/title_activity_welcome"
+            android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:taskAffinity=""
             android:theme="@style/Theme.TGwear">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -153,6 +191,10 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <service
+            android:name=".StartVoiceCallActivityForegroundService"
+            android:exported="false"
+            android:foregroundServiceType="microphone" />
         <service
             android:name=".utils.notification.TdFirebaseMessagingService"
             android:exported="false">

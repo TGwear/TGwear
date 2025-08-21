@@ -1,0 +1,55 @@
+/*
+ * Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+apply from: "$gradle.ext.androidxMediaSettingsDir/common_library_config.gradle"
+apply plugin: 'kotlin-android'
+
+android {
+    namespace 'androidx.media3.demo.session.service'
+
+    compileSdk project.ext.compileSdkVersion
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    defaultConfig {
+        versionName project.ext.releaseVersion
+        versionCode project.ext.releaseVersionCode
+        minSdkVersion project.ext.minSdkVersion
+        targetSdkVersion project.ext.appTargetSdkVersion
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.debug
+        }
+        debug {
+            jniDebuggable = true
+        }
+    }
+
+    lintOptions {
+        // The demo service module isn't indexed, and doesn't have translations.
+        disable 'GoogleAppIndexingWarning', 'MissingTranslation'
+    }
+}
+
+dependencies {
+    implementation 'androidx.core:core-ktx:' + androidxCoreVersion
+    implementation 'androidx.appcompat:appcompat:' + androidxAppCompatVersion
+    implementation project(modulePrefix + 'lib-exoplayer')
+    implementation project(modulePrefix + 'lib-exoplayer-dash')
+    implementation project(modulePrefix + 'lib-exoplayer-hls')
+    implementation project(modulePrefix + 'lib-ui')
+    implementation project(modulePrefix + 'lib-session')
+}

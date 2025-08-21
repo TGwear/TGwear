@@ -1,0 +1,29 @@
+/*
+ * Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+package androidx.media3.extractor;
+
+import static androidx.media3.test.utils.TestUtil.assertForwardingClassForwardsAllMethods;
+import static androidx.media3.test.utils.TestUtil.assertSubclassOverridesAllMethods;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(AndroidJUnit4.class)
+public class ForwardingExtractorTest {
+
+  @Test
+  public void overridesAllMethods() throws Exception {
+    assertSubclassOverridesAllMethods(Extractor.class, ForwardingExtractor.class);
+  }
+
+  @Test
+  public void forwardsAllMethods() throws Exception {
+    assertForwardingClassForwardsAllMethods(Extractor.class, ForwardingExtractor::new);
+  }
+}

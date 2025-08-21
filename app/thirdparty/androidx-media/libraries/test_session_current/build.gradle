@@ -1,0 +1,46 @@
+/*
+ * Copyright (c) 2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+apply from: "$gradle.ext.androidxMediaSettingsDir/constants.gradle"
+apply plugin: 'com.android.application'
+
+android {
+    namespace 'androidx.media3.test.session'
+
+    compileSdk project.ext.compileSdkVersion
+
+    defaultConfig {
+        versionName project.ext.releaseVersion
+        versionCode project.ext.releaseVersionCode
+        minSdkVersion project.ext.minSdkVersion
+        targetSdkVersion project.ext.appTargetSdkVersion
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    sourceSets.main.assets.srcDir '../test_data/src/test/assets/'
+}
+
+dependencies {
+    implementation project(modulePrefix + 'lib-session')
+    implementation project(modulePrefix + 'test-session-common')
+    implementation project(modulePrefix + 'test-data')
+    implementation 'androidx.media:media:' + androidxMediaVersion
+    implementation 'androidx.test:core:' + androidxTestCoreVersion
+    implementation project(modulePrefix + 'test-data')
+    androidTestImplementation project(modulePrefix + 'lib-exoplayer')
+    androidTestImplementation project(modulePrefix + 'test-utils')
+    androidTestImplementation 'androidx.test.ext:junit:' + androidxTestJUnitVersion
+    androidTestImplementation 'androidx.test.ext:truth:' + androidxTestTruthVersion
+    androidTestImplementation 'androidx.test:core:' + androidxTestCoreVersion
+    androidTestImplementation 'androidx.test:rules:' + androidxTestRulesVersion
+    androidTestImplementation 'androidx.test:runner:' + androidxTestRunnerVersion
+}

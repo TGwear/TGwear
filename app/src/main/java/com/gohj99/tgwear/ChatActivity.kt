@@ -9,6 +9,7 @@
 package com.gohj99.tgwear
 
 import android.annotation.SuppressLint
+import android.app.NotificationManager
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.ContentValues
@@ -26,7 +27,6 @@ import android.os.Looper
 import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.mutableStateOf
@@ -39,6 +39,7 @@ import com.gohj99.tgwear.ui.main.ErrorScreen
 import com.gohj99.tgwear.ui.main.SplashLoadingScreen
 import com.gohj99.tgwear.ui.theme.TGwearTheme
 import com.gohj99.tgwear.utils.telegram.TgApi
+import com.gohj99.tgwear.utils.telegram.createCall
 import com.gohj99.tgwear.utils.telegram.createPrivateChat
 import com.gohj99.tgwear.utils.telegram.deleteMessageById
 import com.gohj99.tgwear.utils.telegram.getChat
@@ -158,6 +159,12 @@ class ChatActivity : BaseActivity() {
                 SplashLoadingScreen(modifier = Modifier.fillMaxSize())
             }
         }
+
+        // 删除通知和通知记录
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancel(chat!!.id.toString().hashCode())
+        val prefs = getSharedPreferences("chat_prefs", Context.MODE_PRIVATE)
+        prefs.edit().remove(chat!!.id.toString()).apply()
 
         Handler(Looper.getMainLooper()).postDelayed({
             lifecycleScope.launch(Dispatchers.IO) {
@@ -496,7 +503,10 @@ class ChatActivity : BaseActivity() {
                                 },
                                 currentUserId = currentUserId,
                                 chatTopics = chatTopics,
-                                selectTopicId = selectTopicId
+                                selectTopicId = selectTopicId,
+                                onCall = {
+                                    tgApi!!.createCall(safeChat.id)
+                                }
                             )
                         }
                     }
@@ -561,7 +571,7 @@ class ChatActivity : BaseActivity() {
                 MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
                 contentValues
             )
-                ?: return context.getString(R.string.failling)
+                ?: return context.getString(R.string.failing)
 
             try {
                 context.contentResolver.openOutputStream(uri)?.use { outputStream ->
@@ -571,7 +581,7 @@ class ChatActivity : BaseActivity() {
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
-                return context.getString(R.string.failling)
+                return context.getString(R.string.failing)
             }
 
             // 更新IS_PENDING状态
@@ -645,7 +655,7 @@ class ChatActivity : BaseActivity() {
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 contentValues
             )
-                ?: return context.getString(R.string.failling)
+                ?: return context.getString(R.string.failing)
 
             context.contentResolver.openOutputStream(uri)?.use { outputStream ->
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
