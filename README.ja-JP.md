@@ -68,7 +68,7 @@ adb install TGwear.apk
 
 - 最小メモリ (RAM): 1GB
 - 最小ストレージ容量 (ROM): 8GB
-- 最小互換性システム: Android 7.0 (Nougat、API レベル 24)
+- 最小互換システム: Android 7.0 (Nougat、API レベル 24)
 - 推奨メモリ (RAM): 2GB
 - 推奨ストレージ容量 (ROM): 16GB
 - 推奨システム: Android 11 (Android R、API レベル 30) または Wear OS 3.0 (API レベル 30)
