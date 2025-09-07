@@ -64,18 +64,19 @@ adb install TGwear.apk
 - メッセージの削除
 - デジタルクラウンの回転に対応
 
-## 最小構成と推奨の構成
+## 最小と推奨要件
 
-- 最小メモリ (RAM): 1GB
-- 最小ストレージ容量 (ROM): 8GB
-- 最小互換システム: Android 7.0 (Nougat、API レベル 24)
-- 推奨メモリ (RAM): 2GB
-- 推奨ストレージ容量 (ROM): 16GB
+- 最小メモリ: 1GB
+- 最小ストレージ容量: 8GB
+- 最小システム: Android 7.0 (Nougat、API レベル 24)
+- 推奨メモリ: 2GB
+- 推奨ストレージ容量: 16GB
 - 推奨システム: Android 11 (Android R、API レベル 30) または Wear OS 3.0 (API レベル 30)
 
 ## コミュニティ
 
 フィードバックを提供するには、[Issue](https://github.com/TGwear/TGwear/issues) を使用することをお勧めします。
+
 もちろん、以下のフィードバック方法も可能です。
 
 - [Telegram](https://t.me/teleTGwear)
