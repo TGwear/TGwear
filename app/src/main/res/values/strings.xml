@@ -254,4 +254,5 @@
     <string name="Ringing">Ringing…</string>
     <string name="Mute">Mute</string>
     <string name="Unmute">Unmute</string>
+    <string name="Vibration_crown_turned">Vibration when the crown is turned</string>
 </resources>
