@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Copyright (c) 2024-2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
@@ -253,5 +254,4 @@
     <string name="Ringing">Ringing…</string>
     <string name="Mute">Mute</string>
     <string name="Unmute">Unmute</string>
-    <string name="Vibration_crown_turned">Vibration when the crown is turned</string>
 </resources>
