@@ -59,6 +59,7 @@ import com.gohj99.tgwear.utils.telegram.handleAllMessages
 import com.gohj99.tgwear.utils.telegram.sendMessage
 import kotlinx.coroutines.launch
 import org.drinkless.tdlib.TdApi
+import java.io.File
 
 @Composable
 fun SendMessageCompose(
@@ -74,9 +75,17 @@ fun SendMessageCompose(
     showUnknownMessageType: Boolean,
     chatTopics: Map<Long, String>,
     onLinkClick: (String) -> Unit,
-    selectTopicId: MutableState<Long>
+    selectTopicId: MutableState<Long>,
+    onStartRecording: () -> File?,
+    onStopRecording: () -> Unit,
 ) {
+
+
     val coroutineScope = rememberCoroutineScope()
+    var startRecord by remember { mutableStateOf(false) }
+    var recording by remember { mutableStateOf(false) }
+    var recordingFile by remember { mutableStateOf<File?>(null) }
+    var recordingText by remember { mutableStateOf("") }
 
     if (planEditMessage.value != null) {
         Box (
@@ -275,6 +284,150 @@ fun SendMessageCompose(
                 }
             }
         }
+    } else if (startRecord) {
+        // 录音
+        Text(
+            text = recordingText,
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        // 换行和发送消息按钮
+        Column(
+            horizontalAlignment = Alignment.End,
+            modifier = Modifier
+                .padding(end = 10.dp)
+                .fillMaxWidth()
+        ) {
+            if (recording) {
+                // 录音中
+                IconButton(
+                    onClick = {
+                        onStartRecording().let {
+                            if (it != null) {
+                                recordingFile = it
+                                recording = true
+                            } else {
+                                onStopRecording()
+                            }
+                        }
+                    },
+                    modifier = Modifier.size(50.dp) // 可以稍微大一点
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_record_stop), // 录制图标
+                        contentDescription = null,
+                        modifier = Modifier.size(50.dp)
+                    )
+                }
+            } else {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    // 左：删除按钮
+                    IconButton(
+                        onClick = {
+                            recordingFile?.delete()
+                        },
+                        modifier = Modifier
+                            .padding(start = 10.dp)
+                            .size(45.dp)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.enter_icon),
+                            contentDescription = null,
+                            modifier = Modifier.size(45.dp)
+                        )
+                    }
+
+                    // 中：录制按钮
+                    IconButton(
+                        onClick = {
+                            onStartRecording().let {
+                                if (it != null) {
+                                    recordingFile = it
+                                    recording = true
+                                } else {
+                                    onStopRecording()
+                                }
+                            }
+                        },
+                        modifier = Modifier.size(50.dp) // 可以稍微大一点
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_record), // 录制图标
+                            contentDescription = null,
+                            modifier = Modifier.size(50.dp)
+                        )
+                    }
+
+                    // 右：发送按钮
+                    IconButton(
+                        onClick = {
+                            if (planReplyMessage.value == null) {
+                                tgApi?.sendMessage(
+                                    chatId = chatId,
+                                    message = TdApi.InputMessageAudio().apply {
+                                        audio = TdApi.InputFileLocal().apply {
+                                            this.path = recordingFile?.absolutePath
+                                        }
+                                    },
+                                    messageThreadId = selectTopicId.value
+                                )
+                            } else {
+                                if (planReplyMessage.value!!.chatId != chatId) {
+                                    tgApi?.sendMessage(
+                                        chatId = chatId,
+                                        message = TdApi.InputMessageAudio().apply {
+                                            audio = TdApi.InputFileLocal().apply {
+                                                this.path = recordingFile?.absolutePath
+                                            }
+                                        },
+                                        replyTo = TdApi.InputMessageReplyToExternalMessage(
+                                            planReplyMessage.value!!.chatId,
+                                            planReplyMessage.value!!.id,
+                                            null
+                                        ),
+                                        messageThreadId = selectTopicId.value
+                                    )
+                                } else {
+                                    tgApi?.sendMessage(
+                                        chatId = chatId,
+                                        message = TdApi.InputMessageAudio().apply {
+                                            audio = TdApi.InputFileLocal().apply {
+                                                this.path = recordingFile?.absolutePath
+                                            }
+                                        },
+                                        replyTo = TdApi.InputMessageReplyToMessage(
+                                            planReplyMessage.value!!.id,
+                                            null
+                                        )
+                                    )
+                                }
+                                planReplyMessage.value = null
+                                tgApi!!.replyMessage.value = null
+                            }
+
+                            inputText.value = ""
+
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(0)
+                                listState.animateScrollToItem(0)
+                            }
+                        },
+                        modifier = Modifier
+                            .padding(end = 10.dp)
+                            .size(45.dp)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_custom_send),
+                            contentDescription = null,
+                            modifier = Modifier.size(45.dp)
+                        )
+                    }
+                }
+            }
+        }
     } else {
         // 消息主题选择
         if (planReplyMessage.value == null) {
@@ -306,9 +459,11 @@ fun SendMessageCompose(
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween // 左右对齐
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                // 换行按钮
+
+                // 左：换行按钮
                 IconButton(
                     onClick = {
                         inputText.value += "\n"
@@ -324,7 +479,29 @@ fun SendMessageCompose(
                     )
                 }
 
-                // 发送按钮
+                // 中：录制按钮
+                IconButton(
+                    onClick = {
+                        onStartRecording().let {
+                            if (it != null) {
+                                recordingFile = it
+                                startRecord = true
+                                recording = true
+                            } else {
+                                onStopRecording()
+                            }
+                        }
+                    },
+                    modifier = Modifier.size(50.dp) // 可以稍微大一点
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_record), // 录制图标
+                        contentDescription = null,
+                        modifier = Modifier.size(50.dp)
+                    )
+                }
+
+                // 右：发送按钮
                 IconButton(
                     onClick = {
                         if (planReplyMessage.value == null) {
@@ -348,7 +525,8 @@ fun SendMessageCompose(
                                     },
                                     replyTo = TdApi.InputMessageReplyToExternalMessage(
                                         planReplyMessage.value!!.chatId,
-                                        planReplyMessage.value!!.id, null
+                                        planReplyMessage.value!!.id,
+                                        null
                                     ),
                                     messageThreadId = selectTopicId.value
                                 )
@@ -361,20 +539,25 @@ fun SendMessageCompose(
                                         }
                                     },
                                     replyTo = TdApi.InputMessageReplyToMessage(
-                                        planReplyMessage.value!!.id, null
+                                        planReplyMessage.value!!.id,
+                                        null
                                     )
                                 )
                             }
                             planReplyMessage.value = null
                             tgApi!!.replyMessage.value = null
                         }
+
                         inputText.value = ""
+
                         coroutineScope.launch {
                             pagerState.animateScrollToPage(0)
                             listState.animateScrollToItem(0)
                         }
                     },
-                    modifier = Modifier.size(45.dp)
+                    modifier = Modifier
+                        .padding(end = 10.dp)
+                        .size(45.dp)
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_custom_send),

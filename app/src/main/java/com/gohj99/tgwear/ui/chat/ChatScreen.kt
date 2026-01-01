@@ -68,6 +68,7 @@ import com.gohj99.tgwear.utils.telegram.joinChat
 import com.gohj99.tgwear.utils.telegram.markMessagesAsRead
 import kotlinx.coroutines.launch
 import org.drinkless.tdlib.TdApi
+import java.io.File
 
 object MessageCache {
     private val cache = mutableMapOf<Int, TdApi.MessageContent>()
@@ -113,7 +114,9 @@ fun SplashChatScreen(
     currentUserId: MutableState<Long>,
     chatTopics: Map<Long, String>,
     selectTopicId: MutableState<Long>,
-    onCall: () -> Unit
+    onCall: () -> Unit,
+    onStartRecording: () -> (File?),
+    onStopRecording: () -> Unit,
 ) {
     // 获取context
     val context = LocalContext.current
@@ -392,7 +395,9 @@ fun SplashChatScreen(
                                 showUnknownMessageType = showUnknownMessageType,
                                 onLinkClick = onLinkClick,
                                 chatTopics = chatTopics,
-                                selectTopicId = selectTopicId
+                                selectTopicId = selectTopicId,
+                                onStartRecording = onStartRecording,
+                                onStopRecording = onStopRecording
                             )
                         }
                     }
@@ -558,7 +563,9 @@ fun SplashChatScreenPreview() {
             currentUserId = mutableLongStateOf(-1L),
             chatTopics = mutableMapOf(),
             selectTopicId = mutableLongStateOf(0L),
-            onCall = {}
+            onCall = {},
+            onStartRecording = {null},
+            onStopRecording = {}
         )
     }
 }
