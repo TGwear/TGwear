@@ -86,7 +86,6 @@ class ChatActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        stopRecording()
         if (inputText.value != "") {
             runBlocking {
                 TgApiManager.tgApi?.exitChatPage(
@@ -509,13 +508,7 @@ class ChatActivity : BaseActivity() {
                                 selectTopicId = selectTopicId,
                                 onCall = {
                                     tgApi!!.createCall(safeChat.id)
-                                },
-                                onStartRecording = {
-                                    startRecording()
-                                },
-                                onStopRecording = {
-                                    stopRecording()
-                                },
+                                }
                             )
                         }
                     }
@@ -546,63 +539,6 @@ class ChatActivity : BaseActivity() {
                 }
             }
         }
-    }
-
-    /**
-     * 开始录音函数
-     * @return 成功则返回 File 对象，失败返回 null
-     */
-    private fun startRecording(): File? {
-        // 1. 防止重复录音，先释放旧的
-        stopRecording()
-
-        try {
-            // 2. 准备文件：放在外部缓存目录，后缀改为 .m4a
-            val fileName = "Record_${System.currentTimeMillis()}.m4a"
-            // externalCacheDir 是 Activity 的属性，直接用，不需要传 Context
-            // 路径通常是 /sdcard/Android/data/你的包名/cache/Record_xxx.m4a
-            val file = File(externalCacheDir, fileName)
-
-            // 3. 配置 MediaRecorder
-            mediaRecorder = MediaRecorder().apply {
-                setAudioSource(MediaRecorder.AudioSource.MIC)
-                // 注意：容器格式依然选 MPEG_4，因为它支持 .m4a 和 .mp4
-                setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-                setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-                setOutputFile(file.absolutePath)
-
-                // 可选：提升音质参数
-                //setAudioEncodingBitRate(128000) // 128kbps
-                //setAudioSamplingRate(44100)     // 44.1kHz
-
-                prepare()
-                start()
-            }
-
-            // 4. 成功启动，返回文件对象
-            return file
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-            // 出错时释放资源并返回 null
-            stopRecording()
-            return null
-        }
-    }
-
-    /**
-     * 停止录音函数
-     */
-    private fun stopRecording() {
-        mediaRecorder?.apply {
-            try {
-                stop()
-            } catch (e: RuntimeException) {
-                // 如果录音时间太短（通常小于1秒），stop() 可能会崩，这里即使捕获也不影响后续 release
-            }
-            release()
-        }
-        mediaRecorder = null
     }
 
     fun saveVideoToExternalStorage(context: Context, videoPath: String): String {
