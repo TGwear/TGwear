@@ -47,7 +47,7 @@ jobs:
 
       - uses: gradle/gradle-build-action@v3
         with:
-          gradle-version: 8.11.1
+          gradle-version: 8.13
           arguments: assembleRelease
 
       - name: Sign ARM APK

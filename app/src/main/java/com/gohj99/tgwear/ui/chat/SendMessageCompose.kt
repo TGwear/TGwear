@@ -121,19 +121,40 @@ fun SendMessageCompose(
 
     // --- ExoPlayer (播放预览) ---
     val exoPlayer = remember {
-        ExoPlayer.Builder(context).build().apply {
-            // 添加监听器，处理播放结束逻辑
-            addListener(object : Player.Listener {
-                override fun onPlaybackStateChanged(state: Int) {
-                    if (state == Player.STATE_ENDED) {
-                        // 播放结束
+        ExoPlayer.Builder(context).build()
+    }
+    // 使用 DisposableEffect 来管理播放器的生命周期和监听器
+    DisposableEffect(exoPlayer) {
+        val listener = object : Player.Listener {
+
+            override fun onPlaybackStateChanged(state: Int) {
+                when (state) {
+                    Player.STATE_ENDED -> {
                         isPlayingPreview = false
-                        seekTo(0)
-                        pause()
+                        exoPlayer.seekTo(0)
+                        exoPlayer.pause()
                         playbackPositionMs = 0
                     }
+                    Player.STATE_READY -> {
+                        // 只在第一次就绪时处理元数据逻辑
+                        coroutineScope.launch {
+                            recordDurationMs = exoPlayer.duration
+                            recordingFile?.let {
+                                audioWave = waveformTo5bit(it)
+                                //println("audioWave: ${audioWave}")
+                            }
+                        }
+                    }
                 }
-            })
+            }
+        }
+
+        exoPlayer.addListener(listener)
+
+        onDispose {
+            // 关键：组件销毁时释放资源，防止内存泄漏
+            exoPlayer.removeListener(listener)
+            exoPlayer.release()
         }
     }
 
@@ -258,12 +279,6 @@ fun SendMessageCompose(
                 if (file.exists()) {
                     exoPlayer.setMediaItem(MediaItem.fromUri(file.toUri()))
                     exoPlayer.prepare()
-                }
-
-                // 进入协程计算音频时长和波形比特信息
-                coroutineScope.launch {
-                    //recordDurationMs = exoPlayer.duration
-                    audioWave = waveformTo5bit(file)
                 }
             }
         }
@@ -572,7 +587,7 @@ fun SendMessageCompose(
                             togglePreviewPlayback()
                         }
                     },
-                    modifier = Modifier.size(50.dp)
+                    modifier = Modifier.size(45.dp)
                 ) {
                     val iconId = if (isRecording) {
                         // 录制阶段
@@ -585,7 +600,7 @@ fun SendMessageCompose(
                     Image(
                         painter = painterResource(id = iconId),
                         contentDescription = null,
-                        modifier = Modifier.size(50.dp)
+                        modifier = Modifier.size(45.dp)
                     )
                 }
 
@@ -649,7 +664,6 @@ fun SendMessageCompose(
                         }
                     },
                     modifier = Modifier
-                        .padding(end = 10.dp)
                         .size(45.dp)
                 ) {
                     // 录制阶段显示"停止录制"图标，预览阶段显示"发送"图标
@@ -728,12 +742,12 @@ fun SendMessageCompose(
                             permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
                         }
                     },
-                    modifier = Modifier.size(50.dp)
+                    modifier = Modifier.size(45.dp)
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_record),
                         contentDescription = null,
-                        modifier = Modifier.size(50.dp)
+                        modifier = Modifier.size(45.dp)
                     )
                 }
 
@@ -792,7 +806,6 @@ fun SendMessageCompose(
                         }
                     },
                     modifier = Modifier
-                        .padding(end = 10.dp)
                         .size(45.dp)
                 ) {
                     Image(

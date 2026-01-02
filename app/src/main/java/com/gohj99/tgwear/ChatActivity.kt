@@ -18,7 +18,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.media.MediaRecorder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -76,7 +75,6 @@ class ChatActivity : BaseActivity() {
     private var inputText = mutableStateOf("")
     private var chatTopics = mutableMapOf<Long, String>()
     private val selectTopicId = mutableStateOf(0L)
-    private var mediaRecorder: MediaRecorder? = null
         private val settingsSharedPref: SharedPreferences by lazy {
         getSharedPreferences("app_settings", MODE_PRIVATE)
     }
