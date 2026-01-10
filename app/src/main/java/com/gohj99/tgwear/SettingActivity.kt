@@ -297,16 +297,6 @@ class SettingActivity : BaseActivity() {
             2 -> {
                 title = getString(R.string.App_setting)
                 settingsList.value = listOf(
-                    SettingItem.Switch(
-                        itemName = getString(R.string.Vibration_crown_turned),
-                        isSelected = settingsSharedPref.getBoolean("Vibration_crown_turned", true),
-                        onSelect = { vibration ->
-                            with(settingsSharedPref.edit()) {
-                                putBoolean("Vibration_crown_turned", vibration)
-                                apply()
-                            }
-                        }
-                    ),
                     SettingItem.ProgressBar(
                         itemName = getString(R.string.Delay_read_session_time) + " " + getString(R.string.Donation_version_features),
                         progress = settingsSharedPref.getFloat("Delay_read_session_time", 0.3f),

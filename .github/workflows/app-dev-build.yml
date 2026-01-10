@@ -12,7 +12,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
 
       - name: Extract repository name
         id: repo-name
@@ -24,7 +24,7 @@ jobs:
           VERSION_NAME=$(grep -oP 'versionName\s*=\s*"\K[^"]+' ./app/build.gradle.kts)
           echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
 
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
@@ -47,7 +47,7 @@ jobs:
 
       - uses: gradle/gradle-build-action@v3
         with:
-          gradle-version: 8.13
+          gradle-version: 8.11.1
           arguments: assembleRelease
 
       - name: Sign ARM APK
@@ -106,7 +106,7 @@ jobs:
         run: mv app/build/outputs/apk/universal/release/app-universal-release-unsigned-signed.apk ${{ env.REPO_NAME }}-v${{ env.VERSION_NAME }}-universal.apk
 
       - name: Upload APKs as artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v4
         with:
           name: android-build-apk-arm
           path: ${{ env.REPO_NAME }}-v${{ env.VERSION_NAME }}-arm.apk
@@ -115,7 +115,7 @@ jobs:
           overwrite: true
 
       - name: Upload APKs as artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v4
         with:
           name: android-build-apk-arm64
           path: ${{ env.REPO_NAME }}-v${{ env.VERSION_NAME }}-arm64.apk
@@ -124,7 +124,7 @@ jobs:
           overwrite: true
 
       - name: Upload APKs as artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v4
         with:
           name: android-build-apk-x86
           path: ${{ env.REPO_NAME }}-v${{ env.VERSION_NAME }}-x86.apk
@@ -133,7 +133,7 @@ jobs:
           overwrite: true
 
       - name: Upload APKs as artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v4
         with:
           name: android-build-apk-x86_64
           path: ${{ env.REPO_NAME }}-v${{ env.VERSION_NAME }}-x86_64.apk
@@ -142,7 +142,7 @@ jobs:
           overwrite: true
 
       - name: Upload APKs as artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v4
         with:
           name: android-build-apk-universal
           path: ${{ env.REPO_NAME }}-v${{ env.VERSION_NAME }}-universal.apk
