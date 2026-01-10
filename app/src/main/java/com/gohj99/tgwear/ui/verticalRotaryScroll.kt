@@ -9,7 +9,6 @@
 package com.gohj99.tgwear.ui
 
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -57,23 +56,19 @@ fun <T> Modifier.verticalRotaryScroll(
         Modifier
             .onRotaryScrollEvent { event ->
                 coroutineScope.launch {
-                    val settingsSharedPref = context.getSharedPreferences("app_settings", MODE_PRIVATE)
-                    val isVibrationEnabled = settingsSharedPref.getBoolean("Vibration_crown_turned", true)
-                    if (isVibrationEnabled) {
-                        // 震动反馈
-                        if (vibrator.hasVibrator()) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_DOUBLE_CLICK))
-                            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                vibrator.vibrate(
-                                    VibrationEffect.createOneShot(
-                                        17, // 振动时长，单位为毫秒
-                                        155   // 振幅，越低越弱，范围为1到255
-                                    )
+                    // 震动反馈
+                    if (vibrator.hasVibrator()) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_DOUBLE_CLICK))
+                        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            vibrator.vibrate(
+                                VibrationEffect.createOneShot(
+                                    17, // 振动时长，单位为毫秒
+                                    155   // 振幅，越低越弱，范围为1到255
                                 )
-                            } else {
-                                vibrator.vibrate(40) // 振动时长为 50 毫秒
-                            }
+                            )
+                        } else {
+                            vibrator.vibrate(40) // 振动时长为 50 毫秒
                         }
                     }
 

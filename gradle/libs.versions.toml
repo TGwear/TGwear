@@ -1,24 +1,23 @@
 [versions]
-agp = "8.12.3"
-firebaseBom = "34.7.0"
-jtransforms = "3.2"
-kotlin = "2.3.0"
-coreKtx = "1.17.0"
+agp = "8.10.1"
+firebaseBom = "34.0.0"
+kotlin = "2.2.0"
+coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
-lifecycleRuntimeKtx = "2.10.0"
-lifecycleViewmodelKtx = "2.10.0"
-activityCompose = "1.12.2"
+lifecycleRuntimeKtx = "2.9.2"
+lifecycleViewmodelKtx = "2.9.2"
+activityCompose = "1.10.1"
 composeBom = "2025.07.00"
 coil-compose = "2.7.0"
-lottie = "6.7.1"
-zxing-core = "3.5.4"
-composeFoundation = "1.5.6"
-gson-versions = "2.13.2"
-media3Exoplayer = "1.9.0"
-media3Ui = "1.9.0"
-composeMaterial3 = "1.5.6"
+lottie = "6.6.7"
+zxing-core = "3.5.3"
+composeFoundation = "1.4.1"
+gson-versions = "2.13.1"
+media3Exoplayer = "1.8.0"
+media3Ui = "1.8.0"
+composeMaterial3 = "1.5.0-rc01"
 relinker = "1.4.5"
 
 [libraries]
@@ -28,7 +27,6 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-crashlytics-ndk = { module = "com.google.firebase:firebase-crashlytics-ndk" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
-jtransforms = { group = "com.github.wendykierp", name = "JTransforms", version.ref = "jtransforms" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

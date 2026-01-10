@@ -81,20 +81,6 @@ fun Context.sendChatMessageNotification(
     }
     prefs.edit { putString(conversationId, gson.toJson(messageHistory)) }
 
-    // ================== 判断重复消息开始 ==================
-    // 获取历史记录中的最后一条消息
-    val lastMsg = messageHistory.lastOrNull()
-
-    // 只有当：
-    // 1. 历史记录不为空
-    // 2. 最后一条消息的内容 == 当前新消息
-    // 3. 最后一条消息的发送者 == 当前发送者
-    // 三者同时满足时，才视为重复消息
-    if (lastMsg != null && lastMsg.text == message && lastMsg.senderName == senderName) {
-        // 如果是重复消息，直接结束函数，不更新历史也不发通知
-        return
-    }
-    // ================== 判断重复消息结束 ==================
 
     // —— 3. 构造 MessagingStyle ——
     // 注意: Person 的 Key 最好是唯一的标识符，如果 senderName 可能重复，考虑使用 senderId
