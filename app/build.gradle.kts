@@ -24,13 +24,22 @@ android {
         minSdk = 26
         //noinspection OldTargetApi
         targetSdk = 34
-        versionCode = 47
-        versionName = "3.1.4"
+        versionCode = 48
+        versionName = "3.1.6"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlin {
+        jvmToolchain(17)
     }
 
     sourceSets.getByName("main") {
@@ -120,11 +129,6 @@ android {
         }
     }
 
-    kotlinOptions {
-        jvmTarget = "1.8"
-        // 全局打开实验性功能
-        //freeCompilerArgs += "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi"
-    }
     buildFeatures {
         compose = true
     }
@@ -165,6 +169,7 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.crashlytics.ndk)
     implementation(libs.relinker)
+    implementation(libs.jtransforms)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
