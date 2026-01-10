@@ -142,7 +142,10 @@ fun SplashChatScreen(
     val messagePreloadQuantity = settingsSharedPref.getInt("Message_preload_quantity", 10)
 
     // 获取延迟已读时间
-    val delayReadSessionTime = if (installer == "com.android.vending") settingsSharedPref.getFloat("Delay_read_session_time", 0.3f) else 0.3f
+    val delayReadSessionTime = if (installer == "com.android.vending") settingsSharedPref.getFloat(
+        "Delay_read_session_time",
+        0.3f
+    ) else 0.3f
 
     // 获取下滑按钮显示偏移量
     val downButtonOffset = settingsSharedPref.getInt("Down_Button_Offset", 25)
@@ -192,6 +195,7 @@ fun SplashChatScreen(
                         }
                     }
                 }
+
                 is TdApi.MessageSenderChat -> {
                     if (sender.chatId == chatId) {
                         planReplyMessageSenderName = chatTitle
@@ -209,6 +213,7 @@ fun SplashChatScreen(
                         }
                     }
                 }
+
                 else -> "" // 处理未知类型
             }
         }
@@ -219,7 +224,10 @@ fun SplashChatScreen(
         snapshotFlow { listState.firstVisibleItemIndex }
             .collect { index ->
                 if (index >= chatList.value.size - messagePreloadQuantity) {
-                    tgApi?.fetchMessages(fromMessageId = chatList.value.lastOrNull()?.id ?: -1L,nowChatId = chatId)
+                    tgApi?.fetchMessages(
+                        fromMessageId = chatList.value.lastOrNull()?.id ?: -1L,
+                        nowChatId = chatId
+                    )
                 }
             }
     }
@@ -305,12 +313,19 @@ fun SplashChatScreen(
                                 val isCurrentUser = message.isOutgoing
                                 val backgroundColor =
                                     if (isCurrentUser) Color(0xFF003C68) else Color(0xFF2C323A)
-                                val textColor = if (isCurrentUser) Color(0xFF66D3FE) else Color(0xFFFEFEFE)
-                                val alignment = if (isCurrentUser) Arrangement.End else Arrangement.Start
-                                val modifier = if (isCurrentUser) Modifier.align(Alignment.End) else Modifier
+                                val textColor =
+                                    if (isCurrentUser) Color(0xFF66D3FE) else Color(0xFFFEFEFE)
+                                val alignment =
+                                    if (isCurrentUser) Arrangement.End else Arrangement.Start
+                                val modifier =
+                                    if (isCurrentUser) Modifier.align(Alignment.End) else Modifier
                                 val stateDownloadDone = rememberSaveable { mutableStateOf(false) }
                                 val stateDownload = rememberSaveable { mutableStateOf(false) }
-                                var hasScheduledRead by rememberSaveable(message.id) { mutableStateOf(false) }
+                                var hasScheduledRead by rememberSaveable(message.id) {
+                                    mutableStateOf(
+                                        false
+                                    )
+                                }
 
                                 // 将消息已读代码
                                 // 检测：当前这一项在列表里是否可见
@@ -318,7 +333,8 @@ fun SplashChatScreen(
                                     // derivedStateOf 可以让这个 isVisible.value 自动在 listState 发生变化时更新
                                     derivedStateOf {
                                         // 获取当前屏幕上所有可见 Item 的 index 列表
-                                        val visibleIndices = listState.layoutInfo.visibleItemsInfo.map { it.index }
+                                        val visibleIndices =
+                                            listState.layoutInfo.visibleItemsInfo.map { it.index }
                                         // 如果当前 index 在可见列表里，就认为已“渲染到屏幕上”
                                         index in visibleIndices
                                     }
@@ -330,7 +346,10 @@ fun SplashChatScreen(
                                         // 等待，确保用户能“完整看到”这一条消息
                                         kotlinx.coroutines.delay(delayReadSessionTime.toLong() * 1000L)
                                         // 调用接口把这条消息标记为已读
-                                        tgApi?.markMessagesAsRead(messageId = message.id, chatId = chatId)
+                                        tgApi?.markMessagesAsRead(
+                                            messageId = message.id,
+                                            chatId = chatId
+                                        )
                                         // 并将状态设为 true，避免重复调用
                                         hasScheduledRead = true
                                     }
@@ -365,6 +384,7 @@ fun SplashChatScreen(
                             }
                         }
                     }
+
                     1 -> {
                         // 发送消息页面部分
                         Column(
@@ -419,6 +439,7 @@ fun SplashChatScreen(
                             }
                             ""
                         }
+
                         "Reply" -> {
                             // 返回空字符串同时执行操作
                             planReplyMessage.value = selectMessage.value
@@ -428,6 +449,7 @@ fun SplashChatScreen(
                             }
                             ""
                         }
+
                         else -> return@LongPressBox longPress(select, selectMessage.value)
                     }
                 },
@@ -445,7 +467,10 @@ fun SplashChatScreen(
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomEnd) // 定位到右下角
-                    .offset(x = (-downButtonOffset).dp, y = (-downButtonOffset).dp) // 向左上偏移，避免紧贴屏幕边缘
+                    .offset(
+                        x = (-downButtonOffset).dp,
+                        y = (-downButtonOffset).dp
+                    ) // 向左上偏移，避免紧贴屏幕边缘
             ) {
                 MessageBottomFunctionalCompose(
                     listState = listState,
