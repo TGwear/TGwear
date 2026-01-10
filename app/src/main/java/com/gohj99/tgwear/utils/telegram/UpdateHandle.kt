@@ -228,6 +228,22 @@ internal fun TgApi.handleMessageContentUpdate(update: TdApi.UpdateMessageContent
     val message = update.newContent
     val messageId = update.messageId
 
+    // 更新聊天列表
+    /*
+    chatsList.value = chatsList.value.toMutableList().apply {
+        // 查找现有的聊天并更新
+        val existingChatIndex = indexOfFirst { it.id == chatId }
+        if (existingChatIndex >= 0) {
+            val updatedChat = get(existingChatIndex).copy(
+                lastMessage = handleAllMessages(messageContext = message)
+            )
+            removeAt(existingChatIndex)
+            add(0, updatedChat)
+        }
+    }
+
+     */
+
     if (chatId == saveChatId) {
         saveChatList.value = saveChatList.value.toMutableList().apply {
             val messageIndex = indexOfFirst { it.id == messageId }
