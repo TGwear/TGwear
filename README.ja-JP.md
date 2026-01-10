@@ -1,11 +1,11 @@
 <a href="https://github.com/TGwear/TGwear">
-<img src="https://socialify.git.ci/TGwear/TGwear/image?description=1&descriptionEditable=Android%20%E3%82%A6%E3%82%A9%E3%83%83%E3%83%81%E7%94%A8%E3%81%AE%E3%82%B5%E3%83%BC%E3%83%89%E3%83%91%E3%83%BC%E3%83%86%E3%82%A3%E9%9B%BB%E5%A0%B1%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88&font=KoHo&forks=1&issues=1&logo=https://github.com/TGwear/TGwear/blob/master/TGwear.png?raw=true?raw=true&name=1&owner=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Auto" alt="TGwear" />
+<img src="https://socialify.git.ci/TGwear/TGwear/image?description=1&descriptionEditable=A%20Telegram%20clients%20for%20Android%20watch&font=KoHo&forks=1&issues=1&logo=https://github.com/TGwear/TGwear/blob/master/TGwear.png?raw=true?raw=true&name=1&owner=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Auto" alt="TGwear" />
 </a>
 
 <div align="center">
   <br/>
   <div>
-      繁體中文 | <a href="./README.md">English</a> | <a href="./README.zh-CN.md">简体中文</a> | <a href="./README.ja-JP.md">日本語</a>
+      日本語 | <a href="./README.zh-TW.md">繁體中文</a> | <a href="./README.md">English</a> | <a href="./README.zh-CN.md">简体中文</a> | 
   </div>
   <br/>
 
@@ -40,45 +40,46 @@
 ダウンロード: [TGwear](https://github.com/TGwear/TGwear/releases)  
 ADB シェル:
 
-1. リリースから TGwear をダウンロードする
+1. Release から TGwear をダウンロード
 2. インストール:
 
 ```shell
 adb install TGwear.apk
 ```
 
-## 関数
+## 機能
 
-- サポートトピックチャット
+- トピックチャットに対応
 - FCM メッセージ通知、クイックビュー、既読マーク、返信
-- 複数アカウント対応
+- 複数アカウントに対応
 - インターフェースのカスタマイズ
-- 完全なメッセージグループ化のサポート
-- 未読/既読インジケーター
-- 接続状態インジケーター
+- 完全なメッセージグループ化に対応
+- 未読/既読のインジケーター
+- 接続状態のインジケーター
 - テキスト、画像、ビデオの閲覧またはダウンロード
 - 音声メッセージを再生
 - メッセージの返信と転送
 - 画像やビデオの保存
-- テキスト送信
-- メッセージ削除
-- クラウンローテーションのサポート
+- テキストの送信
+- メッセージの削除
+- デジタルクラウンの回転に対応
 
-## 最小構成と推奨構成
+## 最小と推奨要件
 
-- 最小メモリ (RAM): 1G
-- 最小ストレージ容量 (ROM): 8G
-- 最小互換性システム: Android 7.0 (API レベル 24 Nougat)
-- 推奨メモリ (RAM): 2G
-- 推奨ストレージ容量（ROM）：16G
-- 推奨システム: Android 11 (API レベル 30 R) または Wear OS 3.0 (API レベル 30)
+- 最小メモリ: 1GB
+- 最小ストレージ容量: 8GB
+- 最小システム: Android 7.0 (Nougat、API レベル 24)
+- 推奨メモリ: 2GB
+- 推奨ストレージ容量: 16GB
+- 推奨システム: Android 11 (Android R、API レベル 30) または Wear OS 3.0 (API レベル 30)
 
-＃＃ コミュニティ
+## コミュニティ
 
-フィードバックを提供するには、[issue](https://github.com/TGwear/TGwear/issues) を使用することをお勧めします。
-もちろん、次のようなフィードバック方法も可能です。
+フィードバックを提供するには、[Issue](https://github.com/TGwear/TGwear/issues) を使用することをお勧めします。
 
-- [テレグラム](https://t.me/teleTGwear)
+もちろん、以下のフィードバック方法も可能です。
+
+- [Telegram](https://t.me/teleTGwear)
 
 ## Star History
 

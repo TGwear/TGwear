@@ -12,7 +12,10 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      # 必须设置 fetch-depth: 0，否则拿不到历史提交和 Tag，无法生成日志
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Extract repository name
         id: repo-name
@@ -24,7 +27,24 @@ jobs:
           VERSION_NAME=$(grep -oP 'versionName\s*=\s*"\K[^"]+' ./app/build.gradle.kts)
           echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
 
-      - uses: actions/setup-java@v4
+      # 自动抓取更新日志
+      - name: Generate Custom Changelog
+        id: changelog
+        run: |
+          # 获取上一个 Tag 的名称（如果不存在则获取第一个 commit）
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 2>/dev/null || git rev-list --max-parents=0 HEAD)
+          
+          # 获取从上个 Tag 到现在的提交记录
+          # --pretty=format:"- %s" 只保留提交标题，每行一个短横线
+          # grep -v "Merge pull request" 用于过滤掉自动生成的合并记录，让日志更干净
+          CHANGELOG=$(git log $PREVIOUS_TAG..HEAD --pretty=format:"- %s" | grep -v "Merge pull request" | grep -v "Merge branch")
+          
+          # 处理多行字符串注入 GITHUB_ENV 的特殊写法
+          echo "RELEASE_BODY<<EOF" >> $GITHUB_ENV
+          echo "$CHANGELOG" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 17
@@ -47,7 +67,7 @@ jobs:
 
       - uses: gradle/gradle-build-action@v3
         with:
-          gradle-version: 8.11.1
+          gradle-version: 8.13
           arguments: assembleRelease
 
       - name: Sign ARM APK
@@ -109,6 +129,13 @@ jobs:
         with:
           artifacts: "*.apk"
           token: ${{ github.token }}
-          generateReleaseNotes: true
+          generateReleaseNotes: false
           tag: v${{ env.VERSION_NAME }}
+          name: "TGwear v${{ env.VERSION_NAME }}"
+          body: |
+            ### 🛠 Update in v${{ env.VERSION_NAME }}:
+            ${{ env.RELEASE_BODY || "- Initial release" }}
+            
+            ---
+            *Built by GitHub Actions*
           prerelease: false
