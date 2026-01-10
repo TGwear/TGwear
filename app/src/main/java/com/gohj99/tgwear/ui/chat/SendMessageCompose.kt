@@ -225,7 +225,7 @@ fun SendMessageCompose(
 
         try {
             val recorder = MediaRecorder().apply {
-                setAudioSource(MediaRecorder.AudioSource.MIC)
+                setAudioSource(MediaRecorder.AudioSource.VOICE_COMMUNICATION)
 
                 // API 29+ 功能
                 if (isOpus) {
