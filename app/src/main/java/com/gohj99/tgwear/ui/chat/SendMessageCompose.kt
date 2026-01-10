@@ -11,6 +11,7 @@ package com.gohj99.tgwear.ui.chat
 import android.Manifest
 import android.content.pm.PackageManager
 import android.media.MediaRecorder
+import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -73,8 +74,10 @@ import com.gohj99.tgwear.utils.telegram.editMessageText
 import com.gohj99.tgwear.utils.telegram.handleAllMessages
 import com.gohj99.tgwear.utils.telegram.sendMessage
 import com.gohj99.tgwear.utils.waveformTo5bit
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.drinkless.tdlib.TdApi
 import java.io.File
 
@@ -140,8 +143,10 @@ fun SendMessageCompose(
                         coroutineScope.launch {
                             recordDurationMs = exoPlayer.duration
                             recordingFile?.let {
-                                audioWave = waveformTo5bit(it)
-                                //println("audioWave: ${audioWave}")
+                                withContext(Dispatchers.IO) {
+                                    audioWave = waveformTo5bit(it)
+                                    //println("wave: $audioWave")
+                                }
                             }
                         }
                     }
@@ -213,17 +218,38 @@ fun SendMessageCompose(
 
     fun startRecording() {
         val cacheDir = context.externalCacheDir ?: context.cacheDir
-        val file = File(cacheDir, "Record_${System.currentTimeMillis()}.m4a")
+        val isOpus = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+        val suffix = if (isOpus) "oga" else "m4a"
+        val file = File(cacheDir, "Record_${System.currentTimeMillis()}.$suffix")
         recordingFile = file
 
         try {
             val recorder = MediaRecorder().apply {
                 setAudioSource(MediaRecorder.AudioSource.MIC)
-                setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-                setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+
+                // API 29+ 功能
+                if (isOpus) {
+                    // 1. 修改输出格式为 OGG (API 29+)
+                    setOutputFormat(MediaRecorder.OutputFormat.OGG)
+                    // 2. 修改编码器为 OPUS
+                    setAudioEncoder(MediaRecorder.AudioEncoder.OPUS)
+                } else {
+                    setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+                    setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+                }
+
+                // 3. 保存文件
                 setOutputFile(file.absolutePath)
-                setAudioEncodingBitRate(128000) // 128kbps
-                setAudioSamplingRate(44100)     // 44100Hz
+
+                if (isOpus) {
+                    // 参数调优：Opus 在低比特率下表现极佳，24kbps 录制人声已经非常清晰
+                    setAudioEncodingBitRate(24000)
+                } else {
+                    setAudioSamplingRate(44100)
+                    setAudioEncodingBitRate(128000)
+                    setAudioChannels(1)
+                }
+
                 prepare()
                 start()
             }
@@ -271,14 +297,21 @@ fun SendMessageCompose(
             recorderRef.value = null
             isRecording = false
             isRecordingPaused = false
-            isPreviewMode = true // 进入预览模式
-            timerText = "00:00 | ${formatTime(recordDurationMs)}"
 
-            // 准备 ExoPlayer
-            recordingFile?.let { file ->
-                if (file.exists()) {
-                    exoPlayer.setMediaItem(MediaItem.fromUri(file.toUri()))
-                    exoPlayer.prepare()
+            val valid = (recordingFile?.length() ?: 0) > 1024
+            if (!valid) {
+                recordingFile?.delete()
+                recordMode = false
+            } else {
+                isPreviewMode = true // 进入预览模式
+                timerText = "00:00 | ${formatTime(recordDurationMs)}"
+
+                // 准备 ExoPlayer
+                recordingFile?.let { file ->
+                    if (file.exists()) {
+                        exoPlayer.setMediaItem(MediaItem.fromUri(file.toUri()))
+                        exoPlayer.prepare()
+                    }
                 }
             }
         }
