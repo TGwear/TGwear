@@ -25,11 +25,6 @@
         src="https://img.shields.io/badge/dynamic/json?color=success&label=Views&query=count&url=https://gist.githubusercontent.com/gohj99/cd38c559b315d503db0d9d4eed290eb3/raw/traffic.json&logo=github&style=flat-square"
       />  
     </a >
-    <a href="https://play.google.com/store/apps/details?id=com.gohj99.tgwear">
-      <img
-        src="https://img.shields.io/endpoint?color=green&logo=google-play&logoColor=green&url=https%3A%2F%2Fplay.cuzi.workers.dev%2Fplay%3Fi%3Dcom.gohj99.tgwear%26gl%3DUS%26hl%3Den%26l%3DGoogle%2520play%26m%3D%24version&style=flat-square"
-      />
-    </a >
   </div>
 </div>
 
@@ -79,6 +74,11 @@ We recommend using [issue](https://github.com/TGwear/TGwear/issues) to provide t
 and effective feedback. Of course, the following options for feedback are also available:
 
 - [Telegram](https://t.me/teleTGwear)
+
+## Support us
+
+This project is supported by the BandBBS Open Source Project Support Program.
+If possible, please Sponsor to us.
 
 ## Star History
 
