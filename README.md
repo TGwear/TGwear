@@ -77,7 +77,7 @@ and effective feedback. Of course, the following options for feedback are also a
 
 ## Support us
 
-This project is supported by the BandBBS Open Source Project Support Program.  
+[This project is supported by the BandBBS Open Source Project Support Program.](https://www.bandbbs.cn/threads/24388/)   
 If possible, please Sponsor to us.
 
 ## Star History
