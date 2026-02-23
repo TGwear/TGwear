@@ -25,6 +25,11 @@
         src="https://img.shields.io/badge/dynamic/json?color=success&label=Views&query=count&url=https://gist.githubusercontent.com/gohj99/cd38c559b315d503db0d9d4eed290eb3/raw/traffic.json&logo=github&style=flat-square"
       />  
     </a >
+    <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FTGwear%2FTGwear?ref=badge_shield">
+      <img
+        src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FTGwear%2FTGwear.svg?type=shield"
+      />  
+    </a >
   </div>
 </div>
 
@@ -78,6 +83,10 @@ and effective feedback. Of course, the following options for feedback are also a
 ## Support us
 
 If possible, please Sponsor to us.
+
+## License
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FTGwear%2FTGwear.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FTGwear%2FTGwear?ref=badge_large)
 
 ## Star History
 
