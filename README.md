@@ -25,9 +25,9 @@
         src="https://img.shields.io/badge/dynamic/json?color=success&label=Views&query=count&url=https://gist.githubusercontent.com/gohj99/cd38c559b315d503db0d9d4eed290eb3/raw/traffic.json&logo=github&style=flat-square"
       />  
     </a >
-    <a href="[https://github.com/TGwear/TGwear/releases](https://app.fossa.com/projects/git%2Bgithub.com%2FTGwear%2FTGwear?ref=badge_shield)">
+    <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FTGwear%2FTGwear?ref=badge_shield">
       <img
-        src="[https://img.shields.io/github/downloads/TGwear/TGwear/total?style=flat-square](https://app.fossa.com/api/projects/git%2Bgithub.com%2FTGwear%2FTGwear.svg?type=shield)"
+        src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FTGwear%2FTGwear.svg?type=shield"
       />  
     </a >
   </div>
