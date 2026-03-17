@@ -327,6 +327,21 @@ class ChatActivity : BaseActivity() {
                                             }
                                         }
 
+                                        is TdApi.MessageVideoNote -> {
+                                            lifecycleScope.launch {
+                                                tgApi!!.getMessageTypeById(message.id)?.let {
+                                                    val videoFile =
+                                                        (it.content as TdApi.MessageVideoNote).videoNote.video
+                                                    getUriFromFilePath(
+                                                        this@ChatActivity,
+                                                        videoFile.local.path
+                                                    )?.let { uri ->
+                                                        playVideo(uri)
+                                                    }
+                                                }
+                                            }
+                                        }
+
                                         is TdApi.MessageVoiceNote -> {
                                             println("语音消息")
                                         }

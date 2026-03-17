@@ -431,6 +431,60 @@ fun messageDrawer(
                 }
             }
         }
+        is TdApi.MessageVideoNote -> {
+            val thumbnail = content.videoNote.thumbnail
+            Box(
+                modifier = Modifier.clip(CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                if (thumbnail != null) {
+                    ThumbnailImage(
+                        thumbnail = thumbnail.file,
+                        imageWidth = thumbnail.width,
+                        imageHeight = thumbnail.height,
+                        textColor = Color(0xFFFEFEFE),
+                        modifier = modifier
+                    )
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .background(Color.Black.copy(alpha = 0.5f))
+                    )
+                } else {
+                    Text(
+                        text = stringResource(id = R.string.No_thumbnail_available),
+                        color = Color(0xFFFEFEFE),
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = modifier
+                    )
+                }
+
+                if (stateDownload.value) SplashLoadingScreen()
+                val videoFile = content.videoNote.video
+                if (videoFile.local.isDownloadingCompleted) {
+                    stateDownloadDone.value = true
+                }
+                if (stateDownloadDone.value) {
+                    Image(
+                        painter = painterResource(id = R.drawable.play),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .size(36.dp)
+                    )
+                } else {
+                    if (!stateDownload.value) {
+                        Image(
+                            painter = painterResource(id = R.drawable.download),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .size(36.dp)
+                        )
+                    }
+                }
+            }
+        }
         else -> {
             SelectionContainer {
                 Text(

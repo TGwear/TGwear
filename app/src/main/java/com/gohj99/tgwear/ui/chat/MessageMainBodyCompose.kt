@@ -103,26 +103,27 @@ fun MessageMainBodyCompose(
                         },
                         onTap = {
                             if (!stateDownload.value) {
-                                if (message.content is TdApi.MessageVideo) {
-                                    val videoFile =
+                                val videoFile = when (message.content) {
+                                    is TdApi.MessageVideo ->
                                         (message.content as TdApi.MessageVideo).video.video
-                                    if (!videoFile.local.isDownloadingCompleted) {
-                                        tgApi!!.downloadFile(
-                                            file = videoFile,
-                                            schedule = { schedule ->
-                                                println("下载进度: $schedule")
-                                            },
-                                            completion = { boolean, path ->
-                                                println("下载完成情况: $boolean")
-                                                println("下载路径: $path")
-                                                stateDownload.value =
-                                                    false
-                                                stateDownloadDone.value =
-                                                    true
-                                            }
-                                        )
-                                        stateDownload.value = true
-                                    }
+                                    is TdApi.MessageVideoNote ->
+                                        (message.content as TdApi.MessageVideoNote).videoNote.video
+                                    else -> null
+                                }
+                                if (videoFile != null && !videoFile.local.isDownloadingCompleted) {
+                                    tgApi!!.downloadFile(
+                                        file = videoFile,
+                                        schedule = { schedule ->
+                                            println("下载进度: $schedule")
+                                        },
+                                        completion = { boolean, path ->
+                                            println("下载完成情况: $boolean")
+                                            println("下载路径: $path")
+                                            stateDownload.value = false
+                                            stateDownloadDone.value = true
+                                        }
+                                    )
+                                    stateDownload.value = true
                                 }
                                 press(message)
                             }
