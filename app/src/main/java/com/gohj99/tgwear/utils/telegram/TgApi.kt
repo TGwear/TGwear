@@ -82,7 +82,7 @@ class TgApi(
             deviceModel = Build.MODEL
             systemVersion = Build.VERSION.RELEASE
             applicationVersion = getAppVersion(context)
-            useSecretChats = false
+            useSecretChats = true
             useMessageDatabase = true
             useChatInfoDatabase = true
             useFileDatabase = false

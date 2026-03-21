@@ -260,6 +260,15 @@ suspend fun TgApi.getMessageTypeById(messageId: Long, chatId: Long = saveChatId)
     }
 }
 
+suspend fun TgApi.createSecretChat(userId: Long): TdApi.Chat? {
+    return try {
+        val result = sendRequest(TdApi.CreateNewSecretChat(userId))
+        if (result is TdApi.Chat) result else null
+    } catch (e: Exception) {
+        null
+    }
+}
+
 // 10. 强制加载消息
 internal fun TgApi.addNewChat(chatId: Long){
     // 异步获取聊天标题

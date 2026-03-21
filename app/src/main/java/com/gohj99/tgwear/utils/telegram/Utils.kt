@@ -34,6 +34,7 @@ fun TgApi.handleAllPushMessages(content: TdApi.PushMessageContent): String {
     return when (content) {
         is TdApi.PushMessageContentText -> limit(content.text)
         is TdApi.PushMessageContentPhoto -> context.getString(R.string.Photo) + " " + limit(content.caption)
+        is TdApi.PushMessageContentAudio -> context.getString(R.string.Audio) + " " + limit(content.audio.fileName)
         is TdApi.PushMessageContentVoiceNote -> context.getString(R.string.Voice)
         is TdApi.PushMessageContentVideo -> context.getString(R.string.Video) + " " + limit(content.caption)
         is TdApi.PushMessageContentAnimation -> context.getString(R.string.Animation) + " " + limit(content.caption)
@@ -81,6 +82,20 @@ fun TgApi.handleAllMessages(
             append(" ")
             val caption = content.caption.text.replace('\n', ' ')
             append(if (caption.length > maxText) caption.take(maxText) + "..." else caption)
+        }
+        is TdApi.MessageAudio -> buildAnnotatedString {
+            withStyle(style = SpanStyle(color = Color(context.getColor(R.color.blue)))) {
+                append(context.getString(R.string.Audio))
+            }
+            append(" ")
+            val audioName = content.audio.fileName
+                .ifBlank {
+                    listOf(content.audio.performer, content.audio.title)
+                        .filter { it.isNotBlank() }
+                        .joinToString(" ")
+                }
+                .replace('\n', ' ')
+            append(if (audioName.length > maxText) audioName.take(maxText) + "..." else audioName)
         }
         is TdApi.MessageAnimation -> buildAnnotatedString {
             withStyle(style = SpanStyle(color = Color(context.getColor(R.color.blue)))) {

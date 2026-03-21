@@ -9,6 +9,7 @@
 package com.gohj99.tgwear
 
 import android.app.Application
+import android.os.Bundle
 
 class Application : Application() {
 
@@ -20,6 +21,30 @@ class Application : Application() {
     override fun onCreate() {
         super.onCreate()
         application = this
+        registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
+            private var startedActivityCount = 0
+
+            override fun onActivityCreated(activity: android.app.Activity, savedInstanceState: Bundle?) = Unit
+
+            override fun onActivityStarted(activity: android.app.Activity) {
+                startedActivityCount += 1
+            }
+
+            override fun onActivityResumed(activity: android.app.Activity) = Unit
+
+            override fun onActivityPaused(activity: android.app.Activity) = Unit
+
+            override fun onActivityStopped(activity: android.app.Activity) {
+                startedActivityCount = (startedActivityCount - 1).coerceAtLeast(0)
+                if (startedActivityCount == 0) {
+                    AppLockManager.lock()
+                }
+            }
+
+            override fun onActivitySaveInstanceState(activity: android.app.Activity, outState: Bundle) = Unit
+
+            override fun onActivityDestroyed(activity: android.app.Activity) = Unit
+        })
     }
 
     init {
@@ -27,11 +52,9 @@ class Application : Application() {
         System.loadLibrary("tgcallsjni")
         System.loadLibrary("leveldbjni")
         System.loadLibrary("tgxjni")
-        System.loadLibrary("tgcallsjni") // 重复加载一次可能没必要，可以去掉
 
         Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
             throwable.printStackTrace()
         }
     }
 }
-

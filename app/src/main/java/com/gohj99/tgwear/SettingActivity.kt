@@ -298,6 +298,21 @@ class SettingActivity : BaseActivity() {
                 title = getString(R.string.App_setting)
                 settingsList.value = listOf(
                     SettingItem.Switch(
+                        itemName = getString(R.string.app_lock),
+                        isSelected = settingsSharedPref.getBoolean("app_lock_enabled", false),
+                        onSelect = { appLockEnabled ->
+                            with(settingsSharedPref.edit()) {
+                                putBoolean("app_lock_enabled", appLockEnabled)
+                                apply()
+                            }
+                            if (appLockEnabled) {
+                                AppLockManager.unlock()
+                            } else {
+                                AppLockManager.unlock()
+                            }
+                        }
+                    ),
+                    SettingItem.Switch(
                         itemName = getString(R.string.Vibration_crown_turned),
                         isSelected = settingsSharedPref.getBoolean("Vibration_crown_turned", true),
                         onSelect = { vibration ->

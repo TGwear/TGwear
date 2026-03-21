@@ -61,8 +61,9 @@ import okhttp3.Request
 import okhttp3.Response
 import java.io.File
 import java.io.IOException
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 
 
 class CheckUpdateActivity : BaseActivity() {
@@ -118,10 +119,7 @@ class CheckUpdateActivity : BaseActivity() {
                                 val localVersion = pInfo.versionName
                                 val needsUpdate = compareVersions(version, localVersion.toString())
 
-                                val publishedAt = releaseInfo.publishedAt
-                                val zonedDateTime = ZonedDateTime.parse(publishedAt)
-                                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                                val formattedPublishedAt = zonedDateTime.format(formatter)
+                                val formattedPublishedAt = formatGithubPublishedAt(releaseInfo.publishedAt)
 
                                 val armAsset =
                                     releaseInfo.assets.find { it.name.contains("arm.apk") }
@@ -200,6 +198,19 @@ class CheckUpdateActivity : BaseActivity() {
                     }
                 }
             }
+        }
+    }
+
+    private fun formatGithubPublishedAt(publishedAt: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US).apply {
+                timeZone = TimeZone.getTimeZone("UTC")
+            }
+            val outputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            val date = inputFormat.parse(publishedAt) ?: return publishedAt
+            outputFormat.format(date)
+        } catch (e: Exception) {
+            publishedAt
         }
     }
 

@@ -89,7 +89,7 @@ class TgApiForPushNotification(private val context: Context) {
             deviceModel = Build.MODEL
             systemVersion = Build.VERSION.RELEASE
             applicationVersion = getAppVersion(context)
-            useSecretChats = false
+            useSecretChats = true
             useMessageDatabase = true
             useChatInfoDatabase = true
             useFileDatabase = false
@@ -899,6 +899,17 @@ class TgApiForPushNotification(private val context: Context) {
             is TdApi.MessageVoiceNote -> {
                 val caption = content.caption.text.replace('\n', ' ')
                 val text = context.getString(R.string.Voice) + " " + caption
+                if (text.length > maxText) text.take(maxText) + "..." else text
+            }
+            is TdApi.MessageAudio -> {
+                val audioName = content.audio.fileName
+                    .ifBlank {
+                        listOf(content.audio.performer, content.audio.title)
+                            .filter { it.isNotBlank() }
+                            .joinToString(" ")
+                    }
+                    .replace('\n', ' ')
+                val text = context.getString(R.string.Audio) + " " + audioName
                 if (text.length > maxText) text.take(maxText) + "..." else text
             }
             is TdApi.MessageAnimation -> {

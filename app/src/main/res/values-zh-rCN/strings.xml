@@ -53,6 +53,7 @@
     <string name="No_need_to_save">无需保存</string>  
     <string name="Download">下载</string>  
     <string name="Play">播放</string>  
+    <string name="Pause">暂停</string>
     <string name="Clear_cache">清除缓存</string>  
     <string name="Clear_thumbnails">清除缩略图</string>  
     <string name="Clear_photos">清除照片</string>  
@@ -108,6 +109,11 @@
     <string name="Beta_description">该版本为测试版本\n可能存在错误</string>  
     <string name="is_home_page_pin">是否获取首页置顶消息（可能有bug）</string>  
     <string name="show_unknown_message_type">显示不支持的消息类型</string>  
+    <string name="app_lock">应用锁</string>
+    <string name="app_lock_title">解锁 TGwear</string>
+    <string name="app_lock_description">请使用手表的密码、图案或 PIN 继续。</string>
+    <string name="app_lock_unlock">解锁</string>
+    <string name="app_lock_requires_device_lock">请先给设备设置锁屏，再开启应用锁。</string>
     <string name="GoToCheckUpdateActivity_title">检查更新警告</string>  
     <string name="GoToCheckUpdateActivity_description">我们将从官方 GitHub 存储库检查更新。\n如果您从 IzzyOnDroid/F-Droid 等安装了应用程序，则不会运行它们的软件附加检查。</string>  
     <string name="don_remind_me_again">不要再提醒我</string>  
@@ -202,6 +208,11 @@
     <string name="Login_With_QR">二维码登录</string>  
     <string name="Connecting_Telegram_Sever">连接到电报服务器…\n中国大陆内无法使用</string>  
     <string name="Topic">话题</string>  
+    <string name="Audio">音频</string>
+    <string name="Send_photo">发送图片</string>
+    <string name="Secret_chat">端到端聊天</string>
+    <string name="Open_secret_chat">打开端到端聊天</string>
+    <string name="Secret_chat_failed">创建端到端聊天失败</string>
     <string name="Remind5">你好！\n欢迎使用 TGwear 应用！\n\n我们强烈建议您完整阅读以下使用说明，以避免不必要的问题。\n\n首先，欢迎加入我们的官方 Telegram 支持群，点击以下链接即可加入：\nhttps://t.me/teleTGwear\n\n以下是快速入门指南：\n\n首次使用时，请在“设置 → UI”中手动调整显示缩放比例，以获得最佳视图效果。\n长按消息边框或发送者姓名可打开更多操作选项。\n在聊天界面中，向左滑动可进入消息发送页面；点击顶部标题可查看该聊天的详细信息。\n在部分界面中，长按并拖动文字可进行选择和复制。\n在图片查看器中，长按图片可将其保存到您的图库。\n\n在代理页面，长按某一条代理项即可将其删除。\n在回复或转发模式下，点击上方的“回复”或“转发”标题可退出该模式。\n\nTGwear 是开源项目，您可以通过 GitHub 请求获取其源代码。</string>  
     <string name="joined_the_group">加入了小组</string>  
     <string name="data_collection_description">我们使用Firebase Crashlytics匿名收集崩溃报告，跟踪最常用的功能，并收集使用模式数据以使TGwear更加用户友好。您可以在设置中的任何时间禁用此功能。</string>  

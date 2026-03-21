@@ -35,6 +35,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.gohj99.tgwear.R
 import com.gohj99.tgwear.TgApiManager.tgApi
+import com.gohj99.tgwear.utils.formatDuration
 import com.gohj99.tgwear.utils.formatSize
 import com.gohj99.tgwear.utils.telegram.cancelDownloadFile
 import com.gohj99.tgwear.utils.telegram.downloadFile
@@ -47,16 +48,56 @@ fun MessageFile(
     stateDownloadDone: MutableState<Boolean>,
     modifier: Modifier = Modifier
 ){
+    AttachmentMessageItem(
+        file = content.document.document,
+        fileName = content.document.fileName,
+        fileSize = content.document.document.size.toLong(),
+        extraText = null,
+        stateDownload = stateDownload,
+        stateDownloadDone = stateDownloadDone,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun MessageAudio(
+    content: TdApi.MessageAudio,
+    stateDownload: MutableState<Boolean>,
+    stateDownloadDone: MutableState<Boolean>,
+    modifier: Modifier = Modifier
+) {
+    val audio = content.audio
+    val duration = if (audio.duration > 0) formatDuration(audio.duration) else null
+    AttachmentMessageItem(
+        file = audio.audio,
+        fileName = audio.fileName.ifBlank {
+            listOf(audio.performer, audio.title).filter { it.isNotBlank() }.joinToString(" - ")
+                .ifBlank { "audio.mp3" }
+        },
+        fileSize = audio.audio.size.toLong(),
+        extraText = duration,
+        stateDownload = stateDownload,
+        stateDownloadDone = stateDownloadDone,
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun AttachmentMessageItem(
+    file: TdApi.File,
+    fileName: String,
+    fileSize: Long,
+    extraText: String?,
+    stateDownload: MutableState<Boolean>,
+    stateDownloadDone: MutableState<Boolean>,
+    modifier: Modifier = Modifier
+) {
     val context = LocalContext.current
-    val document = content.document
-    val file = document.document
     var fileUrl by remember { mutableStateOf(file.local.path) }
-    val fileName = document.fileName
-    val fileSize = file.size
     var downloadSchedule by remember { mutableStateOf(file.local.downloadedSize) }
 
     // 检查文件状态
-    LaunchedEffect(document) {
+    LaunchedEffect(file.id) {
         if (file.local.isDownloadingCompleted) {
             stateDownloadDone.value = true
         } else {
@@ -127,6 +168,14 @@ fun MessageFile(
                 style = MaterialTheme.typography.bodySmall,
                 modifier = modifier
             )
+            if (!extraText.isNullOrBlank()) {
+                Text(
+                    text = extraText,
+                    color = Color(0xFF8FA3B8),
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = modifier
+                )
+            }
             Spacer(modifier = Modifier.width(12.dp))
             Text(
                 text =

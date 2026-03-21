@@ -9,6 +9,7 @@
 package com.gohj99.tgwear
 
 import android.content.Context
+import android.content.Intent
 import androidx.activity.ComponentActivity
 
 abstract class BaseActivity : ComponentActivity() {
@@ -24,5 +25,19 @@ abstract class BaseActivity : ComponentActivity() {
             else LocaleHelper.setLocale(newBase, lang)
             super.attachBaseContext(ctx)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!AppLockManager.shouldPrompt(this)) {
+            return
+        }
+
+        AppLockManager.markPromptShowing()
+        startActivity(
+            Intent(this, AppLockActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            }
+        )
     }
 }

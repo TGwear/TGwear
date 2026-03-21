@@ -9,6 +9,7 @@
 package com.gohj99.tgwear
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
@@ -21,6 +22,7 @@ import com.gohj99.tgwear.ui.theme.TGwearTheme
 import com.gohj99.tgwear.utils.formatTimestampToDateAndIntuitive
 import com.gohj99.tgwear.utils.telegram.TgApi
 import com.gohj99.tgwear.utils.telegram.createCall
+import com.gohj99.tgwear.utils.telegram.createSecretChat
 import com.gohj99.tgwear.utils.telegram.deleteChat
 import com.gohj99.tgwear.utils.telegram.getBasicGroup
 import com.gohj99.tgwear.utils.telegram.getBasicGroupFullInfo
@@ -140,6 +142,9 @@ class ChatInfoActivity : BaseActivity() {
                         }
                     }
                 }
+                is TdApi.ChatTypeSecret -> {
+                    subtitle = getString(R.string.Secret_chat)
+                }
 
                 // 普通群组
                 is TdApi.ChatTypeBasicGroup -> {
@@ -224,6 +229,29 @@ class ChatInfoActivity : BaseActivity() {
                                 },
                                 onVoiceCall = {
                                     tgApi!!.createCall(safeChat.id)
+                                },
+                                onSecretChat = {
+                                    lifecycleScope.launch(Dispatchers.IO) {
+                                        val secretChat = tgApi!!.createSecretChat(chatType.userId)
+                                        launch(Dispatchers.Main) {
+                                            if (secretChat == null) {
+                                                Toast.makeText(this@ChatInfoActivity, getString(R.string.Secret_chat_failed), Toast.LENGTH_SHORT).show()
+                                                return@launch
+                                            }
+
+                                            startActivity(
+                                                android.content.Intent(this@ChatInfoActivity, ChatActivity::class.java).apply {
+                                                    putExtra(
+                                                        "chat",
+                                                        Chat(
+                                                            id = secretChat.id,
+                                                            title = secretChat.title
+                                                        )
+                                                    )
+                                                }
+                                            )
+                                        }
+                                    }
                                 }
                             )
                         }

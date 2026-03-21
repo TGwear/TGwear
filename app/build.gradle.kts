@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         applicationId = "com.gohj99.tgwear"
-        minSdk = 26
+        minSdk = 24
         //noinspection OldTargetApi
         targetSdk = 34
         versionCode = 48

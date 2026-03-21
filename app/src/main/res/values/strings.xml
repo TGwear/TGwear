@@ -65,6 +65,7 @@
     <string name="No_need_to_save">No need to save</string>
     <string name="Download">Download</string>
     <string name="Play">Play</string>
+    <string name="Pause">Pause</string>
     <string name="Clear_cache">Clear cache</string>
     <string name="Clear_thumbnails">Clear thumbnails</string>
     <string name="Clear_photos">Clear photos</string>
@@ -120,6 +121,11 @@
     <string name="Beta_description">Change the version to a test version\nThere may be various bugs</string>
     <string name="is_home_page_pin">Whether to get the top message on the homepage (may have a bug)</string>
     <string name="show_unknown_message_type">Displays unsupported message types</string>
+    <string name="app_lock">App lock</string>
+    <string name="app_lock_title">Unlock TGwear</string>
+    <string name="app_lock_description">Use your watch PIN, password, or pattern to continue.</string>
+    <string name="app_lock_unlock">Unlock</string>
+    <string name="app_lock_requires_device_lock">Set a device lock first, then enable app lock.</string>
     <string name="GoToCheckUpdateActivity_title">Check updates warning</string>
     <string name="GoToCheckUpdateActivity_description">We will check for updates from the official GitHub repository.\nIf you installed the app from e.g. IzzyOnDroid/F-Droid, their additional checks will not be run.</string>
     <string name="don_remind_me_again">Don\'t remind me again</string>
@@ -215,6 +221,11 @@
     <string name="Login_With_QR">Login With QR</string>
     <string name="Connecting_Telegram_Sever">Connect to Telegram server…</string>
     <string name="Topic">Topic</string>
+    <string name="Audio">Audio</string>
+    <string name="Send_photo">Send photo</string>
+    <string name="Secret_chat">Secret chat</string>
+    <string name="Open_secret_chat">Open secret chat</string>
+    <string name="Secret_chat_failed">Failed to create secret chat</string>
     <string name="Remind5">Hello! \nWelcome to the TGwear app! \n\nWe recommend that you read the instructions in full to avoid any unnecessary issues.\n\nFirst, we suggest joining our official Telegram group for support. You can join by clicking the link below:\nhttps://t.me/teleTGwear\n\nHere’s a quick guide to help you get started:\n\nOn first use, please manually adjust the display scaling in the UI settings to ensure optimal viewing.\nLong-press the message border or the sender’s name to access additional options.\nIn the chat screen, swipe left to access the message composition interface; tap the header to view detailed information about the chat.\nOn applicable screens, long-press and drag to select and copy text.\nIn the image viewer, long-press an image to save it to your device’s gallery.\n\nOn the proxy page, long-press an entry to remove that proxy.\nIn reply or forward mode, tap the reply or forward title above to exit.\n\nTGwear is open-source, and you may request access to the source code on GitHub.</string>
     <string name="joined_the_group">joined the group</string>
     <string name="data_collection_description">We use Firebase Crashlytics to anonymously collect crash reports, track the most frequently used features, and gather usage pattern data to make TGwear more user-friendly. You can disable this feature at any time in the settings.</string>

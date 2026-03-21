@@ -9,8 +9,11 @@
 package com.gohj99.tgwear.ui.chat
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.media.MediaRecorder
+import android.net.Uri
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -80,6 +83,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.drinkless.tdlib.TdApi
 import java.io.File
+import java.io.FileOutputStream
 
 @Composable
 fun SendMessageCompose(
@@ -356,6 +360,50 @@ fun SendMessageCompose(
     ) { isGranted ->
         if (isGranted) {
             // 授权后逻辑，可选：直接开始录音
+        }
+    }
+
+    val imagePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri ->
+        if (uri == null) {
+            return@rememberLauncherForActivityResult
+        }
+
+        val cacheFile = copyImageUriToCache(context, uri) ?: return@rememberLauncherForActivityResult
+        val (imageWidth, imageHeight) = readImageSize(cacheFile)
+        val replyTo = planReplyMessage.value?.let { replyMessage ->
+            if (replyMessage.chatId != chatId) {
+                TdApi.InputMessageReplyToExternalMessage(replyMessage.chatId, replyMessage.id, null)
+            } else {
+                TdApi.InputMessageReplyToMessage(replyMessage.id, null)
+            }
+        }
+
+        tgApi?.sendMessage(
+            chatId = chatId,
+            message = TdApi.InputMessagePhoto().apply {
+                photo = TdApi.InputFileLocal().apply {
+                    path = cacheFile.absolutePath
+                }
+                width = imageWidth
+                height = imageHeight
+                addedStickerFileIds = intArrayOf()
+                caption = TdApi.FormattedText().apply {
+                    text = inputText.value
+                }
+            },
+            replyTo = replyTo,
+            messageThreadId = selectTopicId.value
+        )
+
+        inputText.value = ""
+        planReplyMessage.value = null
+        tgApi?.replyMessage?.value = null
+
+        coroutineScope.launch {
+            pagerState.animateScrollToPage(0)
+            listState.animateScrollToItem(0)
         }
     }
 
@@ -761,6 +809,20 @@ fun SendMessageCompose(
                     )
                 }
 
+                IconButton(
+                    onClick = {
+                        imagePickerLauncher.launch("image/*")
+                    },
+                    modifier = Modifier.size(45.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.Send_photo).take(1),
+                        color = Color.White,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
                 // 中：录制按钮
                 IconButton(
                     onClick = {
@@ -919,4 +981,29 @@ fun SendMessageCompose(
         }
     }
     Spacer(modifier = Modifier.height(80.dp))
+}
+
+private fun copyImageUriToCache(context: Context, uri: Uri): File? {
+    val extension = context.contentResolver.getType(uri)
+        ?.substringAfterLast('/', "jpg")
+        ?.ifBlank { "jpg" }
+        ?: "jpg"
+    val outputFile = File(context.cacheDir, "picked_image_${System.currentTimeMillis()}.$extension")
+
+    return runCatching {
+        context.contentResolver.openInputStream(uri)?.use { inputStream ->
+            FileOutputStream(outputFile).use { outputStream ->
+                inputStream.copyTo(outputStream)
+            }
+        } ?: return null
+        outputFile
+    }.getOrNull()
+}
+
+private fun readImageSize(file: File): Pair<Int, Int> {
+    val options = BitmapFactory.Options().apply {
+        inJustDecodeBounds = true
+    }
+    BitmapFactory.decodeFile(file.absolutePath, options)
+    return options.outWidth.coerceAtLeast(0) to options.outHeight.coerceAtLeast(0)
 }

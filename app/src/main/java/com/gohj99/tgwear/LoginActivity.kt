@@ -323,7 +323,7 @@ class LoginActivity : BaseActivity() {
                             deviceModel = Build.MODEL
                             systemVersion = Build.VERSION.RELEASE
                             applicationVersion = appVersion
-                            useSecretChats = false
+                            useSecretChats = true
                             useMessageDatabase = true
                             useChatInfoDatabase = true
                             useFileDatabase = false

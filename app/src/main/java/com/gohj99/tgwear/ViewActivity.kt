@@ -22,9 +22,12 @@ import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,6 +35,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -55,9 +59,12 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.gohj99.tgwear.model.tgFile
+import com.gohj99.tgwear.ui.CustomButton
 import com.gohj99.tgwear.ui.main.ErrorScreen
 import com.gohj99.tgwear.ui.main.SplashLoadingScreen
 import com.gohj99.tgwear.ui.theme.TGwearTheme
+import com.gohj99.tgwear.utils.formatDuration
+import com.gohj99.tgwear.utils.telegram.downloadFile
 import com.gohj99.tgwear.utils.telegram.TgApi
 import com.gohj99.tgwear.utils.telegram.downloadPhoto
 import com.gohj99.tgwear.utils.telegram.getMessageTypeById
@@ -208,6 +215,21 @@ class ViewActivity : BaseActivity() {
                             }
                         }
 
+                        is TdApi.MessageAudio -> {
+                            val audioFile = content.audio.audio
+                            if (!audioFile.local.isDownloadingCompleted) {
+                                tgApi?.downloadFile(audioFile, completion = { isSuccess, path ->
+                                    if (isSuccess) {
+                                        showAudio(path ?: audioFile.local.path, content.audio.fileName, content.audio.duration)
+                                    } else {
+                                        showError()
+                                    }
+                                })
+                            } else {
+                                showAudio(audioFile.local.path, content.audio.fileName, content.audio.duration)
+                            }
+                        }
+
                         else -> showError()
                     }
                 }
@@ -268,6 +290,18 @@ class ViewActivity : BaseActivity() {
         setContent {
             TGwearTheme {
                 SplashMp4View(photoPath)
+            }
+        }
+    }
+
+    private fun showAudio(audioPath: String, fileName: String, duration: Int) {
+        setContent {
+            TGwearTheme {
+                SplashAudioView(
+                    audioPath = audioPath,
+                    title = fileName.ifBlank { getString(R.string.Audio) },
+                    duration = duration
+                )
             }
         }
     }
@@ -420,6 +454,65 @@ private fun SplashMp4View(photoPath: String) {
         contentAlignment = Alignment.Center
     ) {
         LoopingVideoPlayer(Uri.parse(photoPath))
+    }
+}
+
+@Composable
+private fun SplashAudioView(audioPath: String, title: String, duration: Int) {
+    val context = LocalContext.current
+    val exoPlayer = remember {
+        ExoPlayer.Builder(context).build().apply {
+            setMediaItem(MediaItem.fromUri(Uri.fromFile(File(audioPath))))
+            prepare()
+        }
+    }
+    var isPlaying by remember { mutableStateOf(false) }
+    var currentPosition by remember { mutableLongStateOf(0L) }
+
+    androidx.compose.runtime.LaunchedEffect(isPlaying) {
+        while (isPlaying) {
+            currentPosition = exoPlayer.currentPosition
+            delay(250)
+        }
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            exoPlayer.release()
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center
+    ) {
+        Text(
+            text = title,
+            color = Color.White,
+            fontSize = 16.sp
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(
+            text = "${formatDuration((currentPosition / 1000).toInt())} / ${formatDuration(duration)}",
+            color = Color(0xFF9BA7B4),
+            fontSize = 14.sp
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        CustomButton(
+            text = if (isPlaying) context.getString(R.string.Pause) else context.getString(R.string.Play),
+            onClick = {
+                if (isPlaying) {
+                    exoPlayer.pause()
+                    isPlaying = false
+                } else {
+                    exoPlayer.play()
+                    isPlaying = true
+                }
+            }
+        )
     }
 }
 

@@ -23,7 +23,6 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
 
     <uses-feature
@@ -53,6 +52,12 @@
             android:showWhenLocked="true"
             android:turnScreenOn="true"
             android:excludeFromRecents="true"
+            android:theme="@style/Theme.TGwear" />
+        <activity
+            android:name=".AppLockActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:taskAffinity=""
             android:theme="@style/Theme.TGwear" />
         <activity
             android:name=".AddProxyActivity"

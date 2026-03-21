@@ -71,7 +71,8 @@ fun SplashChatInfoScreen(
     subtitle: String,
     info: String,
     deleteChat: (() -> Unit)? = null,
-    onVoiceCall: (() -> Unit)? = null
+    onVoiceCall: (() -> Unit)? = null,
+    onSecretChat: (() -> Unit)? = null
 ) {
     val gson = Gson()
     var messageJson = ""
@@ -240,6 +241,28 @@ fun SplashChatInfoScreen(
                             text = stringResource(R.string.Voice_call),
                             onClick = {
                                 onVoiceCall()
+                            }
+                        )
+                    }
+                }
+            }
+            if (onSecretChat != null) {
+                item {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight()
+                            .background(
+                                Color.Black.copy(alpha = 0.8f),
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                            .padding(7.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CustomButton(
+                            text = stringResource(R.string.Open_secret_chat),
+                            onClick = {
+                                onSecretChat()
                             }
                         )
                     }

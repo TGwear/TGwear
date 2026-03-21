@@ -318,6 +318,26 @@ fun messageDrawer(
                 modifier = modifier
             )
         }
+        is TdApi.MessageAudio -> {
+            MessageAudio(
+                content = content,
+                stateDownload = stateDownload,
+                stateDownloadDone = stateDownloadDone,
+                modifier = modifier
+            )
+
+            content.caption?.text?.let {
+                SelectionContainer {
+                    FormattedText(
+                        text = it,
+                        entities = content.caption.entities,
+                        modifier = modifier,
+                        style = MaterialTheme.typography.bodyMedium,
+                        onEntityClick = onEntityClick
+                    )
+                }
+            }
+        }
         // 文件消息
         is TdApi.MessageDocument -> {
             MessageFile(

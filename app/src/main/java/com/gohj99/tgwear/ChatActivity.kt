@@ -345,6 +345,13 @@ class ChatActivity : BaseActivity() {
                                         is TdApi.MessageVoiceNote -> {
                                             println("语音消息")
                                         }
+
+                                        is TdApi.MessageAudio -> {
+                                            println("音频消息")
+                                            val intent = Intent(this, ViewActivity::class.java)
+                                            intent.putExtra("messageId", message.id)
+                                            startActivity(intent)
+                                        }
                                     }
                                 },
                                 longPress = { select, message ->
