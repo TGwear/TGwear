@@ -1,6 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <resources>
-    <!--葡萄牙语（巴西）-->
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <string name="Start_messaging">Começar a conversar</string>
     <string name="Welcome_to_app">Bem-vindo ao app TGWear</string>
     <string name="Network">Rede</string>
@@ -10,6 +17,7 @@
     <string name="Successful">Bem-sucedido</string>
     <string name="Password">Senha</string>
     <string name="Password_Error">Senha incorreta</string>
+    
     <string name="Done">Feito</string>
     <string name="scan_qr">Escanear QR do Telegram</string>
     <string name="loading">carregando…</string>
@@ -184,6 +192,7 @@
     <string name="Notification">Notificação</string>
     <string name="already_agreed">Já concordou</string>
     <string name="Apply_notification_permissions">Aplicar permissões de notificação</string>
+    
     <string name="global_scale_factor">Fator de escala global</string>
     <string name="ui_test">Teste de interface</string>
     <string name="test_notification">Testar notificação</string>
@@ -236,4 +245,5 @@
     <string name="Ringing">Chamando…</string>
     <string name="Mute">Mudo</string>
     <string name="Unmute">Ativar som</string>
+    <string name="Vibration_crown_turned">Vibração quando a coroa é girada</string>
 </resources>

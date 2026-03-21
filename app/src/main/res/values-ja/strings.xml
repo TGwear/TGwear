@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-  ~ Copyright (c) 2024-2025 gohj99. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
-  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
-  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
-  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
-  -->
-
 <resources>
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <string name="Start_messaging">メッセージングを始める</string>
     <string name="Welcome_to_app">TGwear アプリへようこそ</string>
     <string name="Network">ネットワーク</string>
@@ -17,6 +17,7 @@
     <string name="Successful">成功しました</string>
     <string name="Password">パスワード</string>
     <string name="Password_Error">パスワードエラー</string>
+    
     <string name="Done">完了</string>
     <string name="scan_qr">Telegram からスキャン</string>
     <string name="loading">読み込み中…</string>
@@ -191,6 +192,7 @@
     <string name="Notification">通知</string>
     <string name="already_agreed">既に許可済み</string>
     <string name="Apply_notification_permissions">通知の許可を適用</string>
+    
     <string name="global_scale_factor">グローバルスケーリング係数</string>
     <string name="ui_test">UI テスト</string>
     <string name="test_notification">テスト通知</string>
@@ -243,4 +245,5 @@
     <string name="Ringing">発信中…</string>
     <string name="Mute">ミュート</string>
     <string name="Unmute">ミュート解除</string>
+    <string name="Vibration_crown_turned">クラウンを回したときの振動</string>
 </resources>

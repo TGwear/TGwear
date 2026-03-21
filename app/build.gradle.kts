@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
+    id("kotlin-parcelize")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
 }
@@ -25,7 +26,7 @@ android {
         //noinspection OldTargetApi
         targetSdk = 34
         versionCode = 48
-        versionName = "3.1.6"
+        versionName = "3.1.7-beta1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

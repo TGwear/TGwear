@@ -11,6 +11,7 @@ package com.gohj99.tgwear.model
 import android.annotation.SuppressLint
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
 import org.drinkless.tdlib.TdApi
 
@@ -18,52 +19,81 @@ import org.drinkless.tdlib.TdApi
 data class Chat(
     val id: Long,
     val title: String,
-    val accentColorId: Int = 2, // 会话颜色
-    val unreadCount: Int = 0, // 未读会话
-    val lastMessage: androidx.compose.ui.text.AnnotatedString = buildAnnotatedString {},
-    val lastMessageTime: Int = -1, // 最后一条消息的时间,
-    val lastMessageDraft: androidx.compose.ui.text.AnnotatedString = buildAnnotatedString {}, // 最后一条“非”草稿消息
-    val lastMessageTimeDraft: Int = -1, // 最后一条“非”草稿消息的时间,
-    val chatPhoto: TdApi.File? = null, // 会话头像
-    val order: Long = -1, // 会话排序
-    val orderDraft: Long = -1, // 最后一条“非”草稿消息的会话排序
-    val needNotification: Boolean = true, // 是否需要通知
-    val isPinned: Boolean = false, // 是否在全部会话置顶
-    val isRead: Boolean = false, // 聊天是否已读
-    val isBot: Boolean = false, // 是否为机器人对话
-    val isChannel: Boolean = false, // 是否为频道
-    val isGroup: Boolean = false, // 是否为群组或者超级群组（supergroups??
-    val isPrivateChat: Boolean = false, // 是否为私人会话
-    val isArchiveChatPin: Boolean? = null // 归档会话是否置顶（非归档对话为null）
+    val accentColorId: Int = 2,
+    val unreadCount: Int = 0,
+    val lastMessage: AnnotatedString = buildAnnotatedString {},
+    val lastMessageTime: Int = -1,
+    val lastMessageDraft: AnnotatedString = buildAnnotatedString {},
+    val lastMessageTimeDraft: Int = -1,
+    val chatPhoto: TdApi.File? = null,
+    val order: Long = -1,
+    val orderDraft: Long = -1,
+    val needNotification: Boolean = true,
+    val isPinned: Boolean = false,
+    val isRead: Boolean = false,
+    val isBot: Boolean = false,
+    val isChannel: Boolean = false,
+    val isGroup: Boolean = false,
+    val isPrivateChat: Boolean = false,
+    val isArchiveChatPin: Boolean? = null
 ) : Parcelable {
-    override fun describeContents(): Int {
-        return 0 // 通常返回0即可，除非有特殊情况需要返回其他值
-    }
 
+    override fun describeContents(): Int = 0
+
+    // 装箱：明确写出你需要传递的字段
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeLong(id)
         dest.writeString(title)
-        // 添加其他属性的序列化
+        dest.writeInt(accentColorId)
+        dest.writeInt(unreadCount)
         dest.writeInt(lastMessageTime)
+        dest.writeInt(lastMessageTimeDraft)
         dest.writeLong(order)
+        dest.writeLong(orderDraft)
+        dest.writeByte(if (needNotification) 1 else 0)
         dest.writeByte(if (isPinned) 1 else 0)
         dest.writeByte(if (isRead) 1 else 0)
         dest.writeByte(if (isBot) 1 else 0)
         dest.writeByte(if (isChannel) 1 else 0)
         dest.writeByte(if (isGroup) 1 else 0)
         dest.writeByte(if (isPrivateChat) 1 else 0)
+        // 注意：我们没有写入那三个会导致报错的复杂字段
     }
 
     override fun toString(): String {
-        return "Chat(...)"  // 避免打印ByteArray内容
+        return "Chat(id=$id, title=$title)"
     }
 
     companion object CREATOR : Parcelable.Creator<Chat> {
+        // 拆箱：严格按照装箱的顺序，一个不落地读出来
         override fun createFromParcel(parcel: Parcel): Chat {
             return Chat(
-                parcel.readLong(),
-                parcel.readString() ?: "",
-                parcel.readInt()
+                id = parcel.readLong(),
+                title = parcel.readString() ?: "",
+                accentColorId = parcel.readInt(),
+                unreadCount = parcel.readInt(),
+
+                // 跳过 lastMessage，它会自动使用你的 buildAnnotatedString {} 默认值
+
+                lastMessageTime = parcel.readInt(),
+
+                // 跳过 lastMessageDraft，使用默认值
+
+                lastMessageTimeDraft = parcel.readInt(),
+
+                // 跳过 chatPhoto，使用默认 null
+
+                order = parcel.readLong(),
+                orderDraft = parcel.readLong(),
+                needNotification = parcel.readByte() != 0.toByte(),
+                isPinned = parcel.readByte() != 0.toByte(),
+                isRead = parcel.readByte() != 0.toByte(),
+                isBot = parcel.readByte() != 0.toByte(),
+                isChannel = parcel.readByte() != 0.toByte(),
+                isGroup = parcel.readByte() != 0.toByte(),
+                isPrivateChat = parcel.readByte() != 0.toByte()
+
+                // isArchiveChatPin 我们没传，它会自动使用 null
             )
         }
 
