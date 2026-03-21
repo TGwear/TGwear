@@ -896,6 +896,9 @@ class TgApiForPushNotification(private val context: Context) {
                 val text = context.getString(R.string.Video) + " " + caption
                 if (text.length > maxText) text.take(maxText) + "..." else text
             }
+            is TdApi.MessageVideoNote -> {
+                context.getString(R.string.Video)
+            }
             is TdApi.MessageVoiceNote -> {
                 val caption = content.caption.text.replace('\n', ' ')
                 val text = context.getString(R.string.Voice) + " " + caption
@@ -940,6 +943,7 @@ class TgApiForPushNotification(private val context: Context) {
         return when (content) {
             is TdApi.PushMessageContentText -> limit(content.text)
             is TdApi.PushMessageContentPhoto -> context.getString(R.string.Photo) + " " + limit(content.caption)
+            is TdApi.PushMessageContentVideoNote -> context.getString(R.string.Video)
             is TdApi.PushMessageContentVoiceNote -> context.getString(R.string.Voice)
             is TdApi.PushMessageContentVideo -> context.getString(R.string.Video) + " " + limit(content.caption)
             is TdApi.PushMessageContentAnimation -> context.getString(R.string.Animation) + " " + limit(content.caption)
