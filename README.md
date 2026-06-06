@@ -35,6 +35,10 @@
 
 ![Screenshot](Screenshot.png)
 
+> [!IMPORTANT]
+> 📢 **Recommendation:**
+> If you are using a Wear OS or a round-screen watch device, we highly recommend using **[TG Wrist](https://github.com/TGWrist/TGWrist)** for a better experience.
+
 ## Download
 
 Download: [TGwear](https://github.com/TGwear/TGwear/releases)  

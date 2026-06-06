@@ -30,6 +30,10 @@
 
 ![Screenshot](Screenshot.png)
 
+> [!IMPORTANT]
+> 📢 **おすすめ：**
+> Wear OS または丸型画面の時計デバイスをご使用の場合は、より良い体験のために **[TG Wrist](https://github.com/TGWrist/TGWrist)** の使用を強くおすすめします。
+
 ## ダウンロード
 
 ダウンロード: [TGwear](https://github.com/TGwear/TGwear/releases)  

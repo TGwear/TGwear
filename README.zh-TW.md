@@ -30,6 +30,10 @@
 
 ![Screenshot](Screenshot.png)
 
+> [!IMPORTANT]
+> 📢 **推薦：**
+> 如果您使用的是 Wear OS 或圓形錶盤手錶設備，強烈推薦使用 **[TG Wrist](https://github.com/TGWrist/TGWrist)** 以獲得更好的體驗。
+
 ## 下載
 
 下載: [TGwear](https://github.com/TGwear/TGwear/releases)  
